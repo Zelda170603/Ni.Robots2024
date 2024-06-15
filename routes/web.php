@@ -14,5 +14,3 @@ Route::resource('productos', ProductoController::class);
 Route::get('/Login',function () {
     return view('login_&_Register.Login');
 });
-
-
