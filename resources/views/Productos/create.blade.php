@@ -54,8 +54,8 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="nivel_amputacion" class="block text-sm font-medium text-gray-700">Nivel de Amputación</label>
-                        <input type="text" name="nivel_amputacion" id="nivel_amputacion" value="{{ old('nivel_amputacion') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm">
+                        <label for="nivel_afectacion" class="block text-sm font-medium text-gray-700">Nivel de Afectación</label>
+                        <input type="text" name="nivel_afectacion" id="nivel_afectacion" value="{{ old('nivel_afectacion') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm">
                     </div>
 
                     <div class="mb-4">
@@ -72,7 +72,7 @@
                         <label for="id_tipo_producto" class="block text-sm font-medium text-gray-700">Tipo de Producto</label>
                         <select name="id_tipo_producto" id="id_tipo_producto" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm">
                             @foreach($tipo_productos as $tipo_producto)
-                                <option value="{{ $tipo_producto->id }}" {{ old('id_tipo_producto') == $tipo_producto->id ? 'selected' : '' }}>{{ $tipo_producto->nombre }}</option>
+                                <option value="{{ $tipo_producto->id }}" {{ old('id_tipo_producto') == $tipo_producto->id ? 'selected' : '' }}>{{ $tipo_producto->nombre_tipo }}</option>
                             @endforeach
                         </select>
                     </div>

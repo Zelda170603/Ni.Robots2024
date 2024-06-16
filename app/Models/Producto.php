@@ -11,11 +11,12 @@ class Producto extends Model
 
     protected $fillable = [
         'nombre_prod',
+        'unique_id',
         'descripcion',
         'foto_prod',
         'precio',
         'color',
-        'nivel_afectacion', // Asegúrate de que este campo se llama "nivel_amputacion"
+        'nivel_afectacion', 
         'grupo_usuarios',
         'existencias',
         'id_tipo_producto',

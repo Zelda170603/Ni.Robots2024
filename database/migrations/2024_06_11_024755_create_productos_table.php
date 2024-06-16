@@ -13,15 +13,15 @@ return new class extends Migration
     public function up()
     {
         Schema::dropIfExists('productos');
-        Schema::dropIfExists('tipo_producto');
+        Schema::dropIfExists('tipo_productos');
 
-        Schema::create('tipo_producto', function (Blueprint $table) {
-            $table->bigIncrements('id_tipo');
+        Schema::create('tipo_productos', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('nombre_tipo', 100);
         });
         Schema::create('productos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('unique_id',10);
+            $table->string('unique_id',10)->unique();
             $table->string('nombre_prod', 100);
             $table->string('descripcion', 400);
             $table->string('foto_prod', 100);
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_tipo_producto');
             $table->unsignedBigInteger('id_fabricante');
             $table->timestamps();
-            $table->foreign('id_tipo_producto')->references('id_tipo')->on('tipo_producto')
+            $table->foreign('id_tipo_producto')->references('id')->on('tipo_productos')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_fabricante')->references('id')->on('fabricantes')
                 ->onDelete('cascade')->onUpdate('cascade');
@@ -47,6 +47,6 @@ return new class extends Migration
     {
         DB::table('productos')->truncate();
         Schema::dropIfExists('productos');
-        Schema::dropIfExists('tipo_producto');
+        Schema::dropIfExists('tipo_productos');
     }
 };

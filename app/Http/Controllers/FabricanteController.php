@@ -44,6 +44,7 @@ class FabricanteController extends Controller
             'correo' => 'required|string|email|max:100',
             'telefono' => 'required|numeric',
         ]);
+         // Manejar el archivo de imagen
         if ($request->hasFile('foto_fabr')) {
             $imageName = time() . '.' . $request->foto_fabr->extension();
             $request->foto_fabr->storeAs('public/images/fabricantes', $imageName);
