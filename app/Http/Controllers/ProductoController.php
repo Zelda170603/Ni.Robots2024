@@ -17,13 +17,63 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $productos = Producto::paginate(9);
-        return view('productos.index', compact('productos'));
+        $query = Producto::query();
+
+        // Filtrar por nombre del producto
+        if ($request->filled('nombre_prod')) {
+            $query->where('nombre_prod', 'like', '%' . $request->nombre_prod . '%');
+        }
+
+        // Filtrar por descripción
+        if ($request->filled('descripcion')) {
+            $query->where('descripcion', 'like', '%' . $request->descripcion . '%');
+        }
+
+        // Filtrar por precio
+        if ($request->filled('precio_min') && $request->filled('precio_max')) {
+            $query->whereBetween('precio', [$request->precio_min, $request->precio_max]);
+        } elseif ($request->filled('precio_min')) {
+            $query->where('precio', '>=', $request->precio_min);
+        } elseif ($request->filled('precio_max')) {
+            $query->where('precio', '<=', $request->precio_max);
+        }
+
+        // Filtrar por color
+        if ($request->filled('color')) {
+            $query->where('color', 'like', '%' . $request->color . '%');
+        }
+
+        // Filtrar por tipo de producto
+        if ($request->filled('id_tipo_producto')) {
+            $query->where('id_tipo_producto', $request->id_tipo_producto);
+        }
+
+        // Filtrar por fabricante
+        if ($request->filled('id_fabricante')) {
+            $query->where('id_fabricante', $request->id_fabricante);
+        }
+
+        // Paginación con parámetros de filtro
+        $productos = $query->paginate(4)->appends($request->except('page'));
+
+        $tipo_productos = TipoProducto::all();
+        $fabricantes = Fabricante::all();
+
+        return view('productos.index-user', compact('productos', 'tipo_productos', 'fabricantes'));
     }
 
-    
+    public function index_admin(Request $request){
+        $query = Producto::query();
+        $productos = $query->paginate(4)->appends($request->except('page'));
+
+        $tipo_productos = TipoProducto::all();
+        $fabricantes = Fabricante::all();
+
+        return view('productos.index-admin', compact('productos', 'tipo_productos', 'fabricantes'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -65,6 +115,28 @@ class ProductoController extends Controller
         Producto::create($validated);
         return redirect()->route('productos.create')->with('success', 'Producto creado exitosamente');
     }
+
+    public function searchByName(Request $request)
+    {
+        $searchTerm = $request->input('searchTerm');
+        $productos = Producto::where('nombre_prod', 'LIKE', '%' . $searchTerm . '%')->get();
+        $html = '';
+        foreach ($productos as $producto) {
+            $html .= '<a href="" class="result-prod">
+                        <div class="">
+                            <span>' . $producto->nombre_prod . '</span>  
+                        </div>
+                    </a>';
+        }
+
+        $response = ['html' => $html];
+
+        // Mostrar en consola lo que se está devolviendo
+        \Illuminate\Support\Facades\Log::info('Response from searchByName:', $response);
+
+        return response()->json($response);
+    }
+
 
     /**
      * Display the specified resource.
