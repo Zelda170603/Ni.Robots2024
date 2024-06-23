@@ -12,10 +12,13 @@ export default {
       aspectRatio: {
         '2/3': '2 / 3',
       },
+      colors: {
+        main_color: '#124474',
+      },
+      margin: {
+        '18': '4.5rem',
+      },
     },
-    colors: {
-      main_color: '#124474'
-    }
   },
   plugins: [
     require('flowbite/plugin')

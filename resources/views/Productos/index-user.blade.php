@@ -11,7 +11,7 @@
 
 <body class="bg-white dark:bg-gray-800 mx-auto">
     @include('Index.nav-bar')
-    <div class="container mx-auto p-4 min-h-full mt-14">
+    <main class="container mx-auto p-4 min-h-full mt-18">
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
             <div class="bg-blue-600 text-white p-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold">Productos</h1>
@@ -20,8 +20,7 @@
                 <div class=" p-4 flex justify-between items-center">
                     <button
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                        type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example"
-                        data-drawer-placement="right" aria-controls="drawer-right-example">
+                        type="button" id="openFiltersButton">
                         Filtros
                     </button>
                     <div class="flex max-w-lg relative">
@@ -88,6 +87,11 @@
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                         Editar
                                     </a>
+                                    <button
+                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded add-to-cart"
+                                        data-product-id="{{ $producto->id }}">
+                                        Añadir al Carrito
+                                    </button>
                                     <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -108,14 +112,13 @@
                 @endif
             </div>
         </div>
-    </div>
+    </main>
+    @include('Productos.cart')
 
-    <!-- drawer component -->
-    <div id="drawer-right-example"
+    <div id="filter-content"
         class="fixed top-14 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full backdrop-blur-sm bg-white/70  w-80 dark:bg-gray-800/30"
         tabindex="-1" aria-labelledby="drawer-right-label">
-        <h5 id="drawer-right-label"
-            class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+        <h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
             <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                 viewBox="0 0 20 20">
                 <path
@@ -123,7 +126,7 @@
             </svg>
             Filtros
         </h5>
-        <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example"
+        <button type="button" id="closeFiltersButton"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 14 14">
@@ -199,6 +202,7 @@
 
     @vite('resources/js/dark-mode.js')
     @vite('resources/js/productos.js')
+    @vite('resources/js/carrito.js')
 </body>
 
 </html>

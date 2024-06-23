@@ -9,19 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('carritos_compra', function (Blueprint $table) {
+        Schema::create('Carritos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Relación con usuarios
+            $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade'); // Relación con productos
+            $table->integer('cantidad')->default(1); // Cantidad de productos
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('carritos');
     }

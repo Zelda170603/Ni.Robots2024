@@ -19,3 +19,10 @@ Route::get("Administracion/productos",[ProductoController::class, "index_admin"]
 Route::get('/Login',function () {
     return view('login_&_Register.Login');
 });
+
+Route::get('/mensajes',function(){
+    return view('Mensajes.index');
+});
+Route::get('/mensajes/prueba',function(){
+    return view('Mensajes.prueba');
+});

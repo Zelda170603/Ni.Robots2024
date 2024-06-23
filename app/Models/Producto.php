@@ -33,4 +33,8 @@ class Producto extends Model
     {
         return $this->belongsTo(Fabricante::class, 'id_fabricante');
     }
+    public function carritos()
+    {
+        return $this->hasMany(Carrito::class);
+    }
 }
