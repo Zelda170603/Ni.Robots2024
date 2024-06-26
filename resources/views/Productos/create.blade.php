@@ -36,38 +36,32 @@
                 <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <div class="mb-5">
-                            <label for="foto_prod"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto del
-                                producto</label>
-                            <div
-                                class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 dark:border-gray-500/50 px-6 py-10 bg-white dark:bg-gray-800">
-                                <div class="text-center">
-                                    <svg class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-500" viewBox="0 0 24 24"
-                                        fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd"
-                                            d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <div class="mt-4 flex text-sm leading-6 text-gray-600 dark:text-gray-300">
-                                        <label for="file-upload"
-                                            class="relative cursor-pointer rounded-md bg-white dark:bg-gray-700 font-semibold text-indigo-600 dark:text-indigo-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500 dark:hover:text-indigo-300">
-                                            <span>Upload a file</span>
-                                            <input name="foto_prod" id="foto_prod" type="file" class="sr-only">
-                                        </label>
-                                        <p class="pl-1">or drag and drop</p>
-                                    </div>
-                                    <p class="text-xs leading-5 text-gray-600 dark:text-gray-400">PNG, JPG, GIF up to
-                                        10MB</p>
-                                </div>
-                            </div>
 
+                        <div class="flex items-center justify-center w-full">
+                            <label for="foto_prod"
+                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                    </svg>
+                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                            class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX.
+                                        800x400px)</p>
+                                </div>
+                                <input id="foto_prod" name="foto_prod" type="file" class="hidden" />
+                            </label>
                         </div>
+
                         <div>
                             <div class="mb-5">
                                 <label for="nombre_prod"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
-                                <input type="text" name="nombre_prod" id="nombre_prod" value="{{ old('nombre_prod') }}"
+                                <input type="text" name="nombre_prod" id="nombre_prod"
+                                    value="{{ old('nombre_prod') }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required />
                             </div>
@@ -79,7 +73,7 @@
                                     required>{{ old('descripcion') }}</textarea>
                             </div>
                         </div>
-                        
+
                         <div class="mb-5">
                             <label for="precio"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio</label>
@@ -93,6 +87,15 @@
                                 Afectación</label>
                             <input type="text" name="nivel_afectacion" id="nivel_afectacion"
                                 value="{{ old('nivel_afectacion') }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required />
+                        </div>
+                        <div class="mb-5">
+                            <label for="nivel_afectacion"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color
+                                </label>
+                            <input type="text" name="color" id="color"
+                                value="{{ old('color') }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                         </div>

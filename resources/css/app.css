@@ -9,10 +9,14 @@
     background-position: center;
   }
 
-  .no-scrollbar::-webkit-scrollbar{
-    display: none;
+  .no-scrollbar {
+    scrollbar-width: none; /* Firefox */
   }
-
-  .no-scrollbar{
-    -ms-overflow-style: none;
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
   }

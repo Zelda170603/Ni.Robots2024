@@ -4,15 +4,25 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Logout;
+use App\Listeners\UpdateUserStatusOnLogin;
+use App\Listeners\UpdateUserStatusOnLogout;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
+    protected $listen = [
+        Authenticated::class => [
+            UpdateUserStatusOnLogin::class,
+        ],
+        Logout::class => [
+            UpdateUserStatusOnLogout::class,
+        ],
+    ];
+
     public function register(): void
     {
-        //
+        
     }
 
     /**
