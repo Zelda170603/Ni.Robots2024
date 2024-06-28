@@ -27,9 +27,15 @@ Route::get('/Login',function () {
 /*******************************************/
 Route::get('mensajes',[MensajesController::class,"index"])->name('Mensajes.index');
 Route::get('mensajes/get-contactlist', [MensajesController::class, 'contact_list_messages']);
+Route::get('mensajes/get-messages/{receiver_id}', [MensajesController::class, 'show']);
 Route::post('mensajes/searchByName', [MensajesController::class, 'searchByName'])->name('mensajes.searchByName');
 Route::get('mensajes/{name}/{id}', [MensajesController::class, "chat_with"]);
 Route::post('mensajes/send-message', [MensajesController::class, 'store'])->name('mensajes.send-message');
+Route::get('mensajes/prueba', function(){
+    return view('mensajes.prueba');
+});
+
+
 Auth::routes();
 /*******************************************/
 Route::get('/home', [HomeController::class, 'index'])->name('home');

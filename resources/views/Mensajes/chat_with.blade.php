@@ -36,7 +36,25 @@
             </div>
             <!-- lista de chats -->
             <div id="contact-list" class="flex-1 overflow-y-auto no-scrollbar">
-                
+                <div class="flex items-center space-x-4 pb-4 last-of-type:pb-0 hover:bg-slate-600">
+                    <div class="flex-shrink-0">
+                        <img class="w-12 h-12 object-cover rounded-full"
+                            src="{{ Storage::url('images/fabricantes/1718226350.jpg') }}" alt="Neil image">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between">
+                            <p class="text-base font-medium text-gray-800 truncate dark:text-white">
+                                Michael Jordan
+                            </p>
+                            <span class="text-base font-medium text-gray-600 dark:text-slate-500">
+                                4:30
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                            Son las 3 y media de la mañana y sigo pensandote ahora
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
         <!--main chat area-->
@@ -56,116 +74,19 @@
                         src="{{ Storage::url('images/fabricantes/1718300621.jpg') }}" alt="Neil image">
                 </div>
                 <div class="flex-1 min-w-0">
-                    <p class="text-base font-medium text-gray-900 truncate dark:text-white">
+                    <p class="text-md font-medium text-gray-900 truncate dark:text-white">
                         {{ $user->name }}
                     </p>
-                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                    <p class="text-base text-gray-500 truncate dark:text-gray-400">
                         {{ $lastSeenFormatted }}
                     </p>
                 </div>
             </div>
             <!--messages section-->
-            <div class="flex flex-col gap-4 p-4 mt-4 h-screen overflow-y-auto no-scrollbar">
-                <div class="flex items-start gap-2.5">
-                    <img class="w-8 h-8 rounded-full" src="{{ Storage::url('images/fabricantes/1718300621.jpg') }}"
-                        alt="Jese image">
-                    <div
-                        class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-200 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-                        </div>
-                        <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think
-                            our users will really appreciate the improvements.</p>
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
-                    </div>
-                    <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots"
-                        data-dropdown-placement="bottom-start"
-                        class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
-                        type="button">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                            <path
-                                d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                        </svg>
-                    </button>
-                    <div id="dropdownDots"
-                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                            aria-labelledby="dropdownMenuIconButton">
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reply</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Forward</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Copy</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="flex self-end gap-2.5">
-                    <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots"
-                        data-dropdown-placement="top-end"
-                        class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
-                        type="button">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                            <path
-                                d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                        </svg>
-                    </button>
-                    <div
-                        class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-200 rounded-s-xl rounded-se-xl dark:bg-gray-700">
-                        <div class="flex items-center space-x-1 self-end">
-                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-                            <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                        </div>
-                        <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think
-                            our users will really appreciate the improvements.</p>
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400 self-end">Delivered</span>
-                    </div>
-                    <div id="dropdownDots"
-                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                            aria-labelledby="dropdownMenuIconButton">
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reply</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Forward</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Copy</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <div id="chatWindow" class="flex flex-col gap-4 p-4 h-screen overflow-y-auto no-scrollbar">
+                <!---Aqui se cargan los mensajes--->
             </div>
-            <div class="px-4 p-2">
+            <div class="lg:px-4 lg:pb-2">
                 <label for="chat" class="sr-only">Your message</label>
                 <div class="flex items-center px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700">
                     <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">

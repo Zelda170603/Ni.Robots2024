@@ -10,6 +10,8 @@ class Mensajes extends Model
     protected $table = 'mensajes';
 
     protected $fillable = [
-        'incoming-msg-id','outgoing-msg-id','message'
+        'incoming_msg_id',
+        'outgoing_msg_id',
+        'message'
     ];
 }

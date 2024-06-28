@@ -6,7 +6,7 @@ const contactlist = document.getElementById('contact-list'),
 
 document.addEventListener('DOMContentLoaded', function(){
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "mensajes/get-contactlist", true);
+    xhr.open("GET", "/mensajes/get-contactlist", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
     xhr.onload = () => {
@@ -36,7 +36,6 @@ searchBar.onkeyup = () => {
             if (xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
                 contactlist.innerHTML = data.html; // Actualiza el contenido del contenedor con el HTML recibido
-                console.log(data.html);
             } else {
                 console.error('Request failed with status:', xhr.status);
             }

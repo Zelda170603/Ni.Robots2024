@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('mensajes', function (Blueprint $table) {
             $table->id();
-            $table->boolean('incoming-msg-id');
-            $table->unsignedBigInteger('outgoing-msg-id');
+            $table->boolean('incoming_msg_id');
+            $table->unsignedBigInteger('outgoing_msg_id');
             $table->text('message');
             $table->timestamps();
         });
