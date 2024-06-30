@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\NewMessageNotification;
 
 class MensajesController extends Controller
 {
@@ -150,14 +151,16 @@ class MensajesController extends Controller
             ]);
 
             // Crear el mensaje
-            Mensajes::create([
+            $message= Mensajes::create([
                 'incoming_msg_id' => $validated['receiver_id'],
                 'outgoing_msg_id' => Auth::id(),
                 'message' => $validated['message'],
             ]);
-
-            // Responder con éxito
-            return response()->json(['status' => 'success', 'message' => 'Message sent successfully.']);
+            // Obtener el usuario receptor
+            $receiver = User::find($request->receiver_id);
+            // Enviar la notificación
+            $receiver->notify(new NewMessageNotification($message->message, Auth::user()->name));
+            return response()->json(['status' => 'Mensaje enviado']);
         } catch (\Exception $e) {
             // Registrar el error
             Log::error('Error creating message: ' . $e->getMessage());

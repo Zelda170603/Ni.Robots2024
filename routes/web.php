@@ -5,15 +5,21 @@ use App\Http\Controllers\FabricanteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MensajesController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Mensajes;
 use App\Models\Producto;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    //return view('Administracion.index');
-    return view('prueba');
+    return view('Administracion.index');
 });
+/********************************************/
 
+Route::get('/notifications', [NotificationController::class, 'index']);
+Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead']);
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+Route::post('/notifications/create', [NotificationController::class, 'store'])->name('send-notification.store');
+/********************************************/
 Route::resource('fabricantes', FabricanteController::class);
 /*******************************************/
 Route::resource('productos', ProductoController::class);
@@ -37,5 +43,5 @@ Route::get('mensajes/prueba', function(){
 
 
 Auth::routes();
-/*******************************************/
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+/******************************************
+Route::get('/home', [HomeController::class, 'index'])->name('home');*/

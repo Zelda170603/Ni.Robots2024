@@ -74,7 +74,7 @@
                         src="{{ Storage::url('images/fabricantes/1718300621.jpg') }}" alt="Neil image">
                 </div>
                 <div class="flex-1 min-w-0">
-                    <p class="text-md font-medium text-gray-900 truncate dark:text-white">
+                    <p class="text-mdphp font-medium text-gray-900 truncate dark:text-white">
                         {{ $user->name }}
                     </p>
                     <p class="text-base text-gray-500 truncate dark:text-gray-400">

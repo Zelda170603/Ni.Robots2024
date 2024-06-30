@@ -2,7 +2,7 @@
     <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
         Notifications
     </div>
-    <div class="divide-y divide-gray-100 dark:divide-gray-700">
+    <div id="notifications-container" class="divide-y divide-gray-100 dark:divide-gray-700">
         <a href="#" class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
             <div class="flex-shrink-0">
                 <img class="rounded-full w-11 h-11" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image">

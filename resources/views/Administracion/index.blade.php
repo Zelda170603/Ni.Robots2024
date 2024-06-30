@@ -11,6 +11,24 @@
     @include('Administracion.nav-bar')
     <main class="p-4 sm:ml-64 mt-14">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
+            <div class="container mx-auto mt-5">
+                <h1 class="text-2xl font-bold mb-4">Send Message to All Users</h1>
+        
+                @if (session('success'))
+                    <div class="bg-green-100 text-green-800 p-4 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
+        
+                <form action="{{ route('send-notification.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                        <textarea id="message" name="message" rows="4" class="mt-1 block w-full p-2.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required></textarea>
+                    </div>
+                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md">Send Message</button>
+                </form>
+            </div>
             <div class="grid grid-cols-3 gap-4 mb-4">
                 <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                     <p class="text-2xl text-gray-400 dark:text-gray-500">

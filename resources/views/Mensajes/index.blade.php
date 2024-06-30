@@ -37,7 +37,7 @@
             </div>
             <!-- lista de chats -->
             <div id="contact-list" class="flex-1 overflow-y-auto no-scrollbar">
-                
+
             </div>
         </section>
         <!--main chat area-->
@@ -49,6 +49,89 @@
     </main>
     @vite('resources/js/dark-mode.js')
     @vite('resources/js/Mensajes/contactos_search.js')
+    <script>
+        function fetchNotifications() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "/notifications", true);
+            xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            xhr.onload = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        let notifications = JSON.parse(xhr.response);
+                        let container = document.getElementById('notifications-container');
+                        container.innerHTML = ''; // Clear existing notifications
+                        notifications.forEach(notification => {
+                            let notificationHTML = `
+                    <div class="notification-item flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700" data-id="${notification.id}">
+                        <div class="flex-shrink-0">
+                            <img class="rounded-full w-11 h-11" src="/images/avatar.png" alt="Avatar image">
+                        </div>
+                        <div class="w-full ps-3">
+                            <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
+                                Notification: "${notification.data.message}"
+                                <button onclick="markAsRead('${notification.id}')" class="text-blue-600 dark:text-blue-500">Mark as read</button>
+                                <button onclick="deleteNotification('${notification.id}')" class="text-red-600 dark:text-red-500">Delete</button>
+                            </div>
+                            <div class="text-xs text-blue-600 dark:text-blue-500">${new Date(notification.created_at).toLocaleString()}</div>
+                        </div>
+                    </div>`;
+                            container.insertAdjacentHTML('beforeend', notificationHTML);
+                        });
+                    } else {
+                        console.error('Request failed with status:', xhr.status);
+                    }
+                }
+            }
+            xhr.onerror = function() {
+                console.error('Request failed');
+            };
+            xhr.send();
+        }
+
+        function markAsRead(notificationId) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/notifications/mark-as-read", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            xhr.onload = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        fetchNotifications();
+                    } else {
+                        console.error('Request failed with status:', xhr.status);
+                    }
+                }
+            }
+            xhr.onerror = function() {
+                console.error('Request failed');
+            };
+            xhr.send(JSON.stringify({
+                id: notificationId
+            }));
+        }
+
+        function deleteNotification(notificationId) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("DELETE", `/notifications/${notificationId}`, true);
+            xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            xhr.onload = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        fetchNotifications();
+                    } else {
+                        console.error('Request failed with status:', xhr.status);
+                    }
+                }
+            }
+            xhr.onerror = function() {
+                console.error('Request failed');
+            };
+            xhr.send();
+        }
+
+        // Llamar a fetchNotifications periódicamente
+        setInterval(fetchNotifications, 5000);
+    </script>
 </body>
 
 </html>
