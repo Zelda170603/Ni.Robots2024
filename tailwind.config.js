@@ -18,6 +18,9 @@ export default {
       margin: {
         '18': '4.5rem',
       },
+      fontSize: {
+        'xs-extra': '10px',
+      },
     },
   },
   plugins: [

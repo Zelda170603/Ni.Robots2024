@@ -52,6 +52,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'profile_picture' => ['nullable', 'image', 'max:2048'], // Validación de la imagen
         ]);
     }
 
@@ -61,12 +62,28 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+    // En el método `create` del controlador de registro
     protected function create(array $data)
     {
-        return User::create([
+        // Crear el usuario con los datos proporcionados
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        // Verificar si se ha subido una foto de perfil
+        if (request()->hasFile('profile_picture')) {
+            // Obtener la extensión original del archivo
+            $extension = request()->file('profile_picture')->getClientOriginalExtension();
+            // Generar un nombre único para la imagen
+            $imageName = time() . '.' . $extension;
+            // Guardar el archivo en el directorio 'profile_pictures' dentro del almacenamiento público
+            request()->file('profile_picture')->storeAs('images/profile_pictures', $imageName, 'public');
+            // Asignar la ruta al campo 'foto_perfil' del usuario
+            $user->profile_picture = $imageName;
+            // Guardar los cambios en el usuario
+            $user->save();
+        }
+        return $user;
     }
 }

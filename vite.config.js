@@ -11,4 +11,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    //added to solve a problem with source map
+    build: {
+        sourcemap: true,
+    }
 });

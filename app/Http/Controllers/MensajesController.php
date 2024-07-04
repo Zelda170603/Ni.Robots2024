@@ -60,8 +60,8 @@ class MensajesController extends Controller
 
                 // Construir el HTML para el usuario actual
                 $html .= '<a class="flex items-center space-x-4 py-2 px-1 cursor-none rounded-md last-of-type:pb-0 hover:bg-slate-200 dark:hover:bg-slate-600" href="/mensajes/' . $user->name . '/' . $user->id . '">
-                            <div class="flex-shrink-0 relative">
-                                <img class="w-12 h-12 object-cover rounded-full" src="' . Storage::url('images/fabricantes/1718226350.jpg') . '" alt="Imagen de fabricante">
+                            <div class="flex-shrink-0 relative"> 
+                                <img class="w-12 h-12 object-cover rounded-full" src="' . Storage::url('images/profile_pictures/' . $user->profile_picture) . '" alt="">
                                 <div class="absolute before:w-3 before:h-3 rounded-full bottom-1 right-1 ' . $estado . '"></div>
                             </div>
                             <div class="flex-1 min-w-0">
@@ -72,6 +72,7 @@ class MensajesController extends Controller
                                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">' . $mensajeMostrar . '</p>
                             </div>
                         </a>';
+
             }
         }
         return response()->json($html);
@@ -107,7 +108,7 @@ class MensajesController extends Controller
                 // Construir el HTML para el usuario actual
                 $html .= '<a class="flex items-center space-x-4 py-2 px-1 rounded-md last-of-type:pb-0 hover:bg-slate-200 dark:hover:bg-slate-600" href="/mensajes/' . $user->id . '">
                             <div class="flex-shrink-0 relative">
-                                <img class="w-14 h-14 lg:w-12 lg:h-12 object-cover rounded-full" src="" alt="Neil image">
+                                <img class="w-12 h-12 object-cover rounded-full" src="' . Storage::url('images/profile_pictures/' . $user->profile_picture) . '" alt="">
                                 <div class="absolute before:w-3 before:h-3 rounded-full bottom-1 right-1 ' . $estado . '"></div>
                             </div>
                             <div class="flex-1 min-w-0">
@@ -141,6 +142,7 @@ class MensajesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         try {
@@ -149,19 +151,24 @@ class MensajesController extends Controller
                 'message' => 'required|string',
                 'receiver_id' => 'required|exists:users,id',
             ]);
-
             // Crear el mensaje
-            $message= Mensajes::create([
+            $message = Mensajes::create([
                 'incoming_msg_id' => $validated['receiver_id'],
                 'outgoing_msg_id' => Auth::id(),
                 'message' => $validated['message'],
             ]);
             // Obtener el usuario receptor
-            $receiver = User::find($request->receiver_id);
+            $receiver = User::find($validated['receiver_id']);
+            // Obtener el remitente
+            $sender = [
+                'name' => Auth::user()->name,
+                'avatar' => Auth::user()->profile_picture, 
+            ];
             // Enviar la notificación
-            $receiver->notify(new NewMessageNotification($message->message, Auth::user()->name));
+            $receiver->notify(new NewMessageNotification("message",$message->message, $sender));
             return response()->json(['status' => 'Mensaje enviado']);
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
             // Registrar el error
             Log::error('Error creating message: ' . $e->getMessage());
             // Responder con error
@@ -197,23 +204,24 @@ class MensajesController extends Controller
                         <div class='flex justify-end items-center space-x-1 self-end'>
                             <span class='text-md font-normal text-gray-500 dark:text-gray-400'>{$time}</span>
                         </div>
-                        <p class='text-md max-w-96 font-normal py-2.5 text-gray-900 dark:text-white'>{$content}</p>
+                        <p class='text-md  font-normal py-2.5 text-gray-900 dark:text-white'>{$content}</p>
                     </div>
                 </div>";
             } else {
                 // Mensaje recibido por el usuario autenticado
-                $senderName = User::find($message->outgoing_msg_id)->name;
-                $formattedMessages .= "
-                <div class='flex gap-1'>
-                    <img class='w-8 h-8 rounded-full' src='" . Storage::url('images/fabricantes/1718300621.jpg') . "' alt='{$senderName} image'>
-                    <div class='flex flex-col  leading-3 p-2 border-gray-200 bg-gray-200 rounded dark:bg-gray-700'>
-                        <div class='flex justify-between gap-1 space-x-1'>
-                            <span class='text-md font-semibold text-gray-900 dark:text-white'>{$senderName}</span>
-                            <span class='text-md font-normal text-gray-500 dark:text-gray-400'>{$time}</span>
+                $user = User::find($message->outgoing_msg_id);
+                $formattedMessages .= '
+                <div class="flex gap-1">
+                    <img class="w-8 h-8 object-cover rounded-full" src="' . Storage::url('images/profile_pictures/' . $user->profile_picture) . '" alt="">
+                    <div class="flex flex-col leading-3 p-2 border-gray-200 bg-gray-200 rounded dark:bg-gray-700">
+                        <div class="flex justify-between gap-1 space-x-1">
+                            <span class="text-md font-semibold text-gray-900 dark:text-white">' . $user->name . '</span>
+                            <span class="text-md font-normal text-gray-500 dark:text-gray-400">' . $time . '</span>
                         </div>
-                        <p class='text-md max-w-96 font-normal py-2.5 text-gray-900 dark:text-white'>{$content}</p>
+                        <p class="text-md flex  font-normal py-2.5 text-gray-900 dark:text-white">' . $content . '</p>
                     </div>
-                </div>";
+                </div>';
+
             }
         }
         return response()->json($formattedMessages);

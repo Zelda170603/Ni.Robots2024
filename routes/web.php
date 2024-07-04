@@ -14,7 +14,8 @@ Route::get('/', function () {
     return view('Administracion.index');
 });
 /********************************************/
-
+Route::get('/send-notification', [NotificationController::class, 'create'])->name('notifications.create');
+Route::post('/send-notification', [NotificationController::class, 'to_users'])->name('notifications.send');
 Route::get('/notifications', [NotificationController::class, 'index']);
 Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead']);
 Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);

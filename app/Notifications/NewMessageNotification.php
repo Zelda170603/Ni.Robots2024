@@ -8,16 +8,20 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
+use function PHPSTORM_META\type;
+
 class NewMessageNotification extends Notification
 {
     use Queueable;
+    private $type;
     private $message;
     private $sender;
     /**
      * Create a new notification instance.
      */
-    public function __construct($message, $sender)
+    public function __construct($type,$message, $sender)
     {
+        $this->type = $type;
         $this->message = $message;
         $this->sender = $sender;
     }
@@ -53,16 +57,24 @@ class NewMessageNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'type' => 'message',
             'message' => $this->message,
-            'sender' => $this->sender,
+            'sender' => [
+                'name' => $this->sender['name'],
+                'avatar' => $this->sender['avatar'],
+            ],
         ];
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
+            'type' => 'message',
             'message' => $this->message,
-            'sender' => $this->sender,
+            'sender' => [
+                'name' => $this->sender['name'],
+                'avatar' => $this->sender['avatar'],
+            ],
         ]);
     }
 }

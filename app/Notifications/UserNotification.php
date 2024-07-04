@@ -8,16 +8,13 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class GlobalNotification extends Notification
+class UserNotification extends Notification
 {
     use Queueable;
-    
-    private $message;
     private $type;
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct($type , $message)
+    private $message;
+
+    public function __construct($type ,$message)
     {
         $this->type = $type;
         $this->message = $message;
@@ -52,7 +49,7 @@ class GlobalNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'type' => 'global',
+            'type' => 'user',
             'message' => $this->message,
         ];
     }
@@ -60,7 +57,7 @@ class GlobalNotification extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'type' => 'global',
+            'type' => 'user',
             'message' => $this->message,
         ]);
     }

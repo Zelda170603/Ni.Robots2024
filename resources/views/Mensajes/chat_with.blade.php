@@ -71,7 +71,8 @@
                 </a>
                 <div class="flex-shrink-0">
                     <img class="w-12 h-12 object-cover rounded-full"
-                        src="{{ Storage::url('images/fabricantes/1718300621.jpg') }}" alt="Neil image">
+                    
+                        src="{{ Storage::url('images/profile_pictures/' . $user->profile_picture) }}" alt="Neil image">
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-mdphp font-medium text-gray-900 truncate dark:text-white">
