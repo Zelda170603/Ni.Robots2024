@@ -119,6 +119,7 @@
     </main>
     @vite('resources/js/dark-mode.js')
     @vite('resources/js/Mensajes/contactos_search.js')
+    @vite('resources/js/notificaciones.js')
     @vite('resources/js/Mensajes/mensajes.js')
 </body>
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\FabricanteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MensajesController;
+use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\NotificationController;
 use App\Models\Mensajes;
 use App\Models\Producto;
@@ -32,15 +33,20 @@ Route::get('/Login',function () {
     return view('login_&_Register.Login');
 });
 /*******************************************/
+Route::post("carrito/store/{productoId}", [CarritoController::class, 'addProducto'])->name('carrito.add');
+Route::get('/carrito/total', [CarritoController::class, 'getCartTotal'])->name('carrito.total');
+Route::get("carrito", [CarritoController::class, 'Show']);
+Route::put("carrito/update",[CarritoController::class, 'updateQuantity'])->name("carrito.update");
+Route::delete("carrito/delete/{productoId}",[CarritoController::class,'removeProducto'])->name("carrito.delete");
+
+/*******************************************/
 Route::get('mensajes',[MensajesController::class,"index"])->name('Mensajes.index');
 Route::get('mensajes/get-contactlist', [MensajesController::class, 'contact_list_messages']);
 Route::get('mensajes/get-messages/{receiver_id}', [MensajesController::class, 'show']);
 Route::post('mensajes/searchByName', [MensajesController::class, 'searchByName'])->name('mensajes.searchByName');
 Route::get('mensajes/{name}/{id}', [MensajesController::class, "chat_with"]);
 Route::post('mensajes/send-message', [MensajesController::class, 'store'])->name('mensajes.send-message');
-Route::get('mensajes/prueba', function(){
-    return view('mensajes.prueba');
-});
+
 
 
 Auth::routes();

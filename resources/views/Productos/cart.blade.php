@@ -3,11 +3,12 @@
     class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700">
     Abrir Carrito
 </button>
-<div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-70 transition-opacity opacity-0 pointer-events-none"></div>
+<div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-70 transition-opacity opacity-0 pointer-events-none">
+</div>
 <!-- Contenedor del carrito -->
 <div id="cart-content"
-    class="fixed top-14 right-0 z-40 h-screen p-4 overflow-y-auto  transition-transform translate-x-full backdrop-blur-3xl bg-white/70 w-80 dark:bg-gray-800/10"
-    tabindex="-1" >
+    class="fixed top-0 pt-14 right-0 z-40 h-screen p-4 overflow-y-auto no-scrollbar transition-transform translate-x-full backdrop-blur-3xl bg-white/70 w-80 dark:bg-gray-800/10"
+    tabindex="-1">
     <h5 id="drawer-right-label"
         class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
         <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -25,30 +26,46 @@
         </svg>
         <span class="sr-only">Close menu</span>
     </button>
-    <div class="mt-8 scroll-m-0">
+    <div class="mt-8 no-scrollbar">
         <div class="flow-root">
             <ul role="list" id="product-list" class="-my-6 divide-y divide-gray-200">
-                
+
             </ul>
         </div>
     </div>
-    <div class="mt-6 border-t border-gray-200 px-4 py-6 sm:px-6">
-        <div class="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100">
-            <p>Subtotal</p>
-            <p>$262.00</p>
+    <div class="mt-4 space-y-6">
+        <h4 class="text-xl font-semibold text-gray-900 dark:text-white">Order summary</h4>
+        <div class="space-y-4">
+            <div class="space-y-2">
+                <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-gray-500 dark:text-gray-400">Original price</dt>
+                    <dd id="cart-originalprice" class=" text-sm font-medium text-gray-900 dark:text-white"></dd>
+                </dl>
+                <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-gray-500 dark:text-gray-400">Tax</dt>
+                    <dd id="cart-tax" class="text-sm font-medium text-gray-900 dark:text-white"></dd>
+                </dl>
+            </div>
+            <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                <dt class="text-md font-bold text-gray-900 dark:text-white">Total</dt>
+                <dd id="cart-total" class="text-md font-bold text-gray-900 dark:text-white"></dd>
+            </dl>
         </div>
-        <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-200">Shipping and taxes calculated at checkout.</p>
-        <div class="mt-6">
-            <a href="#"
-                class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white  shadow-sm hover:bg-indigo-700">Checkout</a>
+        <div class="flex items-start sm:items-center">
+            <input id="terms-checkbox-2" type="checkbox" value=""
+                class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600">
+            <label for="terms-checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> I agree
+                with the <a href="#" title=""
+                    class="text-primary-700 underline hover:no-underline dark:text-primary-500">Terms and Conditions</a>
+                of use of the Flowbite marketplace </label>
         </div>
-        <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-            <p>
-                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="open = false">
-                    Continue Shopping
-                    <span aria-hidden="true"> </span>
-                </button>
-            </p>
+        <div class="gap-4 flex items-center">
+            <button type="button"
+                class="w-full rounded-lg  border border-gray-200 bg-white px-5  py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Return
+                to Shopping</button>
+            <button type="submit"
+                class="mt-4 flex w-full items-center justify-center rounded-lg bg-blue-700  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-blue-300  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:mt-0">Send
+                the order</button>
         </div>
     </div>
 </div>
