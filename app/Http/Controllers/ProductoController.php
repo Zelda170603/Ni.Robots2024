@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\carrito;
 use App\Models\Fabricante;
 use App\Models\TipoProducto;
 use Illuminate\Http\Request;
@@ -64,7 +65,8 @@ class ProductoController extends Controller
         return view('productos.index-user', compact('productos', 'tipo_productos', 'fabricantes'));
     }
 
-    public function index_admin(Request $request){
+    public function index_admin(Request $request)
+    {
         $query = Producto::query();
         $productos = $query->paginate(4)->appends($request->except('page'));
 
@@ -199,6 +201,26 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         $producto->delete();
-        return redirect()->route('producto.index')->with('success', 'producto eliminado con éxito.');
+        return redirect()->route('productos.index')->with('success', 'producto eliminado con éxito.');
+    }
+
+    public function pago()
+    {
+        $carritos = Carrito::where('user_id', auth()->id())->with('producto')->get();
+        $subtotal = 0;
+
+        foreach ($carritos as $carrito) {
+            $subtotal += $carrito->producto->precio * $carrito->cantidad;
+        }
+
+        $tax = $subtotal * 0.15; // 15% de IVA
+        $total = $subtotal + $tax;
+
+        return view('Productos.payment', [
+            'carritos' => $carritos,
+            'subtotal' => $subtotal,
+            'tax' => $tax,
+            'total' => $total,
+        ]);
     }
 }

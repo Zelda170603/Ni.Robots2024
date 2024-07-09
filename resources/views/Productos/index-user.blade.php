@@ -360,6 +360,7 @@
     @vite('resources/js/dark-mode.js')
     @vite('resources/js/productos.js')
     @vite('resources/js/carrito.js')
+    @vite('resources/js/notificaciones.js')
 </body>
 
 </html>
