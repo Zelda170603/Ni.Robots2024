@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -276,7 +277,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
 
     </main>
-    @vite('resources/js/notificaciones.js')
     @vite('resources/js/dark-mode.js')
     <script>
         paypal.Buttons({
@@ -284,25 +284,32 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: 100
+                            value: '100' // Asegúrate de que este valor sea una cadena
                         }
                     }],
                 });
             },
-            onApprove: function(data, action) {
-                return fetch('/payment/process/'+data.orderID)
-                .then(res => {
-                    return res.json();
-                }).then(json => {
-                    alert('Transaction completed by {{ Auth::user()->name }}');
+            onApprove: function(data, actions) {
+                return fetch('/payment/process/' + data.orderID)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(orderData => {
+                    alert('Transaction completed by Erving Caceres');
+                })
+                .catch(error => {
+                    console.error('There was an error processing the order:', error);
+                    alert('Ha ocurrido un error al realizar el pago, intentar más tarde');
                 });
             },
-            onError(err) {
-                // For example, redirect to a specific error page
+            onError: function(err) {
                 console.log(err);
+                alert("Ha ocurrido un error al realizar el pago, intentar más tarde");
             }
         }).render('#paypal-button-container');
-
         /* Obtener referencias a los elementos
         const creditCardButton = document.getElementById('credit-card-button');
         const creditCardForm = document.getElementById('credit-card-form');
