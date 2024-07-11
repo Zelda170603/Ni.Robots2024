@@ -14,7 +14,7 @@
         <div class="mx-auto max-w-5xl">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Metodos de Pago</h2>
             <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
-                <div class="w-6/12 ">
+                <div class="w-full lg:max-w-lg ">
                     <!-- Contenedor para los botones de PayPal y Tarjeta de Crédito -->
                     <div id="payment-buttons-container" class="mb-8">
                         <!-- Botón de PayPal -->
@@ -290,20 +290,25 @@
                 });
             },
             onApprove: function(data, actions) {
-                return fetch('/payment/process/' + data.orderID)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(orderData => {
-                    alert('Transaction completed by Erving Caceres');
-                })
-                .catch(error => {
-                    console.error('There was an error processing the order:', error);
-                    alert('Ha ocurrido un error al realizar el pago, intentar más tarde');
-                });
+                return fetch('/compra/process/' + data.orderID)
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(errorData => {
+                                throw new Error(errorData.error || 'Network response was not ok');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(orderData => {
+                        if (orderData.error) {
+                            throw new Error(orderData.error);
+                        }
+                        alert('Transaction completed with Compra ID: ' + orderData.compra_id);
+                    })
+                    .catch(error => {
+                        console.error('There was an error processing the order:', error);
+                        alert('Ha ocurrido un error al realizar el pago: ' + error.message);
+                    });
             },
             onError: function(err) {
                 console.log(err);

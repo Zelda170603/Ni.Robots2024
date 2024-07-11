@@ -61,7 +61,7 @@ class PaymentController extends Controller
             ]);
             $data = json_decode($response->getBody(), true);
             if ($data['STATUS'] === 'APROVED') {
-                # code...
+                //
             }
             return response()->json($data);
         } catch (\Exception $e) {

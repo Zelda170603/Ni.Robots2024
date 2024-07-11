@@ -204,23 +204,5 @@ class ProductoController extends Controller
         return redirect()->route('productos.index')->with('success', 'producto eliminado con éxito.');
     }
 
-    public function pago()
-    {
-        $carritos = Carrito::where('user_id', auth()->id())->with('producto')->get();
-        $subtotal = 0;
-
-        foreach ($carritos as $carrito) {
-            $subtotal += $carrito->producto->precio * $carrito->cantidad;
-        }
-
-        $tax = $subtotal * 0.15; // 15% de IVA
-        $total = $subtotal + $tax;
-
-        return view('Productos.payment', [
-            'carritos' => $carritos,
-            'subtotal' => $subtotal,
-            'tax' => $tax,
-            'total' => $total,
-        ]);
-    }
+    
 }

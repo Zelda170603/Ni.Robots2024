@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('Carritos', function (Blueprint $table) {
+        Schema::create('carritos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Relación con usuarios
+            $table->integer('user_id'); // Cambiado a integer
             $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade'); // Relación con productos
             $table->integer('cantidad')->default(1); // Cantidad de productos
             $table->timestamps();

@@ -5,9 +5,11 @@ use App\Http\Controllers\FabricanteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CompraController;
 use App\Http\Controllers\MensajesController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\NotificationController;
+use App\Models\Compra;
 use App\Models\Mensajes;
 use App\Models\Producto;
 use Illuminate\Support\Facades\Auth;
@@ -26,8 +28,8 @@ Route::post('/notifications/create', [NotificationController::class, 'store'])->
 Route::resource('fabricantes', FabricanteController::class);
 /*******************************************/
 Route::resource('productos', ProductoController::class);
+
 Route::post('productos/search', [ProductoController::class, 'search_filter'])->name('productos.search_filter');
-Route::get("/pago",[ProductoController::class, "pago"])->name("productos.pago");
 Route::post('productos/searchByName', [ProductoController::class, 'searchByName'])->name('productos.searchByName');
 Route::get("Administracion/productos/create",[ProductoController::class, "create"])->name('productos.create');
 Route::get("Administracion/productos",[ProductoController::class, "index_admin"])->name('productos.index-admin');
@@ -53,7 +55,7 @@ Auth::routes();
 
 
 /*******************************************/
-Route::get('/payment/process/{orderId}',[PaymentController::class, "process"])->name('payment.process');
-
+Route::get('/compra/process/{orderId}',[CompraController::class, "process"])->name('payment.process');
+Route::get("producto/pago", [CompraController::class, "pago"])->name("productos.pago");
 /******************************************
 Route::get('/home', [HomeController::class, 'index'])->name('home');*/
