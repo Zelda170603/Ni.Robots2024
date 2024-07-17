@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+USE App\Models\Producto;
 use App\Models\carrito;
 use App\Models\Compra;
 use App\Models\Compra_producto;
@@ -57,7 +58,6 @@ class CompraController extends Controller
         if (!$accessToken) {
             return response()->json(['error' => 'Unable to obtain access token'], 500);
         }
-
         try {
             $response = $this->client->request('GET', '/v2/checkout/orders/' . $orderId, [
                 'headers' => [
@@ -66,7 +66,6 @@ class CompraController extends Controller
                 ]
             ]);
             $data = json_decode($response->getBody(), true);
-
             if ($data['status'] == "APPROVED") {
                 $user = Auth::user()->id;
                 $carritos = Carrito::where('user_id', $user)->get();
@@ -79,7 +78,7 @@ class CompraController extends Controller
                 });
                 $compra = Compra::create([
                     'user_id' => $user,
-                    'compra_id'=> Str::random(7),
+                    'compra_id' => Str::random(7),
                     'carrito_id' => $carritos->first()->id,
                     'total' => $total,
                     'status' => 'completada',
@@ -92,9 +91,12 @@ class CompraController extends Controller
                         'producto_id' => $carrito->producto_id,
                         'cantidad' => $carrito->cantidad,
                     ]);
+                    $producto = Producto::find($carrito->producto_id);
+                    $producto->existencias -= $carrito->cantidad;
+                    $producto->save();
                 }
                 // Actualiza carrito_id a null en la tabla compras antes de eliminar carritos
-                
+
                 Carrito::where('user_id', $user)->delete();
                 return response()->json(['compra_id' => $compra->id]);
             } else {
@@ -123,5 +125,17 @@ class CompraController extends Controller
             'tax' => $tax,
             'total' => $total,
         ]);
+    }
+
+    public function show()
+    {
+        $user = Auth::user()->id;
+        $compras = Compra::with('compraProductos.producto')->where('user_id', $user)->get();
+
+        if ($compras->isEmpty()) {
+            $compras = collect(); // Asegurarse de que siempre se pase una colección
+        }
+
+        return view('productos.compras', compact('compras'));
     }
 }

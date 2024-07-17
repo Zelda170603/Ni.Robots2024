@@ -18,4 +18,9 @@ class Compra extends Model
         'paypal_order_id',
     ];
 
+    public function compraProductos()
+    {
+        return $this->hasMany(Compra_Producto::class, 'compra_id');
+    }
+
 }

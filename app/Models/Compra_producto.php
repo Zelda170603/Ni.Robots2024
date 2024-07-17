@@ -16,4 +16,9 @@ class Compra_producto extends Model
         'producto_id',
         'cantidad',
     ];
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
 }
