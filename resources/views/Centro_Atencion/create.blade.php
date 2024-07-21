@@ -16,22 +16,6 @@
         <div class="text-slate-900 dark:text-white">
             <h1 class="text-2xl font-bold">Crear Nuevo Producto</h1>
         </div>
-        @if (session('success'))
-            <div class="mb-4">
-                <p class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded relative">
-                    {{ session('success') }}
-                </p>
-            </div>
-        @endif
-        @if ($errors->any())
-            <div class="mb-4">
-                <ul class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
         <form action="{{ route('Centro_atencion.store') }}" class="pt-4" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -85,9 +69,10 @@
 
                 <div class="mb-5">
                     <label for="google_map_direction"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Google Map
-                        Direction</label>
-                    <input type="text" id="google_map_direction" name="google_map_direction"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Haz click en la ubicacion de tu centro de atecion en el mapa</label>
+                        
+                    <div id="map" class="w-full h-72"></div>
+                    <input type="hidden" id="google_map_direction" name="google_map_direction"
                         value="{{ old('google_map_direction') }}" required
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
@@ -136,6 +121,38 @@
     </main>
     @vite('resources/js/dark-mode.js')
     @vite('resources/js/notificaciones.js');
+    <script>
+        var map;
+        var marker;
+
+        function initMap() {
+            var center = { lat: 12.865416, lng: -85.207229 };
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 7,
+                center: center
+            });
+
+            map.addListener('click', function(e) {
+                var latLng = e.latLng;
+                var lat = latLng.lat();
+                var lng = latLng.lng();
+
+                alert('Latitude: ' + lat + ', Longitude: ' + lng);
+
+                if (marker) {
+                    marker.setPosition(latLng);
+                } else {
+                    marker = new google.maps.Marker({
+                        position: latLng,
+                        map: map
+                    });
+                }
+                document.getElementById('google_map_direction').value = lat + ', ' + lng;
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_YZ_TU27pADC0ThLH7U5QvSgG42fsuv8&callback=initMap" async defer></script>
 </body>
 
 </html>
+

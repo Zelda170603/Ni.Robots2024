@@ -13,13 +13,11 @@
 <body class="bg-white dark:bg-gray-800 mx-auto">
     @include('index.nav-bar')
     <main class="p-4 mt-14 relative">
-        <div
-            class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 flex flex-col md:flex-row justify-evenly items-center gap-x-1">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 flex flex-col md:flex-row justify-evenly items-center gap-x-1">
             <div id="pathInfo"
                 class="hidden w-full md:w-2/5 mb-3 h-full p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 justify-center items-center">
-                <h2 id="pathName" class="text-lg font-semibold"></h2>
-                <div id="content"
-                    class="flex flex-col justify-center items-center gap-4 p-4 overflow-y-auto no-scrollbar">
+                <h2 id="pathName" class="text-lg font-semibold text-gray-900 dark:text-white"></h2>
+                <div id="content" class="flex flex-col justify-center items-center gap-4 p-4 overflow-y-auto no-scrollbar">
 
                 </div>
             </div>
@@ -127,7 +125,7 @@
 
                     // Actualizar el contenido del panel con el título del path seleccionado
                     const ciudad = path.getAttribute('title');
-                    pathNameElement.textContent = `Seleccionaste: ${ciudad}`;
+                    pathNameElement.textContent = `Centros de atencion ubicados en la ciudad de ${ciudad}`;
 
                     // Llamar a la función para obtener los centros de atención por ciudad
                     getCentros(ciudad);

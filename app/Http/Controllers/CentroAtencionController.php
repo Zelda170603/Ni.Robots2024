@@ -69,7 +69,6 @@ class CentroAtencionController extends Controller
                 'principal' => true,
             ]);
         }
-
         if ($request->hasFile('fotos_secundarias')) {
             foreach ($request->file('fotos_secundarias') as $index => $fotoSecundaria) {
                 $fotoSecundariaName = time() . '_secundaria_' . $index . '.' . $fotoSecundaria->extension();
@@ -80,17 +79,19 @@ class CentroAtencionController extends Controller
                 ]);
             }
         }
-
-        return redirect()->route('Centro_atencion.index')->with('success', 'Centro de atención creado exitosamente.');
+        return redirect()->route('Centro_atencion.create');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Centro_Atencion $centroAtencion)
+    public function show($id)
     {
-        return view('centro_atencion.show', compact('centroAtencion'));
+        $centro = Centro_Atencion::find($id);
+        $coordenadas = $centro->google_maps_direction; 
+        return view('centro_atencion.show', compact('centro', 'coordenadas'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
