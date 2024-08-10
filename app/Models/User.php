@@ -22,7 +22,18 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
+    
+    public function role()
+    {
+        return $this->hasOne(Role::class);
+    }
+    
+    public static function fabricantes()
+    {
+        return self::whereHas('role', function ($query) {
+            $query->where('role_type', 'fabricante');
+        })->with('role.roleable')->get();
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

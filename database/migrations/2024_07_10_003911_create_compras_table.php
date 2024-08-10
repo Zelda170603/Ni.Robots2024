@@ -39,7 +39,9 @@ return new class extends Migration
     public function down(): void
     {
         
-        Schema::dropIfExists('compras');
+        DB::table('compra_productos')->truncate();
         Schema::dropIfExists('compra_productos');
+        DB::table('compras')->truncate();
+        Schema::dropIfExists('compras');
     }
 };

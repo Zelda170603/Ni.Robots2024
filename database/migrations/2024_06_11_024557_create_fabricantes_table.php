@@ -24,13 +24,12 @@ return new class extends Migration
             $table->string('descripcion',500);
             $table->string('direccion', 100);
             $table->string('google_map_direction',300);
-            $table->string('correo', 100);
             $table->bigInteger('telefono');
             $table->timestamps();
         });
     }
 
-    /**
+/**
      * Reverse the migrations.
      */
     public function down()

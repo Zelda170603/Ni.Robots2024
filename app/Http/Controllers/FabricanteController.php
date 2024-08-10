@@ -9,6 +9,9 @@ use App\Http\Requests\StoreFabricanteRequest;
 use App\Http\Requests\UpdateFabricanteRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 
 class FabricanteController extends Controller
@@ -33,27 +36,51 @@ class FabricanteController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos de entrada
+        // Validar los datos de usuario y fabricante
         $validated = $request->validate([
+            // Datos de usuario
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+
+            // Datos de fabricante
             'nombre' => 'required|string|max:100',
-            'foto_fabr' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'foto_fabr' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'ubicacion' => 'required|string|max:100',
             'descripcion' => 'required|string|max:500',
             'direccion' => 'required|string|max:100',
             'google_map_direction' => 'required|string|max:300',
-            'correo' => 'required|string|email|max:100',
             'telefono' => 'required|numeric',
         ]);
-         // Manejar el archivo de imagen
+
+        // Crear el usuario
+        $user = User::create([
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'estado' => true,
+        ]);
+
+        // Manejar el archivo de imagen si existe
         if ($request->hasFile('foto_fabr')) {
             $imageName = time() . '.' . $request->foto_fabr->extension();
             $request->foto_fabr->storeAs('public/images/fabricantes', $imageName);
             $validated['foto_fabr'] = $imageName;
         }
-        // Generar unique_id
+
+        // Generar unique_id para el fabricante
         $validated['unique_id'] = Str::random(10);
+
         // Crear un nuevo registro de Fabricante
-        Fabricante::create($validated);
+        $fabricante = Fabricante::create($validated);
+
+        // Crear el rol y asociarlo al usuario y al fabricante
+        Role::create([
+            'user_id' => $user->id,
+            'role_type' => 'fabricante',
+            'roleable_id' => $fabricante->id,
+            'roleable_type' => Fabricante::class,
+        ]);
+
+
         return redirect()->route('fabricantes.create')->with('success', 'Fabricante creado exitosamente');
     }
 
@@ -78,40 +105,40 @@ class FabricanteController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    // Validar los datos de entrada
-    $validated = $request->validate([
-        'nombre' => 'required|string|max:100',
-        'foto_fabr' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-        'ubicacion' => 'required|string|max:100',
-        'descripcion' => 'required|string|max:500',
-        'direccion' => 'required|string|max:100',
-        'correo' => 'required|string|email|max:100',
-        'telefono' => 'required|numeric',
-    ]);
+    {
+        // Validar los datos de entrada
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:100',
+            'foto_fabr' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'ubicacion' => 'required|string|max:100',
+            'descripcion' => 'required|string|max:500',
+            'direccion' => 'required|string|max:100',
+            'correo' => 'required|string|email|max:100',
+            'telefono' => 'required|numeric',
+        ]);
 
-    $fabricante = Fabricante::findOrFail($id);
+        $fabricante = Fabricante::findOrFail($id);
 
-    // Manejar el archivo de imagen
-    if ($request->hasFile('foto_fabr')) {
-        // Eliminar la imagen anterior si existe
-        if ($fabricante->foto_fabr && Storage::exists('public/images/fabricantes/' . $fabricante->foto_fabr)) {
-            Storage::delete('public/images/fabricantes/' . $fabricante->foto_fabr);
+        // Manejar el archivo de imagen
+        if ($request->hasFile('foto_fabr')) {
+            // Eliminar la imagen anterior si existe
+            if ($fabricante->foto_fabr && Storage::exists('public/images/fabricantes/' . $fabricante->foto_fabr)) {
+                Storage::delete('public/images/fabricantes/' . $fabricante->foto_fabr);
+            }
+            // Subir la nueva imagen
+            $imageName = time() . '.' . $request->foto_fabr->extension();
+            $request->foto_fabr->storeAs('public/images/fabricantes', $imageName);
+            $validated['foto_fabr'] = $imageName;
+        } else {
+            // Mantener la foto actual si no se ha subido una nueva
+            $validated['foto_fabr'] = $request->current_foto_fabr;
         }
-        // Subir la nueva imagen
-        $imageName = time() . '.' . $request->foto_fabr->extension();
-        $request->foto_fabr->storeAs('public/images/fabricantes', $imageName);
-        $validated['foto_fabr'] = $imageName;
-    } else {
-        // Mantener la foto actual si no se ha subido una nueva
-        $validated['foto_fabr'] = $request->current_foto_fabr;
+
+        // Actualizar el registro de Fabricante
+        $fabricante->update($validated);
+
+        return redirect()->route('fabricantes.edit', $fabricante->id)->with('success', 'Fabricante actualizado exitosamente');
     }
-
-    // Actualizar el registro de Fabricante
-    $fabricante->update($validated);
-
-    return redirect()->route('fabricantes.edit', $fabricante->id)->with('success', 'Fabricante actualizado exitosamente');
-}
 
     // Método para eliminar el fabricante
     public function destroy(Fabricante $fabricante)

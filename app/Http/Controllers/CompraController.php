@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-USE App\Models\Producto;
+use App\Models\Producto;
 use App\Models\carrito;
 use App\Models\Compra;
 use App\Models\Compra_producto;
+use App\Notifications\OrdenRealizadaNotification;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -40,7 +41,9 @@ class CompraController extends Controller
                     'grant_type' => 'client_credentials'
                 ],
                 'auth' => [
-                    $this->client_id, $this->client_secret, 'basic'
+                    $this->client_id,
+                    $this->client_secret,
+                    'basic'
                 ]
             ]);
 
@@ -86,17 +89,20 @@ class CompraController extends Controller
                 ]);
 
                 foreach ($carritos as $carrito) {
+                    // Crea la relación en Compra_Producto con la cantidad del producto específico
                     Compra_Producto::create([
                         'compra_id' => $compra->id,
                         'producto_id' => $carrito->producto_id,
                         'cantidad' => $carrito->cantidad,
                     ]);
+                    // Busca el producto y reduce su existencia según la cantidad comprada
                     $producto = Producto::find($carrito->producto_id);
                     $producto->existencias -= $carrito->cantidad;
                     $producto->save();
+                    // Notifica al fabricante del producto sobre la compra
+                    $fabricante = $producto->fabricante->role->user;
+                    $fabricante->notify(new OrdenRealizadaNotification($compra, $producto, $carrito->cantidad));
                 }
-                // Actualiza carrito_id a null en la tabla compras antes de eliminar carritos
-
                 Carrito::where('user_id', $user)->delete();
                 return response()->json(['compra_id' => $compra->id]);
             } else {

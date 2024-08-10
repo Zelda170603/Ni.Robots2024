@@ -32,12 +32,33 @@
                         </ul>
                     </div>
                 @endif
+
                 <form action="{{ route('fabricantes.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <!-- Datos del Usuario -->
+                    <h2 class="text-xl font-bold mb-4">Datos del Usuario</h2>
 
                     <div class="mb-4">
-                        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                        <input type="email" name="email" id="email" value="{{ old('email') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                        <input type="password" name="password" id="password" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmar Contraseña</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+
+                    <!-- Datos del Fabricante -->
+                    <h2 class="text-xl font-bold mt-8 mb-4">Datos del Fabricante</h2>
+
+                    <div class="mb-4">
+                        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre del Fabricante</label>
+                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" required>
                     </div>
 
                     <div class="mb-4">
@@ -47,32 +68,27 @@
 
                     <div class="mb-4">
                         <label for="ubicacion" class="block text-sm font-medium text-gray-700">Ubicación</label>
-                        <input type="text" name="ubicacion" id="ubicacion" value="{{ old('ubicacion') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" onchange="updateMap()">
+                        <input type="text" name="ubicacion" id="ubicacion" value="{{ old('ubicacion') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" onchange="updateMap()" required>
                     </div>
 
                     <div class="mb-4">
                         <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección</label>
-                        <input type="text" name="direccion" id="direccion" value="{{ old('direccion') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm">
+                        <input type="text" name="direccion" id="direccion" value="{{ old('direccion') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" required>
                     </div>
 
                     <div class="mb-4">
-                        <label for="correo" class="block text-sm font-medium text-gray-700">Correo</label>
-                        <input type="email" name="correo" id="correo" value="{{ old('correo') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm">
-                    </div>
-                    
-                    <div class="mb-4">
                         <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-                        <input type="text" name="telefono" id="telefono" value="{{ old('telefono') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm">
+                        <input type="text" name="telefono" id="telefono" value="{{ old('telefono') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" required>
                     </div>
 
                     <div class="mb-4">
                         <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                        <textarea name="descripcion" id="descripcion" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm">{{ old('descripcion') }}</textarea>
+                        <textarea name="descripcion" id="descripcion" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" required>{{ old('descripcion') }}</textarea>
                     </div>
 
                     <div class="mb-4">
                         <label for="google_map_direction" class="block text-sm font-medium text-gray-700">Dirección de Google Maps</label>
-                        <input type="text" name="google_map_direction" id="google_map_direction" value="{{ old('google_map_direction') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm">
+                        <input type="text" name="google_map_direction" id="google_map_direction" value="{{ old('google_map_direction') }}" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" required>
                     </div>
 
                     <div class="flex justify-end">

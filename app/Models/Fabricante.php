@@ -19,4 +19,9 @@ class Fabricante extends Model
         'descripcion', 
         'google_map_direction', 
     ];
+
+    public function role()
+    {
+        return $this->morphOne(Role::class, 'roleable');
+    }
 }

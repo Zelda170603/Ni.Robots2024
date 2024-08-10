@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     resultContainer.style.display = "none";
+    
     searchBar.onkeyup = () => {
         let searchTerm = searchBar.value.trim(); // Obtén el valor del campo de búsqueda y elimina espacios en blanco al inicio y al final
         // Verifica si el término de búsqueda no está vacío
