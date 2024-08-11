@@ -6,6 +6,7 @@ use App\Models\Centro_Atencion;
 use App\Models\Fotos_Centro_Atencion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB;
 
 class CentroAtencionController extends Controller
 {
@@ -21,21 +22,21 @@ class CentroAtencionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        // Cargar las divisiones de Nicaragua
-        $nicaragua = country('NI');
-        $divisions = $nicaragua->getDivisions();
-        // Extraer las ciudades (nombre de las divisiones)
-        $cities = array_map(function ($division) {
-            return $division['name'];
-        }, $divisions);
 
+    public function create(Request $request)
+    {
+        // Cargar los departamentos
+        $cities = DB::table('departamentos')->pluck('nombre', 'id');
         return view('centro_atencion.create', compact('cities'));
     }
+    public function getMunicipios($departamento_id)
+    {
+        $municipios = DB::table('municipios')
+            ->where('departamento_id', $departamento_id)
+            ->pluck('nombre', 'id');
+        return response()->json($municipios);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -57,7 +58,15 @@ class CentroAtencionController extends Controller
         ]);
 
         $centro = Centro_Atencion::create($request->only([
-            'nombre', 'correo', 'telefono', 'direccion', 'ciudad', 'departamento', 'google_map_direction', 'descripcion', 'tipo'
+            'nombre',
+            'correo',
+            'telefono',
+            'direccion',
+            'ciudad',
+            'departamento',
+            'google_map_direction',
+            'descripcion',
+            'tipo'
         ]));
 
         if ($request->hasFile('foto_principal')) {
@@ -88,7 +97,7 @@ class CentroAtencionController extends Controller
     public function show($id)
     {
         $centro = Centro_Atencion::find($id);
-        $coordenadas = $centro->google_maps_direction; 
+        $coordenadas = $centro->google_maps_direction;
         return view('centro_atencion.show', compact('centro', 'coordenadas'));
     }
 

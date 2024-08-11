@@ -56,6 +56,8 @@ class RegisterController extends Controller
         ]);
     }
 
+    
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -70,6 +72,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'departamento' => $data['departamento'],
+            'municipio' => $data['municipio'],
         ]);
         // Verificar si se ha subido una foto de perfil
         if (request()->hasFile('profile_picture')) {

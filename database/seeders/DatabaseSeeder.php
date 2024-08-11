@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             tipo_productos::class
         ]);
+        $this->call(municipios_departamentosSeeder::class);
     }
 }

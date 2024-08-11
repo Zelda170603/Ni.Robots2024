@@ -48,24 +48,28 @@
                 </div>
 
                 <div class="mb-5">
-                    <label for="ciudad"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ciudad</label>
-                    <select id="ciudad" name="ciudad" required
+                    <label for="departamento"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Departamento</label>
+                    <select id="departamento" name="departamento" required
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        @foreach ($cities as $city)
-                            <option value="{{ $city }}" {{ old('ciudad') == $city ? 'selected' : '' }}>
-                                {{ $city }}</option>
+                        <option value="">Selecciona un departamento</option>
+                        @foreach ($cities as $id => $nombre)
+                            <option value="{{ $id }}">{{ $nombre }}</option>
                         @endforeach
                     </select>
                 </div>
-
+                
                 <div class="mb-5">
-                    <label for="departamento"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Departamento</label>
-                    <input type="text" id="departamento" name="departamento" value="{{ old('departamento') }}"
-                        required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <label for="municipio"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Municipio</label>
+                    <select id="municipio" name="municipio" required
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="">Selecciona un municipio</option>
+                        
+                    </select>
                 </div>
+                
+                
 
                 <div class="mb-5">
                     <label for="google_map_direction"
@@ -119,6 +123,35 @@
         </form>
 
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const departamentoSelect = document.getElementById('departamento');
+            const municipioSelect = document.getElementById('municipio');
+    
+            departamentoSelect.addEventListener('change', function() {
+                const departamentoId = this.value;
+                if (departamentoId) {
+                    fetch(`/municipios/${departamentoId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            municipioSelect.innerHTML = '<option value="">Selecciona un municipio</option>';
+                            Object.keys(data).forEach(id => {
+                                const option = document.createElement('option');
+                                option.value = id;
+                                option.textContent = data[id];
+                                municipioSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching municipios:', error);
+                            municipioSelect.innerHTML = '<option value="">Selecciona un municipio</option>';
+                        });
+                } else {
+                    municipioSelect.innerHTML = '<option value="">Selecciona un municipio</option>';
+                }
+            });
+        });
+    </script>
     @vite('resources/js/dark-mode.js')
     @vite('resources/js/notificaciones.js');
     <script>

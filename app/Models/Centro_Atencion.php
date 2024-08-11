@@ -16,7 +16,7 @@ class Centro_Atencion extends Model
     protected $table = 'centro_atencion';
 
     protected $fillable = [
-        'nombre', 'correo', 'telefono', 'direccion', 'ciudad', 'departamento', 'google_map_direction', 'descripcion', 'tipo',
+        'nombre', 'correo', 'telefono', 'direccion', 'departamento', 'municipio',  'google_map_direction', 'descripcion', 'tipo',
     ];
 
     public function fotoPrincipal()

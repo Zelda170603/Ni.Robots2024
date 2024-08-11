@@ -24,8 +24,11 @@ Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])
 Route::post('/notifications/create', [NotificationController::class, 'store'])->name('send-notification.store');
 /********************************************/
 Route::resource('fabricantes', FabricanteController::class);
+
+
 Route::resource('Centro_atencion', CentroAtencionController::class);
 Route::post('/Centro_atencion/{city}', [CentroAtencionController::class, 'get_city']);
+Route::get('/municipios/{departamento_id}', [CentroAtencionController::class, 'getMunicipios'])->name('municipios.get');
 /*******************************************/
 Route::resource('productos', ProductoController::class);
 

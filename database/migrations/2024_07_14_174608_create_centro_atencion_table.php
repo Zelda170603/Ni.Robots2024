@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('correo');
             $table->string('telefono');
             $table->string('direccion');
-            $table->string('ciudad');
             $table->string('departamento');
+            $table->string('municipio');
             $table->string('google_map_direction');
             $table->text('descripcion')->nullable();
             $table->enum('tipo', ['Minsa', 'Psicologia',  'Terapia', 'Otros'])->default('Minsa');

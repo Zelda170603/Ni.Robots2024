@@ -18,8 +18,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('departamento')->nullable();
+            $table->string('municipio')->nullable();
+            $table->string('postal_cod')->nullable();
             $table->boolean('estado')->default(true); 
             $table->string('profile_picture')->nullable(); 
+            $table->string('cover_picture')->nullable(); 
             $table->timestamp('last_seen_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->rememberToken();
             $table->timestamps();
