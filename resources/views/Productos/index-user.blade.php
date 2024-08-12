@@ -225,8 +225,8 @@
                             </div>
                         </div>
                         @foreach ($productos as $producto)
-                            <div
-                                class="bg-white text-gray-800 dark:bg-gray-700 dark:text-white p-4 rounded-lg shadow-md">
+                        <a href="{{route('productos.show', $producto->id) }} ">
+                            <div class="bg-white text-gray-800 dark:bg-gray-700 dark:text-white p-4 rounded-lg shadow-md">
                                 <h2 class="text-xl font-bold">{{ $producto->nombre_prod }}</h2>
                                 <img src="{{ Storage::url('images/productos/' . $producto->foto_prod) }}"
                                     alt="Foto de {{ $producto->nombre_prod }}"
@@ -259,6 +259,7 @@
                                     </form>
                                 </div>
                             </div>
+                        </a>
                         @endforeach
                     </div>
                     <div class="mt-4">

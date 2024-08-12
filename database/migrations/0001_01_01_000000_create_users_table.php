@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('departamento')->nullable();
             $table->string('municipio')->nullable();
-            $table->string('postal_cod')->nullable();
+            $table->string('domicilio')->nullable();
             $table->boolean('estado')->default(true); 
             $table->string('profile_picture')->nullable(); 
             $table->string('cover_picture')->nullable(); 

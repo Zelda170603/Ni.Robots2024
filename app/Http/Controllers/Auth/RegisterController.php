@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -56,7 +57,16 @@ class RegisterController extends Controller
         ]);
     }
 
-    
+    public function getDepartamentos()
+    {
+        // Consultar todos los departamentos
+        $departamentos = DB::table('departamentos')
+            ->pluck('nombre', 'id');
+
+        // Retornar los departamentos como JSON
+        return response()->json($departamentos);
+    }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -67,13 +77,15 @@ class RegisterController extends Controller
     // En el método `create` del controlador de registro
     protected function create(array $data)
     {
+
         // Crear el usuario con los datos proporcionados
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'departamento' => $data['departamento'],
-            'municipio' => $data['municipio'],
+            'departamento' => DB::table('departamentos') ->where('id', $data['departamento'])->value('nombre'), 
+            'municipio' => DB::table('municipios')->where('id', $data['municipio'])->value('nombre'),      
+            'domicilio' => $data['domicilio']
         ]);
         // Verificar si se ha subido una foto de perfil
         if (request()->hasFile('profile_picture')) {
@@ -83,9 +95,7 @@ class RegisterController extends Controller
             $imageName = time() . '.' . $extension;
             // Guardar el archivo en el directorio 'profile_pictures' dentro del almacenamiento público
             request()->file('profile_picture')->storeAs('images/profile_pictures', $imageName, 'public');
-            // Asignar la ruta al campo 'foto_perfil' del usuario
             $user->profile_picture = $imageName;
-            // Guardar los cambios en el usuario
             $user->save();
         }
         return $user;

@@ -16,6 +16,7 @@ return new class extends Migration
         //create table
         Schema::create('calificacion_prod', function (Blueprint $table) {
             $table->bigIncrements('id_cal');
+            $table->unsignedBigInteger('id_user');
             $table->integer('puntuacion');
             $table->string('comentario', 300);
             $table->unsignedBigInteger('id_prod');

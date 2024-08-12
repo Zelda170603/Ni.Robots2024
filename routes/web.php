@@ -9,7 +9,7 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\MensajesController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\NotificationController;
-use App\Models\Centro_Atencion;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -28,11 +28,13 @@ Route::resource('fabricantes', FabricanteController::class);
 
 Route::resource('Centro_atencion', CentroAtencionController::class);
 Route::post('/Centro_atencion/{city}', [CentroAtencionController::class, 'get_city']);
+Route::get('/departamentos', [RegisterController::class, 'getDepartamentos']);
 Route::get('/municipios/{departamento_id}', [CentroAtencionController::class, 'getMunicipios'])->name('municipios.get');
 /*******************************************/
 Route::resource('productos', ProductoController::class);
 
 Route::post('productos/search', [ProductoController::class, 'search_filter'])->name('productos.search_filter');
+Route::post('productos/rate', [ProductoController::class, 'rate_prod'])->name('productos.rate_prod')->middleware('auth');
 Route::post('productos/searchByName', [ProductoController::class, 'searchByName'])->name('productos.searchByName');
 Route::get("Administracion/productos/create",[ProductoController::class, "create"])->name('productos.create');
 Route::get("Administracion/productos",[ProductoController::class, "index_admin"])->name('productos.index-admin');

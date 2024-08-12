@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
-use App\Models\carrito;
 use App\Models\Fabricante;
 use App\Models\TipoProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StoreProductoRequest;
-use App\Http\Requests\UpdateProductoRequest;
-use Database\Seeders\ProductoSeeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ProductoController extends Controller
 {
@@ -145,14 +143,14 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        return view('producto.producto')->with('producto', $producto);
+        return view('productos.producto')->with('producto', $producto);
     }
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Producto $producto)
     {
-        return view('producto.edit')->with('producto', $producto);
+        return view('productos.edit')->with('producto', $producto);
     }
 
     /**
@@ -204,5 +202,47 @@ class ProductoController extends Controller
         return redirect()->route('productos.index')->with('success', 'producto eliminado con éxito.');
     }
 
-    
+    public function rate_prod(Request $request)
+{
+    try {
+        // Validar los datos recibidos
+        $validatedData = $request->validate([
+            'puntuacion' => 'required|integer|min:1|max:5',
+            'comentario' => 'required|string|max:300',
+            'id_prod' => 'required|exists:productos,id',
+        ]);
+
+        // Obtener el ID del usuario autenticado
+        $userId = Auth::id();
+
+        // Insertar la calificación en la tabla calificacion_prod
+        DB::table('calificacion_prod')->insert([
+            'puntuacion' => $validatedData['puntuacion'],
+            'comentario' => $validatedData['comentario'],
+            'id_prod' => $validatedData['id_prod'],
+            'id_user' => $userId,
+        ]);
+
+        // Devolver una respuesta exitosa
+        return response()->json(['message' => 'Calificación enviada con éxito'], 200);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        // Manejar errores de validación
+        return response()->json([
+            'message' => 'Error de validación',
+            'errors' => $e->errors()
+        ], 422);
+    } catch (\Illuminate\Database\QueryException $e) {
+        // Manejar errores de base de datos
+        return response()->json([
+            'message' => 'Error en la base de datos',
+            'error' => $e->getMessage()
+        ], 500);
+    } catch (\Exception $e) {
+        // Manejar otros tipos de errores
+        return response()->json([
+            'message' => 'Error inesperado',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 }
