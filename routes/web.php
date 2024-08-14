@@ -63,6 +63,12 @@ Route::post('mensajes/searchByName', [MensajesController::class, 'searchByName']
 Route::get('mensajes/{name}/{id}', [MensajesController::class, "chat_with"]);
 Route::post('mensajes/send-message', [MensajesController::class, 'store'])->name('mensajes.send-message');
 
+<<<<<<< HEAD
+=======
+//comentario de prueba xd
+
+
+>>>>>>> 260a07b048724dcad893e3b50fb5ceff81d34ffc
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
