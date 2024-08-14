@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FabricanteController;
 use App\Http\Controllers\ProductoController;
@@ -23,7 +22,7 @@ Route::post('/notifications/mark-as-read', [NotificationController::class, 'mark
 Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
 Route::post('/notifications/create', [NotificationController::class, 'store'])->name('send-notification.store');
 /********************************************/
-Route::resource('fabricantes', FabricanteController::class);
+
 
 
 Route::resource('Centro_atencion', CentroAtencionController::class);
@@ -31,6 +30,9 @@ Route::post('/Centro_atencion/{city}', [CentroAtencionController::class, 'get_ci
 Route::get('/departamentos', [RegisterController::class, 'getDepartamentos']);
 Route::get('/municipios/{departamento_id}', [CentroAtencionController::class, 'getMunicipios'])->name('municipios.get');
 /*******************************************/
+
+Route::resource('fabricantes', FabricanteController::class);
+Route::get('Administracion/productos/compras', [FabricanteController::class, "showPendingOrders"]);
 Route::resource('productos', ProductoController::class);
 
 Route::post('productos/search', [ProductoController::class, 'search_filter'])->name('productos.search_filter');
@@ -60,9 +62,6 @@ Route::get('mensajes/get-messages/{receiver_id}', [MensajesController::class, 's
 Route::post('mensajes/searchByName', [MensajesController::class, 'searchByName'])->name('mensajes.searchByName');
 Route::get('mensajes/{name}/{id}', [MensajesController::class, "chat_with"]);
 Route::post('mensajes/send-message', [MensajesController::class, 'store'])->name('mensajes.send-message');
-
-
-
 
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');

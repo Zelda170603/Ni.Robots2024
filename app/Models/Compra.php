@@ -22,5 +22,8 @@ class Compra extends Model
     {
         return $this->hasMany(Compra_Producto::class, 'compra_id');
     }
-
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

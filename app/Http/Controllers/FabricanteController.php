@@ -11,7 +11,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Compra;
+use App\Models\Compra_producto;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class FabricanteController extends Controller
@@ -79,12 +83,24 @@ class FabricanteController extends Controller
             'roleable_id' => $fabricante->id,
             'roleable_type' => Fabricante::class,
         ]);
-
-
         return redirect()->route('fabricantes.create')->with('success', 'Fabricante creado exitosamente');
     }
 
+    public function showPendingOrders()
+    {
+        // Obtener el ID del fabricante
+        $fabricante = Auth::user()->role->roleable;
+        $fabricanteId = $fabricante->id;
 
+        // Obtener todos los datos de los productos de compra para el fabricante
+        $comprasPendientes = Compra_Producto::where('fabricante_id', $fabricanteId)
+            ->with('compra', 'producto') // Cargar la relación con Compra y Producto
+            ->get()
+            ->groupBy('compra_id'); // Agrupar por ID de compra
+
+        // Pasar los datos a la vista
+        return view('fabricantes.compras', compact('comprasPendientes'));
+    }
     /**
      * Display the specified resource.
      */

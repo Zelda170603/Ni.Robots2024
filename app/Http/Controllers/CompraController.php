@@ -89,14 +89,16 @@ class CompraController extends Controller
                 ]);
 
                 foreach ($carritos as $carrito) {
-                    // Crea la relación en Compra_Producto con la cantidad del producto específico
+                    // Obtén el producto
+                    $producto = Producto::find($carrito->producto_id);
+                    // Crea la relación en Compra_Producto con la cantidad y fabricante
                     Compra_Producto::create([
                         'compra_id' => $compra->id,
                         'producto_id' => $carrito->producto_id,
+                        'fabricante_id' => $producto->id_fabricante, // Asume que existe un campo 'id_fabricante' en 'productos'
                         'cantidad' => $carrito->cantidad,
                     ]);
-                    // Busca el producto y reduce su existencia según la cantidad comprada
-                    $producto = Producto::find($carrito->producto_id);
+                    // Reduce la existencia del producto según la cantidad comprada
                     $producto->existencias -= $carrito->cantidad;
                     $producto->save();
                     // Notifica al fabricante del producto sobre la compra

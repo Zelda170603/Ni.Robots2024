@@ -203,8 +203,8 @@ class ProductoController extends Controller
     }
 
     public function rate_prod(Request $request)
-{
-    try {
+    {
+    
         // Validar los datos recibidos
         $validatedData = $request->validate([
             'puntuacion' => 'required|integer|min:1|max:5',
@@ -223,26 +223,5 @@ class ProductoController extends Controller
             'id_user' => $userId,
         ]);
 
-        // Devolver una respuesta exitosa
-        return response()->json(['message' => 'Calificación enviada con éxito'], 200);
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        // Manejar errores de validación
-        return response()->json([
-            'message' => 'Error de validación',
-            'errors' => $e->errors()
-        ], 422);
-    } catch (\Illuminate\Database\QueryException $e) {
-        // Manejar errores de base de datos
-        return response()->json([
-            'message' => 'Error en la base de datos',
-            'error' => $e->getMessage()
-        ], 500);
-    } catch (\Exception $e) {
-        // Manejar otros tipos de errores
-        return response()->json([
-            'message' => 'Error inesperado',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
 }

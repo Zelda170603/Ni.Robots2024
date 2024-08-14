@@ -99,20 +99,14 @@
                                                     </p>
                                                 </div>
                                                 <div class="font-medium flex items-center justify-center  space-x-4">
-
-
                                                     <!-- Modal toggle -->
                                                     <button data-modal-target="crud-modal"
                                                         data-modal-toggle="crud-modal"
-                                                        data-product-id="{{ $compraProducto->producto->id }}" 
+                                                        data-product-id="{{ $compraProducto->producto->id }}"
                                                         class="text-indigo-600 pr-4 hover:text-indigo-900 border-r border-gray-500 dark:text-indigo-400 dark:border-gray-600"
                                                         type="button">
                                                         Calificar
                                                     </button>
-
-
-
-
                                                     <a href="#"
                                                         class="text-indigo-600 pr-4 hover:text-indigo-900 border-r border-gray-500 dark:text-indigo-400 dark:border-gray-600 ">View
                                                         product</a>
