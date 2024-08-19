@@ -57,15 +57,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function getDepartamentos()
-    {
-        // Consultar todos los departamentos
-        $departamentos = DB::table('departamentos')
-            ->pluck('nombre', 'id');
-
-        // Retornar los departamentos como JSON
-        return response()->json($departamentos);
-    }
+    
 
 
     /**

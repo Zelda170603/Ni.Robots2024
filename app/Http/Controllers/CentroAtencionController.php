@@ -29,14 +29,6 @@ class CentroAtencionController extends Controller
         $cities = DB::table('departamentos')->pluck('nombre', 'id');
         return view('centro_atencion.create', compact('cities'));
     }
-    public function getMunicipios($departamento_id)
-    {
-        $municipios = DB::table('municipios')
-            ->where('departamento_id', $departamento_id)
-            ->pluck('nombre', 'id');
-        return response()->json($municipios);
-    }
-
 
     /**
      * Store a newly created resource in storage.

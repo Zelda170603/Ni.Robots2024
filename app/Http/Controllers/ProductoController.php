@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Models\Fabricante;
-use App\Models\TipoProducto;
+use App\Models\FotosProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 
 class ProductoController extends Controller
@@ -45,8 +46,8 @@ class ProductoController extends Controller
         }
 
         // Filtrar por tipo de producto
-        if ($request->filled('id_tipo_producto')) {
-            $query->where('id_tipo_producto', $request->id_tipo_producto);
+        if ($request->filled('tipo_producto')) {
+            $query->where('tipo_producto', $request->tipo_producto);
         }
 
         // Filtrar por fabricante
@@ -54,13 +55,13 @@ class ProductoController extends Controller
             $query->where('id_fabricante', $request->id_fabricante);
         }
 
-        // Paginación con parámetros de filtro
-        $productos = $query->paginate(4)->appends($request->except('page'));
-
-        $tipo_productos = TipoProducto::all();
+        // Include average rating calculation
+        $productos = $query->withAvg('calificaciones', 'puntuacion')
+            ->paginate(12)
+            ->appends($request->except('page'));
         $fabricantes = Fabricante::all();
 
-        return view('productos.index-user', compact('productos', 'tipo_productos', 'fabricantes'));
+        return view('productos.index-user', compact('productos', 'fabricantes'));
     }
 
     public function index_admin(Request $request)
@@ -68,10 +69,10 @@ class ProductoController extends Controller
         $query = Producto::query();
         $productos = $query->paginate(4)->appends($request->except('page'));
 
-        $tipo_productos = TipoProducto::all();
+
         $fabricantes = Fabricante::all();
 
-        return view('productos.index-admin', compact('productos', 'tipo_productos', 'fabricantes'));
+        return view('productos.index-admin', compact('productos', 'fabricantes'));
     }
 
 
@@ -80,10 +81,12 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        $tipo_productos = TipoProducto::all();
+
         $fabricantes = Fabricante::all();
-        return view('productos.create', compact('tipo_productos', 'fabricantes'));
+        return view('productos.create', compact('fabricantes'));
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -94,46 +97,65 @@ class ProductoController extends Controller
         $validated = $request->validate([
             'nombre_prod' => 'required|string|max:100',
             'descripcion' => 'required|string|max:400',
-            'foto_prod' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'precio' => 'required|integer',
+            'foto_prod.*' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
+            'precio' => 'required|numeric',
             'color' => 'required|string|max:100',
+            'tipo_afectacion' => 'required|string|max:100',
             'nivel_afectacion' => 'required|string|max:100',
             'grupo_usuarios' => 'required|string|max:100',
             'existencias' => 'required|integer',
-            'id_tipo_producto' => 'required|exists:tipo_productos,id',
+            'tipo_producto' => 'required',
             'id_fabricante' => 'required|exists:fabricantes,id',
         ]);
-        // Manejar el archivo de imagen
-        if ($request->hasFile('foto_prod')) {
-            $imageName = time() . '.' . $request->foto_prod->extension();
-            $request->foto_prod->storeAs('public/images/productos', $imageName);
+        // Manejar la foto principal
+        if ($request->hasFile('foto_prod') && $request->file('foto_prod')[0]) {
+            $imageName = time() . '_main.' . $request->foto_prod[0]->extension();
+            $request->foto_prod[0]->storeAs('public/images/productos', $imageName);
             $validated['foto_prod'] = $imageName;
         }
 
+        // Obtener los nombres correspondientes a nivel_afectacion y tipo_afectacion
+        $tipoAfectacion = DB::table('categorias_afectaciones')->where('id', $validated['tipo_afectacion'])->value('nombre');
+        $nivelAfectacion = DB::table('tipos_afectaciones')->where('id', $validated['nivel_afectacion'])->value('tipo');
+
+        // Guardar el nombre en lugar del ID
+        $validated['tipo_afectacion'] = $tipoAfectacion;
+        $validated['nivel_afectacion'] = $nivelAfectacion;
+        // Generar un ID único
         $validated['unique_id'] = Str::random(7);
+
         // Crear un nuevo registro de Producto
-        Producto::create($validated);
+        $producto = Producto::create($validated);
+
+        // Manejar las fotos adicionales
+        if ($request->hasFile('foto_prod')) {
+            foreach ($request->foto_prod as $index => $photo) {
+                if ($index > 0 && $photo) { // Ignorar la primera foto, ya que es la principal
+                    $photoName = time() . '_' . $index . '.' . $photo->extension();
+                    $photo->storeAs('public/images/productos', $photoName);
+
+                    // Guardar la foto en la tabla `fotos_productos`
+                    FotosProducto::create([
+                        'nombre' => $photoName,
+                        'id_producto' => $producto->id,
+                    ]);
+                }
+            }
+        }
+
         return redirect()->route('productos.create')->with('success', 'Producto creado exitosamente');
     }
+
+
 
     public function searchByName(Request $request)
     {
         $searchTerm = $request->input('searchTerm');
         $productos = Producto::where('nombre_prod', 'LIKE', '%' . $searchTerm . '%')->get();
         $html = '';
-        foreach ($productos as $producto) {
-            $html .= '<a href="" class="result-prod">
-                        <div class="">
-                            <span>' . $producto->nombre_prod . '</span>  
-                        </div>
-                    </a>';
-        }
-
+        
+        $html = View::make('productos.partials.search_result', ['productos' => $productos])->render();
         $response = ['html' => $html];
-
-        // Mostrar en consola lo que se está devolviendo
-        \Illuminate\Support\Facades\Log::info('Response from searchByName:', $response);
-
         return response()->json($response);
     }
 
@@ -143,8 +165,71 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        return view('productos.producto')->with('producto', $producto);
+        // Cargar las fotos del producto
+        $producto->load('fotos');
+
+        // Calcular el promedio de calificaciones
+        $promedioCalificaciones = $producto->calificaciones()->avg('puntuacion');
+
+        // Calcular el número total de calificaciones
+        $totalRatings = $producto->calificaciones()->count();
+
+        // Calcular el porcentaje para cada calificación
+        $ratingsPercentages = [];
+        foreach (range(5, 1) as $stars) {
+            $count = $producto->calificaciones()->where('puntuacion', $stars)->count();
+            $percentage = $totalRatings > 0 ? ($count / $totalRatings) * 100 : 0;
+            $ratingsPercentages[$stars] = $percentage;
+        }
+        // Obtener los primeros 2 comentarios con calificaciones
+        $comentarios = $producto->calificaciones()
+            ->select('puntuacion', 'comentario', 'id_user')
+            ->with('user')
+            ->limit(2)
+            ->get();
+
+        // Obtener los 10 productos mejor calificados
+        // Obtener los 10 productos mejor calificados
+        $mejorCalificados = Producto::with('fotos')
+            ->withAvg('calificaciones', 'puntuacion')
+            ->orderByDesc('calificaciones_avg_puntuacion')
+            ->take(10)
+            ->get();
+
+        // Obtener productos con el mismo nivel de afectacion
+        $productosMismoNivel = Producto::where('nivel_afectacion', $producto->nivel_afectacion)
+            ->where('id', '!=', $producto->id) // Excluir el producto actual
+            ->with('fotos')
+            ->withAvg('calificaciones', 'puntuacion')
+            ->orderByDesc('calificaciones_avg_puntuacion')
+            ->take(10)
+            ->get();
+
+        $productoCardMejorCalificados = View::make('productos.partials.producto_card', [
+            'mejorCalificados' => $mejorCalificados,
+            'promedioCalificaciones' => $promedioCalificaciones,
+        ])->render();
+
+        // Renderizar la vista parcial para los productos con el mismo nivel de afectacion
+        $productoCardMismoNivel = View::make('productos.partials.producto_card', [
+            'mejorCalificados' => $productosMismoNivel,
+            'promedioCalificaciones' => $promedioCalificaciones,
+        ])->render();
+        // Pasar el producto, el promedio de calificaciones, el total de calificaciones, los porcentajes y los comentarios a la vista
+        return view('productos.producto', [
+            'producto' => $producto,
+            'promedioCalificaciones' => $promedioCalificaciones,
+            'totalRatings' => $totalRatings,
+            'ratingsPercentages' => $ratingsPercentages,
+            'comentarios' => $comentarios,
+
+            'productCardView' => $productoCardMejorCalificados,
+            'productCardSameLevel' => $productoCardMismoNivel
+        ]);
     }
+
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -204,7 +289,7 @@ class ProductoController extends Controller
 
     public function rate_prod(Request $request)
     {
-    
+
         // Validar los datos recibidos
         $validatedData = $request->validate([
             'puntuacion' => 'required|integer|min:1|max:5',
@@ -222,6 +307,5 @@ class ProductoController extends Controller
             'id_prod' => $validatedData['id_prod'],
             'id_user' => $userId,
         ]);
-
     }
 }

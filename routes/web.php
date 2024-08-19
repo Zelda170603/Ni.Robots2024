@@ -9,6 +9,7 @@ use App\Http\Controllers\MensajesController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ResourcesController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -27,8 +28,14 @@ Route::post('/notifications/create', [NotificationController::class, 'store'])->
 
 Route::resource('Centro_atencion', CentroAtencionController::class);
 Route::post('/Centro_atencion/{city}', [CentroAtencionController::class, 'get_city']);
-Route::get('/departamentos', [RegisterController::class, 'getDepartamentos']);
-Route::get('/municipios/{departamento_id}', [CentroAtencionController::class, 'getMunicipios'])->name('municipios.get');
+
+// Rutas para departamentos y municipios
+Route::get('/departamentos', [ResourcesController::class, 'getDepartamentos']);
+Route::get('/municipios/{departamento_id}', [ResourcesController::class, 'getMunicipios'])->name('municipios.get');
+
+// Rutas para categorías y tipos de afectación
+Route::get('/categorias-afectacion', [ResourcesController::class, 'getCategoriasAfectacion']);
+Route::get('/tipos-afectacion/{categoria_id}', [ResourcesController::class, 'getTiposAfectacion'])->name('tiposAfectacion.get');
 /*******************************************/
 
 Route::resource('fabricantes', FabricanteController::class);
@@ -63,12 +70,9 @@ Route::post('mensajes/searchByName', [MensajesController::class, 'searchByName']
 Route::get('mensajes/{name}/{id}', [MensajesController::class, "chat_with"]);
 Route::post('mensajes/send-message', [MensajesController::class, 'store'])->name('mensajes.send-message');
 
-<<<<<<< HEAD
-=======
 //comentario de prueba xd
 
 
->>>>>>> 260a07b048724dcad893e3b50fb5ceff81d34ffc
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 

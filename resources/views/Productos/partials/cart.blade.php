@@ -1,7 +1,10 @@
 <!-- Botón para abrir el carrito -->
 <button id="openCartButton"
-    class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-700">
-    Abrir Carrito
+    class="fixed bottom-4 right-4 text-white p-2 rounded-full shadow-lg backdrop-blur-3xl bg-green-800 dark:bg-green-600">
+    <svg class="w-8 h-8 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+      </svg>
+      
 </button>
 <div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-70 transition-opacity opacity-0 pointer-events-none">
 </div>

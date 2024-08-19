@@ -3,20 +3,21 @@
 @tailwind utilities;
 
 .bg-custom-gradient {
-    background-image: url('../../public/images/bg-gradient.png');
+    background-image: url("../../public/images/bg-gradient.png");
     background-size: fill;
     background-repeat: no-repeat;
     background-position: center;
-  }
+}
 
-  .no-scrollbar {
+.no-scrollbar {
     scrollbar-width: none; /* Firefox */
-  }
-  
-  .no-scrollbar::-webkit-scrollbar {
+}
+
+.no-scrollbar::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
-  }
-  
-  .no-scrollbar {
+}
+
+.no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
-  }
+}
+

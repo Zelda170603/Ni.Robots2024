@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
+    use HasFactory;
+    
     protected $table = 'productos';
 
     protected $fillable = [
@@ -16,17 +18,17 @@ class Producto extends Model
         'foto_prod',
         'precio',
         'color',
-        'nivel_afectacion', 
+        'tipo_afectacion',
+        'nivel_afectacion',
         'grupo_usuarios',
         'existencias',
-        'id_tipo_producto',
+        'tipo_producto',
         'id_fabricante',
     ];
 
-    // Relación con TipoProducto
-    public function tipoProducto()
+    public function fotos()
     {
-        return $this->belongsTo(TipoProducto::class, 'id_tipo_producto');
+        return $this->hasMany(FotosProducto::class, 'id_producto');
     }
     // Relación con Fabricante
     public function fabricante()
@@ -36,5 +38,17 @@ class Producto extends Model
     public function carritos()
     {
         return $this->hasMany(Carrito::class);
+    }
+    public function calificaciones()
+    {
+        return $this->hasMany(CalificacionProd::class, 'id_prod', 'id');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($producto) {
+            // Eliminar las fotos asociadas cuando se elimina un producto
+            $producto->fotos()->delete();
+        });
     }
 }
