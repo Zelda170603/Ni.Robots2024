@@ -13,6 +13,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Compra;
 use App\Models\Compra_producto;
+use App\Models\Producto;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -162,4 +163,11 @@ class FabricanteController extends Controller
         $fabricante->delete();
         return redirect()->route('fabricantes.index')->with('success', 'Fabricante eliminado con éxito.');
     }
+
+    public function get_products(){
+        $fabricante = Fabricante::find(Auth::id());
+        $productos = Producto::where('id_fabricante', $fabricante->id)->paginate(15);
+        return view("Administracion.Fabricante.productos")->with('productos', $productos);
+    }
+    
 }

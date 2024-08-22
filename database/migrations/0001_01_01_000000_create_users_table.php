@@ -21,14 +21,14 @@ return new class extends Migration
             $table->string('departamento')->nullable();
             $table->string('municipio')->nullable();
             $table->string('domicilio')->nullable();
-            $table->boolean('estado')->default(true); 
-            $table->string('profile_picture')->nullable(); 
-            $table->string('cover_picture')->nullable(); 
+            $table->boolean('estado')->default(true);
+            $table->string('profile_picture')->nullable();
+            $table->string('cover_picture')->nullable();
             $table->timestamp('last_seen_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->rememberToken();
             $table->timestamps();
         });
-        
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
