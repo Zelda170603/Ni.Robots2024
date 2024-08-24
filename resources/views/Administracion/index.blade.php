@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9291b3c (PUSH LIBROS)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<<<<<<< HEAD
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Administracion</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -101,4 +105,18 @@
     {{-- @vite('resources/js/centros_Atencion/cargar_centros.js'); --}}
 </body>
 
+=======
+    <title>@yield('title', 'Administracion')</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-white dark:bg-gray-800 mx-auto">
+    @include('Administracion.nav-bar')
+    <main class="p-4 sm:ml-64 mt-14">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
+            @yield('content')
+        </div>
+    </main>
+    @vite('resources/js/dark-mode.js')
+</body>
+>>>>>>> 9291b3c (PUSH LIBROS)
 </html>

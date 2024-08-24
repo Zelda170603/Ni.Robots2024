@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FabricanteController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\MensajesController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ResourcesController;
+use Illuminate\Support\Facades\Auth;
 
 // Rutas principales
 Route::get('/', function () {
@@ -33,6 +33,7 @@ Route::post('/notifications/create', [NotificationController::class, 'store'])->
 
 // Rutas de productos
 Route::resource('productos', ProductoController::class);
+
 Route::post('productos/search', [ProductoController::class, 'search_filter'])->name('productos.search_filter');
 Route::post('productos/rate', [ProductoController::class, 'rate_prod'])->name('productos.rate_prod')->middleware('auth');
 Route::post('productos/searchByName', [ProductoController::class, 'searchByName'])->name('productos.searchByName');
@@ -77,3 +78,5 @@ Route::get('Administracion/productos/compras', [FabricanteController::class, "sh
 
 // Autenticación
 Auth::routes();
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
