@@ -120,4 +120,8 @@
     @vite('resources/js/dark-mode.js')
 </body>
 
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 9291b3c (PUSH LIBROS)
