@@ -10,7 +10,7 @@
 </div>
 <!-- Contenedor del carrito -->
 <div id="cart-content"
-    class="fixed top-0 pt-14 right-0 z-40 h-screen p-4 overflow-y-auto no-scrollbar transition-transform translate-x-full backdrop-blur-3xl bg-white/70 w-80 dark:bg-gray-800/10"
+    class="fixed top-0 pt-14 right-0 z-40 h-screen p-4 overflow-y-auto no-scrollbar transition-transform translate-x-full w-80 backdrop-blur-3xl  bg-white/70  dark:bg-gray-800/10"
     tabindex="-1">
     <h5 id="drawer-right-label"
         class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
