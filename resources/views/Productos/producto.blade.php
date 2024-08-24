@@ -265,7 +265,7 @@
 
         </div>
     </main>
-    @include('Productos.cart')
+    @include('Productos.partials.cart')
     <script>
         // Función para cambiar la imagen principal y el color del borde
         function changeMainImage(element) {
