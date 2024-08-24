@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FabricanteController;
 use App\Http\Controllers\ProductoController;
@@ -11,6 +12,19 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ResourcesController;
 use Illuminate\Support\Facades\Auth;
+=======
+
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FabricanteController;
+use App\Http\Controllers\ProductoController;
+use App\Models\Producto;
+use App\Models\Book;
+
+
+
+>>>>>>> 9291b3c (PUSH LIBROS)
 
 Route::get('/', function () {
     return view('Administracion.index');
@@ -41,6 +55,7 @@ Route::get('/tipos-afectacion/{categoria_id}', [ResourcesController::class, 'get
 Route::resource('fabricantes', FabricanteController::class);
 Route::get('Administracion/productos/compras', [FabricanteController::class, "showPendingOrders"]);
 Route::resource('productos', ProductoController::class);
+<<<<<<< HEAD
 
 Route::post('productos/search', [ProductoController::class, 'search_filter'])->name('productos.search_filter');
 Route::post('productos/rate', [ProductoController::class, 'rate_prod'])->name('productos.rate_prod')->middleware('auth');
@@ -76,3 +91,22 @@ Route::post('mensajes/send-message', [MensajesController::class, 'store'])->name
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+=======
+Route::post('productos/search', [ProductoController::class, 'search_filter'])->name('productos.search_filter');
+Route::post('productos/searchByName', [ProductoController::class, 'searchByName'])->name('productos.searchByName');
+Route::get("Administracion/productos/create", [ProductoController::class, "create"])->name('productos.create');
+Route::get("Administracion/productos", [ProductoController::class, "index_admin"])->name('productos.index-admin');
+Route::get('/Login', function () {
+    return view('login_&_Register.Login');
+});
+
+Route::resource('books', App\Http\Controllers\BookController::class);
+Route::get('/book/create', [BookController::class, 'create'])->name('book.create');
+Route::post('/book/store', [BookController::class, 'store'])->name('book.store');
+Route::resource('autores', App\Http\Controllers\AutoreController::class);
+Route::resource('editoriales', App\Http\Controllers\AutoreController::class);
+Route::get('/books/{id}', [BookController::class, 'visor'])->name('books.show');
+Route::get('/booksVISOR/{id}', [BookController::class, 'visor'])->name('books.visor');
+Route::get('/user/books/', [BookController::class, 'indexUser'])->name('book.showBooksUsers');
+require __DIR__ . '/auth.php';
+>>>>>>> 9291b3c (PUSH LIBROS)

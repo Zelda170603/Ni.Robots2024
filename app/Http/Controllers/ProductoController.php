@@ -46,8 +46,13 @@ class ProductoController extends Controller
         }
 
         // Filtrar por tipo de producto
+<<<<<<< HEAD
         if ($request->filled('tipo_producto')) {
             $query->where('tipo_producto', $request->tipo_producto);
+=======
+        if ($request->filled('id_tipo_producto')) {
+            $query->where('id_tipo_producto', $request->id_tipo_producto);
+>>>>>>> 9291b3c (PUSH LIBROS)
         }
 
         // Filtrar por fabricante
@@ -55,6 +60,7 @@ class ProductoController extends Controller
             $query->where('id_fabricante', $request->id_fabricante);
         }
 
+<<<<<<< HEAD
         // Include average rating calculation
         $productos = $query->withAvg('calificaciones', 'puntuacion')
             ->paginate(12)
@@ -62,6 +68,15 @@ class ProductoController extends Controller
         $fabricantes = Fabricante::all();
 
         return view('productos.index-user', compact('productos', 'fabricantes'));
+=======
+        // Paginación con parámetros de filtro
+        $productos = $query->paginate(4)->appends($request->except('page'));
+
+        $tipo_productos = TipoProducto::all();
+        $fabricantes = Fabricante::all();
+
+        return view('productos.index-user', compact('productos', 'tipo_productos', 'fabricantes'));
+>>>>>>> 9291b3c (PUSH LIBROS)
     }
 
     public function index_admin(Request $request)
@@ -69,10 +84,17 @@ class ProductoController extends Controller
         $query = Producto::query();
         $productos = $query->paginate(4)->appends($request->except('page'));
 
+<<<<<<< HEAD
 
         $fabricantes = Fabricante::all();
 
         return view('productos.index-admin', compact('productos', 'fabricantes'));
+=======
+        $tipo_productos = TipoProducto::all();
+        $fabricantes = Fabricante::all();
+
+        return view('productos.index-admin', compact('productos', 'tipo_productos', 'fabricantes'));
+>>>>>>> 9291b3c (PUSH LIBROS)
     }
 
 
@@ -146,16 +168,35 @@ class ProductoController extends Controller
         return redirect()->route('productos.create')->with('success', 'Producto creado exitosamente');
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 9291b3c (PUSH LIBROS)
     public function searchByName(Request $request)
     {
         $searchTerm = $request->input('searchTerm');
         $productos = Producto::where('nombre_prod', 'LIKE', '%' . $searchTerm . '%')->get();
         $html = '';
+<<<<<<< HEAD
         
         $html = View::make('productos.partials.search_result', ['productos' => $productos])->render();
         $response = ['html' => $html];
+=======
+        foreach ($productos as $producto) {
+            $html .= '<a href="" class="result-prod">
+                        <div class="">
+                            <span>' . $producto->nombre_prod . '</span>  
+                        </div>
+                    </a>';
+        }
+
+        $response = ['html' => $html];
+
+        // Mostrar en consola lo que se está devolviendo
+        \Illuminate\Support\Facades\Log::info('Response from searchByName:', $response);
+
+>>>>>>> 9291b3c (PUSH LIBROS)
         return response()->json($response);
     }
 
