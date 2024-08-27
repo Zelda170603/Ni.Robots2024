@@ -26,8 +26,8 @@
 
 <body class="bg-white dark:bg-gray-800 mx-auto">
     @include('Index.nav-bar')
-    <main class="container mx-auto p-4 min-h-full mt-18">
-        <div class="mx-auto max-w-7xl px-8">
+    <main class="p-4 md:ml-64 h-auto pt-20">
+        <div class="px-8">
             <div class="mx-auto lg:max-w-4xl lg:px-0">
                 <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200">Historial de compras</h1>
                 <p class="mt-2 text-md text-gray-500 dark:text-gray-400">
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="mt-16">
-            <div class="mx-auto max-w-7xl sm:px-2 lg:px-8">
+            <div class="sm:px-2 lg:px-8">
                 <div class="mx-auto flex flex-col gap-4 sm:max-w-2xl sm:px-4 lg:max-w-4xl lg:px-0">
                     @if ($compras->isEmpty())
                         <p class="text-center text-gray-500 dark:text-gray-400">No orders found.</p>

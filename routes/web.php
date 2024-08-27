@@ -1,27 +1,27 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AdministracionController;
 use App\Http\Controllers\FabricanteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CentroAtencionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\MensajesController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ResourcesController;
+use App\Http\Controllers\AutoreController;
+use App\Http\Controllers\EditorialeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckRole;
 
 // Rutas principales
-Route::get('/', function () {
-    return view('Administracion.index');
-})->name('admin.index');
 
-Route::get('/Login', function () {
-    return view('login_&_Register.Login');
-})->name('login');
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('Administracion', [AdministracionController::class, "index"])->middleware(CheckRole::class);
 
 // Rutas de notificaciones
 Route::get('/send-notification', [NotificationController::class, 'create'])->name('notifications.create');
@@ -32,14 +32,23 @@ Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])
 Route::post('/notifications/create', [NotificationController::class, 'store'])->name('send-notification.store');
 
 // Rutas de productos
-Route::resource('productos', ProductoController::class);
 
-Route::post('productos/search', [ProductoController::class, 'search_filter'])->name('productos.search_filter');
-Route::post('productos/rate', [ProductoController::class, 'rate_prod'])->name('productos.rate_prod')->middleware('auth');
-Route::post('productos/searchByName', [ProductoController::class, 'searchByName'])->name('productos.searchByName');
-Route::get('Administracion/productos/compras', [ProductoController::class, "showPendingOrders"])->name('productos.compras');
-Route::get('Administracion/productos/create', [ProductoController::class, "create"])->name('productos.create');
-Route::get('Administracion/productos', [ProductoController::class, "index_admin"])->name('productos.index-admin');
+Route::controller(ProductoController::class)->group(function () {
+    // Rutas sin middleware adicional
+    Route::get('/productos', 'index')->name('productos.index');
+    Route::get('Administracion/productos', 'index_admin')->name('productos.index-admin');
+    Route::get('Administracion/productos/create', 'create')->name('productos.create');
+    Route::post('/productos', 'store')->name('productos.store');
+    Route::post('productos/searchByName', 'searchByName')->name('productos.searchByName');
+    Route::get('/productos/{producto}', 'show')->name('productos.show');
+    Route::get('/productos/{producto}/edit', 'edit')->name('productos.edit');
+    Route::put('/productos/{producto}', 'update')->name('productos.update');
+    Route::delete('/productos/{producto}', 'destroy')->name('productos.destroy');
+    // Subgrupo con middleware 'auth'
+    Route::middleware('auth')->group(function () {
+        Route::post('productos/rate', 'rate_prod')->name('productos.rate_prod');
+    });
+});
 
 // Rutas de compras
 Route::get('/compra/process/{orderId}', [CompraController::class, "process"])->name('payment.process');
@@ -75,8 +84,19 @@ Route::get('/tipos-afectacion/{categoria_id}', [ResourcesController::class, 'get
 Route::resource('fabricantes', FabricanteController::class);
 Route::get('Administracion/productos', [FabricanteController::class, 'get_products']);
 Route::get('Administracion/productos/compras', [FabricanteController::class, "showPendingOrders"]);
+Route::get('Administracion/Libros/create', [BookController::class, 'create'])->name('books.create');
+Route::get('Administracion/Libros', [BookController::class, 'index_admin'])->name('books.index_admin');
+
+Route::resource('books', BookController::class);
+
+Route::resource('Administracion/autores', AutoreController::class);
+Route::resource('Administracion/editoriales', EditorialeController::class);
+Route::resource('Administracion/usuarios', UserController::class);
+
+
+Route::get('/books/{id}', [BookController::class, 'visor'])->name('books.show');
+Route::get('/booksVISOR/{id}', [BookController::class, 'visor'])->name('books.visor');
 
 // Autenticación
 Auth::routes();
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+Route::get('/', [HomeController::class, 'index'])->name('home');

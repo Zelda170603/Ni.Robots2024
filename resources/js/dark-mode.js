@@ -43,8 +43,4 @@ themeToggleBtn.addEventListener('click', function () {
         }
     }
 
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 9291b3c (PUSH LIBROS)

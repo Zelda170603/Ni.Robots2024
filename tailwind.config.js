@@ -3,7 +3,6 @@ import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-<<<<<<< HEAD
   content: [
     "./resources/**/*.php",
     "./resources/**/*.blade.php",
@@ -31,21 +30,3 @@ export default {
     require('flowbite/plugin')
   ],
 }
-=======
-    content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-    ],
->>>>>>> 9291b3c (PUSH LIBROS)
-
-    theme: {
-        extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
-        },
-    },
-
-    plugins: [forms],
-};

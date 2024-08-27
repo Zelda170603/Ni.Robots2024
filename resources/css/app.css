@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 .bg-custom-gradient {
-<<<<<<< HEAD
     background-image: url("../../public/images/bg-gradient.png");
     background-size: fill;
     background-repeat: no-repeat;
@@ -22,10 +21,3 @@
     -ms-overflow-style: none; /* IE and Edge */
 }
 
-=======
-    background-image: url('../../public/images/bg-gradient.png');
-    background-size: fill;
-    background-repeat: no-repeat;
-    background-position: center;
-}
->>>>>>> 9291b3c (PUSH LIBROS)

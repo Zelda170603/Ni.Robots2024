@@ -76,6 +76,12 @@ class FabricanteController extends Controller
 
         // Crear un nuevo registro de Fabricante
         $fabricante = Fabricante::create($validated);
+        
+        $user = User::create([
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'estado' => true,
+        ]);
 
         // Crear el rol y asociarlo al usuario y al fabricante
         Role::create([

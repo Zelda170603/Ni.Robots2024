@@ -18,20 +18,18 @@ class BookController extends Controller
      */
 
 
-    public function index(Request $request): View
+    public function index_admin(Request $request)
     {
-        $books = Book::paginate();
-
-        return view('book.index', compact('books'))
+        $books = Book::with(['autor', 'editorial'])->paginate();
+        return view('book.index-admin', compact('books'))
             ->with('i', ($request->input('page', 1) - 1) * $books->perPage());
     }
 
-    public function indexUser(Request $request): View
-    {
-        $books = Book::paginate();
 
-        return view('book.showBooksUsers', compact('books'))
-            ->with('i', ($request->input('page', 1) - 1) * $books->perPage());
+    public function index(Request $request): View
+    {
+        $books = Book::with(['autor', 'editorial'])->paginate();
+        return view('book.index-users', compact('books'));
     }
 
     /**
@@ -54,9 +52,12 @@ class BookController extends Controller
 
         // Manejar la subida de la imagen de portada
         if ($request->hasFile('portada')) {
-            $portadaPath = $request->file('portada')->store('librosPortada', 'public');
-            $validatedData['portada'] = 'storage/' . $portadaPath;
+            // Guardar la imagen con un nombre único basado en la hora actual
+            $imageName = time() . '_portada.' . $request->portada->extension();
+            $request->portada->storeAs('public/librosPortada', $imageName);
+            $validatedData['portada'] = 'storage/librosPortada/' . $imageName;
         }
+
 
         // Manejar la subida del archivo del libro
         if ($request->hasFile('file_url')) {
@@ -76,7 +77,6 @@ class BookController extends Controller
     public function show($id): View
     {
         $book = Book::findOrFail($id);
-
         return view('book.show', compact('book'));
     }
 
@@ -88,7 +88,6 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
 
         return view('book.visor', compact('book'));
-
     }
 
     /**
@@ -117,7 +116,7 @@ class BookController extends Controller
     {
         Book::find($id)->delete();
 
-        return Redirect::route('books.index')
+        return Redirect::route('books.index_admin')
             ->with('success', 'Book deleted successfully');
     }
 }

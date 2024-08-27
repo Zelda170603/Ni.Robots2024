@@ -33,15 +33,22 @@ class LoginController extends Controller
 
         // Check if the user has a role
         if ($user->role) {
-            $role = $user->role;
-
-            if ($role->role_type === 'fabricante') {
-                return '/Administracion/productos';
+            $role = $user->role->role_type;
+    
+            switch ($role) {
+                case 'fabricante':
+                    return '/Administracion/productos';
+    
+                case 'administrador':
+                    return '/Administracion';
+    
+                default:
+                    return '/'; // Redirección por defecto para roles desconocidos
             }
         }
 
         // Default redirect
-        return '/home';
+        return '/';
     }
 
     /**

@@ -139,11 +139,9 @@ class CompraController extends Controller
     {
         $user = Auth::user()->id;
         $compras = Compra::with('compraProductos.producto')->where('user_id', $user)->get();
-
         if ($compras->isEmpty()) {
             $compras = collect(); // Asegurarse de que siempre se pase una colección
         }
-
         return view('productos.compras', compact('compras'));
     }
 }

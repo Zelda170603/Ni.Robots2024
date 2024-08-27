@@ -17,7 +17,6 @@ class EditorialeController extends Controller
     public function index(Request $request): View
     {
         $editoriales = Editoriale::paginate();
-
         return view('editoriale.index', compact('editoriales'))
             ->with('i', ($request->input('page', 1) - 1) * $editoriales->perPage());
     }
@@ -28,7 +27,6 @@ class EditorialeController extends Controller
     public function create(): View
     {
         $editoriale = new Editoriale();
-
         return view('editoriale.create', compact('editoriale'));
     }
 
@@ -38,7 +36,6 @@ class EditorialeController extends Controller
     public function store(EditorialeRequest $request): RedirectResponse
     {
         Editoriale::create($request->validated());
-
         return Redirect::route('editoriales.index')
             ->with('success', 'Editoriale created successfully.');
     }

@@ -13,9 +13,9 @@
 <body class="bg-white dark:bg-gray-800 mx-auto">
 
     @include('Index.nav-bar')mx-auto p-4 min-h-full mt-18
-    <main class="mt-18 md:gap-6 lg:items-start xl:gap-8">
+    <main class="p-4 md:ml-64 h-auto mt-18">
 
-        <div class="mx-auto max-w-7xl px-8 mb-4">
+        <div class="mx-auto max-w-7xl lg:px-8 mb-4">
             <div class="mx-auto lg:max-w-4xl lg:px-0">
                 <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200">Historial de compras</h1>
                 <p class="mt-2 text-md text-gray-500 dark:text-gray-400">
@@ -26,50 +26,104 @@
         <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
             @foreach ($comprasPendientes as $compraProductos)
                 @foreach ($compraProductos as $orden)
-                    <div class="mb-4 p-4 first-of-type:border border-b last:border-none rounded-lg bg-white shadow-md dark:bg-gray-800">
-                        <h2 class="text-lg font-semibold mb-2">Orden #{{ $orden->compra->id }}</h2>
-                        <p>Fecha de la compra: {{ $orden->compra->created_at->format('d/m/Y') }}</p>
-
-                        <!-- Botón para mostrar el popover -->
-                        <button data-popover-target="popover-user-profile-{{ $orden->compra->id }}" type="button"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            User Profile
-                        </button>
-
-                        <!-- Popover -->
-                        <div id="popover-user-profile-{{ $orden->compra->id }}" data-popover role="tooltip"
-                            class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
-                            <div class="p-3">
-                                <div class="flex items-center justify-between mb-2">
-                                    <a href="#">
-                                        
-                                        <img class="w-10 h-10 rounded-full"
-                                            src="{{ Storage::url('images/profile_pictures/' .$orden->compra->User->profile_picture)}}" alt="{{$orden->compra->User->name}}">
-                                    </a>
-                                    <div>
-                                        <button type="button"
-                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                            Contactar
-                                        </button>
+                    <div
+                        class="mb-4 p-4 border border-gray-400 dark:border-gray-700 rounded-lg gap-4 bg-white dark:bg-gray-800">
+                        <div class="flex items-center justify-between">
+                            <div class="flex flex-col gap-4 text-gray-700 dark:text-gray-200">
+                                <h2 class="text-lg font-semibold mb-2">Orden #{{ $orden->compra->id }}</h2>
+                                <p>Fecha de la compra: {{ $orden->compra->created_at->format('d/m/Y') }}</p>
+                            </div>
+                            <button data-popover-target="popover-user-profile-{{ $orden->compra->id }}" type="button"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                User Profile
+                            </button>
+                            <!-- Popover -->
+                            <div id="popover-user-profile-{{ $orden->compra->id }}" data-popover role="tooltip"
+                                class="absolute z-10 invisible inline-block max-w-sm text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                                <div
+                                    class="relative h-32 rounded-t-xl bg-[url('https://preline.co/assets/svg/examples/abstract-bg-1.svg')] bg-no-repeat bg-cover bg-center">
+                                    <div class="absolute top-0 end-0 p-4">
                                     </div>
                                 </div>
-                                <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
-                                    <a href="#">{{$orden->compra->User->name}}</a>
-                                </p>
-                                <p class="mb-3 text-sm font-normal">
-                                    <a href="#" class="hover:underline">{{$orden->compra->User->email}}</a>
-                                </p>
-                                <p class="mb-4 text-sm">{{$orden->compra->User->departamento}},{{$orden->compra->User->municipio}} 
-                                    <a href="#"
-                                        class="text-blue-600 dark:text-blue-500 hover:underline">{{$orden->compra->User->domicilio}}</a>.</p>
-                            </div>
-                            <div data-popper-arrow></div>
-                        </div>
 
+                                <div class="pt-0 p-2 sm:pt-0 sm:p-7">
+                                    <div>
+                                        <label class="sr-only">
+                                            Product photo
+                                        </label>
+
+                                        <div class="flex flex-col sm:flex-row sm:items-center sm:gap-x-5">
+                                            <img class="-mt-8 relative z-10 inline-block size-16 mx-auto sm:mx-0 rounded-full ring-4 ring-white dark:ring-gray-800"
+                                                src="{{ Storage::url('images/profile_pictures/' . $orden->compra->User->profile_picture) }}"
+                                                alt="{{ $orden->compra->User->name }}">
+
+
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col text-sm gap-4 py-4">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-normal  leading-none text-gray-900 dark:text-gray-300">
+                                                Nombre:</span>
+                                            <p class="font-normal  leading-none text-gray-900 dark:text-white">
+                                                <a href="#">{{ $orden->compra->User->name }}</a>
+                                            </p>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class=" font-normal  leading-none text-gray-900 dark:text-gray-300">
+                                                Correo:</span>
+                                            <p class="text-sm font-normal  leading-none text-gray-900 dark:text-white">
+                                                <a href="#">{{ $orden->compra->User->email }}</a>
+                                            </p>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-normal  leading-none text-gray-900 dark:text-gray-300">
+                                                Ciudad:</span>
+                                            <p class="text-sm font-normal leading-none text-gray-900 dark:text-white">
+                                                <a href="#"> {{ $orden->compra->User->departamento }},
+                                                    {{ $orden->compra->User->municipio }}</a>
+                                            </p>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class=" font-normal leading-none text-gray-900 dark:text-gray-300">
+                                                Domicilio:</span>
+                                            <p class="text-sm font-normal leading-none text-gray-900 dark:text-white">
+                                                <a href="#">{{ $orden->compra->User->domicilio }}</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="border-t pt-2 border-gray-400 dark:border-gray-700 flex justify-around items-center">
+                                        <button type="button"
+                                            class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-500 hover:border-blue-600 hover:text-blue-600 focus:outline-none focus:border-blue-600 focus:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-neutral-400 dark:hover:text-blue-500 dark:hover:border-blue-600 dark:focus:text-blue-500 dark:focus:border-blue-600">
+                                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                                                <path d="M8 12h.01"></path>
+                                                <path d="M12 12h.01"></path>
+                                                <path d="M16 12h.01"></path>
+                                            </svg> contactar
+                                        </button>
+                                        <button type="button"
+                                            class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                            View profile
+                                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M7 7h10v10"></path>
+                                                <path d="M7 17 17 7"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <div data-popper-arrow></div>
+                            </div>
+                        </div>
                         <ul class="mb-4">
                             @foreach ($compraProductos as $compraProducto)
-                                <div
-                                    class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+                                <li
+                                    class="rounded-lg border border-gray-400 bg-white mt-4 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
                                     <div
                                         class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                         <a href="#" class="shrink-0 md:order-1">
@@ -95,36 +149,33 @@
 
                                         <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
                                             <a href="#"
-                                                class="text-base font-medium text-gray-900 hover:underline dark:text-white">{{ $compraProducto->producto->nombre_prod }}</a>
+                                                class="text-base font-medium text-gray-900  dark:text-white">{{ $compraProducto->producto->nombre_prod }}</a>
 
-                                            <div class="flex items-center gap-4">
-                                                <button type="button"
-                                                    class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white">
-                                                    <svg class="me-1.5 h-5 w-5" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        fill="none" viewBox="0 0 24 24">
-                                                        <path stroke="currentColor" stroke-linecap="round"
-                                                            stroke-linejoin="round" stroke-width="2"
-                                                            d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
-                                                    </svg>
-                                                    Add to Favorites
-                                                </button>
+                                            <div class="flex flex-col justify-start gap-4">
+                                                <p class="text-base font-normal text-gray-900 dark:text-gray-200">
+                                                    Hay un contenido de ti que no lo puedo borrar
+                                                    No lo puedo borrar, baby
+                                                    Anoche no me pude aguantar, lo tuve que mirar
+                                                    Me empecé a tocar recordando
 
-                                                <button type="button"
-                                                    class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
-                                                    <svg class="me-1.5 h-5 w-5" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        fill="none" viewBox="0 0 24 24">
-                                                        <path stroke="currentColor" stroke-linecap="round"
-                                                            stroke-linejoin="round" stroke-width="2"
-                                                            d="M6 18 17.94 6M18 18 6.06 6" />
-                                                    </svg>
-                                                    Remove
-                                                </button>
+                                                    Puede que te borre' el tattoo del nombre mío
+                                                    Pero han sido muchas sábana' mojá' que son testigo'
+                                                    Ahora nuestro amor es de un autor desconocido
+                                                    Como si nunca hubiera existido
+
+                                                    {{ $compraProducto->producto->nombre_prod }} </p>
+                                                <div class="flex gap-4">
+                                                    <span
+                                                        class="me-2 rounded bg-blue-100 px-2 py-0.5 text-xs font-normal text-green-800 dark:bg-green-900 dark:text-green-300">
+                                                        {{ $compraProducto->producto->tipo_producto }} </span>
+                                                    <span
+                                                        class="me-2 max-w-full rounded bg-blue-100 px-2 py-0.5 text-xs font-normal text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                                                        {{ $compraProducto->producto->nivel_afectacion }}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </li>
                             @endforeach
                         </ul>
                     </div>

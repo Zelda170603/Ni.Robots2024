@@ -41,17 +41,17 @@ class Book extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function autore()
+    public function autor()
     {
-        return $this->belongsTo(\App\Models\Autore::class, 'autor_id', 'id');
+        return $this->belongsTo(Autore::class, 'autor_id', 'id');
     }
     
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function editoriale()
+    public function editorial()
     {
-        return $this->belongsTo(\App\Models\Editoriale::class, 'editorial_id', 'id');
+        return $this->belongsTo(Editoriale::class, 'editorial_id', 'id');
     }
     
 }
