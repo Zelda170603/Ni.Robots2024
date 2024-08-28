@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Autore;
 use App\Models\Editoriale;
 use Illuminate\Http\RedirectResponse;
@@ -151,29 +153,77 @@ class BookController extends Controller
             }
         }
     }
-
-
-
-
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Book $book)
     {
-        $book = Book::findOrFail($id);
-        return view('book.show', compact('book'));
+        $promedioCalificaciones = $book->calificaciones()->avg('puntuacion');
+
+        // Calcular el número total de calificaciones
+        $totalRatings = $book->calificaciones()->count();
+        // Calcular el porcentaje para cada calificación
+        $ratingsPercentages = [];
+        foreach (range(5, 1) as $stars) {
+            $count = $book->calificaciones()->where('puntuacion', $stars)->count();
+            $percentage = $totalRatings > 0 ? ($count / $totalRatings) * 100 : 0;
+            $ratingsPercentages[$stars] = $percentage;
+        }
+        // Obtener los primeros 2 comentarios con calificaciones
+        $comentarios = $book->calificaciones()
+            ->select('puntuacion', 'comentario', 'id_user')
+            ->with('user')
+            ->limit(2)
+            ->get();
+
+        $mejorCalificados = Book::with(['autor', 'editorial'])
+            ->withAvg('calificaciones', 'puntuacion')
+            ->orderByDesc('calificaciones_avg_puntuacion')
+            ->take(10)
+            ->get();
+
+        // Obtener productos con el mismo nivel de afectacion
+        $mismacategoria = book::where('categoria', $book->categoria)
+            ->where('id', '!=', $book->id) // Excluir el producto actual
+            ->withAvg('calificaciones', 'puntuacion')
+            ->orderByDesc('calificaciones_avg_puntuacion')
+            ->take(10)
+            ->get();
+
+        $mismopublico = book::where('grupo_usuarios', $book->grupo_usuarios)
+            ->where('id', '!=', $book->id) // Excluir el producto actual
+            ->withAvg('calificaciones', 'puntuacion')
+            ->orderByDesc('calificaciones_avg_puntuacion')
+            ->take(10)
+            ->get();
+
+        $bookCardMejorCalificados = View::make('book.partials.book_card', [
+            'mejorCalificados' => $mejorCalificados,
+            'promedioCalificaciones' => $promedioCalificaciones,
+        ])->render();
+
+        $bookCardmismacategoria = View::make('book.partials.book_card', [
+            'mejorCalificados' => $mismacategoria,
+            'promedioCalificaciones' => $promedioCalificaciones,
+        ])->render();
+
+        $bookCardmismoPublico = View::make('book.partials.book_card', [
+            'mejorCalificados' => $mismopublico,
+            'promedioCalificaciones' => $promedioCalificaciones,
+        ])->render();
+
+        return view('book.show', [
+            'book' => $book,
+            'promedioCalificaciones' => $promedioCalificaciones,
+            'totalRatings' => $totalRatings,
+            'ratingsPercentages' => $ratingsPercentages,
+            'comentarios' => $comentarios,
+
+            'bookCardView' => $bookCardMejorCalificados,
+            'bookCardmismacategoria' => $bookCardmismacategoria,
+            'bookCardmismoPublico' => $bookCardmismoPublico,
+        ]);
     }
-
-    /**
-     * Display the PDF viewer for the specified book.
-     */
-    public function visor($id)
-    {
-        $book = Book::findOrFail($id);
-
-        return view('book.visor', compact('book'));
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -202,5 +252,27 @@ class BookController extends Controller
 
         return Redirect::route('books.index_admin')
             ->with('success', 'Book deleted successfully');
+    }
+    public function rate_book(Request $request)
+    {
+        // Validar los datos recibidos
+        $validatedData = $request->validate([
+            'puntuacion' => 'required|integer|min:1|max:5',
+            'comentario' => 'required|string|max:300',
+            'id_book' => 'required|exists:books,id',
+        ]);
+
+        // Obtener el ID del usuario autenticado
+        $userId = Auth::id();
+
+        // Insertar la calificación en la tabla calificacion_book
+        DB::table('calificacion_book')->insert([
+            'puntuacion' => $validatedData['puntuacion'],
+            'comentario' => $validatedData['comentario'],
+            'id_book' => $validatedData['id_book'],
+            'id_user' => $userId,
+        ]);
+        // Devolver una respuesta JSON indicando éxito
+        return response()->json(['message' => 'Calificación registrada correctamente'], 200);
     }
 }

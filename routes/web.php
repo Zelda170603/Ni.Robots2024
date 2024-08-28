@@ -98,11 +98,10 @@ Route::controller(BookController::class)->group(function () {
         Route::put('Administracion/books/{book}', 'update')->name('books.update');   // Actualiza el libro
         Route::delete('Administracion/books/{book}', 'destroy')->name('books.destroy'); // Elimina el libro
     });
+    Route::post('books/rate', 'rate_book')->name('books.rate_book');
     Route::post('books/searchByName', 'searchByName')->name('books.searchByName');
     Route::get('books', 'index')->name('books.index');            // Lista todos los libros
     Route::get('books/{book}', 'show')->name('books.show');       // Muestra un libro específico
-    Route::get('/books/{id}', 'visor')->name('books.show');       // Visor del libro (conflicto con show, pero dejando la definición aquí)
-    Route::get('/booksVISOR/{id}', 'visor')->name('books.visor'); // Visor específico
 });
 
 Route::resource('Administracion/autores', AutoreController::class);

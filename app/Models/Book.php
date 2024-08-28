@@ -55,5 +55,8 @@ class Book extends Model
     {
         return $this->belongsTo(Editoriale::class, 'editorial_id', 'id');
     }
-    
+    public function calificaciones()
+    {
+        return $this->hasMany(CalificacionBook::class, 'id_book', 'id');
+    }
 }

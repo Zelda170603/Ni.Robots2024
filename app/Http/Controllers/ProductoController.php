@@ -189,7 +189,6 @@ class ProductoController extends Controller
             ->get();
 
         // Obtener los 10 productos mejor calificados
-        // Obtener los 10 productos mejor calificados
         $mejorCalificados = Producto::with('fotos')
             ->withAvg('calificaciones', 'puntuacion')
             ->orderByDesc('calificaciones_avg_puntuacion')

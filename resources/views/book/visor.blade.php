@@ -20,7 +20,7 @@
     
     <body class="bg-gray-100">
         <div id="pdf-viewer" class="max-w-5xl mx-auto flex flex-col items-center justify-center py-10"
-            data-title="{{ $book->title }}" data-url="{{ asset($book->file_url) }}">
+            data-title="{{ $book->title }}" data-url="{{ $book->file_url }}">
             <div id="canvas-container" class="space-y-4">
                 <div class="flex w-full items-center justify-between">
                     <div id="nav" class="flex items-center justify-start gap-2">

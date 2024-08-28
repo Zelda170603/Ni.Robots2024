@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class CalificacionProd extends Model
 {
     use HasFactory;
-
     protected $table = 'calificacion_prod';
     // Definir los campos que se pueden llenar masivamente
     protected $fillable = [

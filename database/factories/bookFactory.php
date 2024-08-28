@@ -24,10 +24,10 @@ class bookFactory extends Factory
         return [
             'title' => $this->faker->word(), // Título del libro
             'file_url' => $this->faker->randomElement([
-            'https://s3.amazonaws.com/your-bucket-name/files/' . $this->faker->uuid . '.pdf',
-            'https://www.dropbox.com/s/' . $this->faker->regexify('[A-Za-z0-9]{15}') . '/' . $this->faker->slug . '.pdf?dl=0',
-            'https://storage.googleapis.com/your-bucket-name/' . $this->faker->uuid . '.pdf',
-        ]),
+                'https://s3.amazonaws.com/your-bucket-name/files/' . $this->faker->uuid . '.pdf',
+                'https://www.dropbox.com/s/' . $this->faker->regexify('[A-Za-z0-9]{15}') . '/' . $this->faker->slug . '.pdf?dl=0',
+                'https://storage.googleapis.com/your-bucket-name/' . $this->faker->uuid . '.pdf',
+            ]),
             'autor_id' => Autore::inRandomOrder()->first()->id, // Selecciona un autor aleatorio
             'editorial_id' => Editoriale::inRandomOrder()->first()->id, // Selecciona una editorial aleatoria
             'portada' => $this->faker->imageUrl(400, 600, 'books', true, 'Faker'), // Imagen de la portada

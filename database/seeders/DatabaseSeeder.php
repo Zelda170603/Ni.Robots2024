@@ -22,9 +22,10 @@ class DatabaseSeeder extends Seeder
 
         //$this->call([ tipo_productos::class]);
         //$this->call(CalificacionProdSeeder::class);
+        $this->call(CalificacionBookSeeder::class);
         //$this->call(municipios_departamentosSeeder::class);
         //$this->call(ProductoSeeder::class);
-        $this->call(bookseeder::class);
+        //$this->call(bookseeder::class);
         //$this->call(UsersTableSeeder::class);
     }
 }
