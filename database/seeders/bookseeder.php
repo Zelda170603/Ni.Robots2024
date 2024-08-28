@@ -4,15 +4,17 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use App\Models\Book;
+use App\Models\Autor;
+use App\Models\Editorial;
 
-class UsersTableSeeder extends Seeder
+class bookseeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        User::factory()->count(500)->create();
+        Book::factory()->count(50)->create();
     }
 }

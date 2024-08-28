@@ -73,7 +73,7 @@
                             class="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
 
                             <div class="h-72 w-full overflow-hidden">
-                                <a href="#">
+                                <a href="books/{{$book->id}}">
                                     <img class="mx-auto object-cover h-full dark:block"
                                         src="{{ $book->portada ? asset($book->portada) : 'https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg' }}"
                                         alt="{{ $book->title }}" />
@@ -162,12 +162,15 @@
             </div>
         </div>
         <div class="mt-4">
+            {{ $books->links() }}
         </div>
     </main>
 
-
+    @include('book.partials.filters');
     @vite('resources/js/dark-mode.js')
-    @vite('resources/js/notificaciones.js')
+    @vite('resources/js/libros.js')
+    @vite('resources/js/notificaciones.js')    
+    
 </body>
 
 </html>

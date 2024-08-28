@@ -7,7 +7,7 @@
                 @auth
                     <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation"
                         aria-controls="drawer-navigation"
-                        class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                         <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -26,8 +26,8 @@
 
                 <a class="flex-none font-extrabold text-xl  max-w-32 text-black focus:outline-none focus:opacity-80 dark:text-white"
                     href="#" aria-label="Brand">Ni.Robots</a>
-                <div class="hidden md:block ">
-                    <form action="#" method="GET" class="hidden md:block md:pl-2">
+                <div class="hidden md:block " data-modal-target="default-modal" data-modal-toggle="default-modal" id="search-div">
+                    <div class="hidden md:block md:pl-2">
                         <label for="topbar-search" class="sr-only">Search</label>
                         <div class="relative md:w-64 ">
                             <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -38,18 +38,16 @@
                                     </path>
                                 </svg>
                             </div>
-                            <input type="text" name="email" id="topbar-search"
+                            <div  id="topbar-search"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search" />
+                                placeholder="Search">realizar busqueda</div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-
-
             @auth
                 <div class="flex gap-4 col-span-3 justify-end items-center">
-                    <button type="button"
+                    <button type="button" data-modal-target="default-modal" data-modal-toggle="default-modal" id="search-div"
                         class="md:hidden size-[38px] relative inline-flex items-center text-sm font-medium text-center text-gray-500 focus:outline-none dark:text-gray-400">
                         <svg class="w-6 h-6 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -101,12 +99,13 @@
                     </div>
 
                     <button id="theme-toggle" type="button"
-                        class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2">
-                        <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                        class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z">
+                            </path>
                         </svg>
-                        <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
@@ -258,7 +257,7 @@
                                         class="flex flex-col font-bold md:flex-row md:justify-end md:items-center gap-0.5 md:gap-1">
 
                                         <button id="theme-toggle" type="button"
-                                            class="text-gray-500 dark:text-gray-400 ml-4 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                                            class="text-gray-500 dark:text-gray-400 ml-4 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">
                                             <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor"
                                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z">
@@ -333,13 +332,13 @@
                                 <!-- Button Group -->
                                 <div class=" flex flex-wrap font-bold items-center gap-x-1.5">
                                     @if (Route::has('login'))
-                                        <a class="py-[7px] px-2.5 inline-flex items-center font-medium text-sm rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+                                        <a class="py-[7px] px-2.5 inline-flex items-center font-bold text-sm rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
                                             href="{{ route('login') }}">
                                             {{ __('Login') }}
                                         </a>
                                     @endif
                                     @if (Route::has('register'))
-                                        <a class="py-2 px-2.5 inline-flex items-center font-medium text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600"
+                                        <a class="py-2 px-2.5 inline-flex items-center font-bold text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:bg-blue-600"
                                             href="{{ route('register') }}">
                                             {{ __('Registrarse') }}
                                         </a>
@@ -359,23 +358,3 @@
 @auth
     @include('Index.aside')
 @endauth
-
-<!-- ========== END HEADER ========== -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const toggleButton = document.getElementById('hs-header-base-collapse');
-        const collapseMenu = document.getElementById('hs-header-base');
-
-        toggleButton.addEventListener('click', function() {
-            // Toggle the 'hidden' class to show or hide the menu
-            collapseMenu.classList.toggle('hidden');
-            collapseMenu.classList.toggle('block');
-        });
-    });
-    document.getElementById('hs-dropdown-account').addEventListener('click', function() {
-        const menu = document.getElementById('dropdown-menu');
-        menu.classList.toggle('hidden');
-        menu.classList.toggle('opacity-0');
-        menu.classList.toggle('opacity-100');
-    });
-</script>

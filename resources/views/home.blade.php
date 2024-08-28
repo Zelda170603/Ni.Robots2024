@@ -8,7 +8,7 @@
 
 <body class="bg-white dark:bg-gray-800 mx-auto">
     @include('index.nav-bar')
-
+    @include('Index.search-results')
     <main class="mt-14">
         <div class="gap-8 py-8 px-4 mx-auto max-w-6xl relative lg:py-4 xl:grid xl:grid-cols-12">
             <div class="col-span-8">
@@ -254,7 +254,18 @@
 
     </main>
 
+
     @vite('resources/js/dark-mode.js')
+    <script>
+        const toggleButton = document.querySelector('[data-drawer-toggle]');
+        const drawer = document.getElementById('drawer-navigation');
+        const icons = toggleButton.querySelectorAll('svg');
+
+        toggleButton.addEventListener('click', () => {
+            drawer.classList.toggle('-translate-x-full');
+            icons.forEach(icon => icon.classList.toggle('hidden'));
+        });
+    </script>
 </body>
 
 </html>

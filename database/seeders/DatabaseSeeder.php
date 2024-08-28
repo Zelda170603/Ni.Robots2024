@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-<<<<<<< HEAD
         /*User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -24,15 +23,8 @@ class DatabaseSeeder extends Seeder
         //$this->call([ tipo_productos::class]);
         //$this->call(CalificacionProdSeeder::class);
         //$this->call(municipios_departamentosSeeder::class);
-        $this->call(ProductoSeeder::class);
+        //$this->call(ProductoSeeder::class);
+        $this->call(bookseeder::class);
         //$this->call(UsersTableSeeder::class);
-=======
-        $this->call([
-
-            EditorialSeeder::class,
-            AutoresSeeder::class,
-        ]);
-
->>>>>>> 9291b3c (PUSH LIBROS)
     }
 }

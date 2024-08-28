@@ -9,7 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
 {
@@ -26,16 +27,64 @@ class BookController extends Controller
     }
 
 
-    public function index(Request $request): View
+    public function index(Request $request)
     {
-        $books = Book::with(['autor', 'editorial'])->paginate();
-        return view('book.index-users', compact('books'));
+        $query = Book::query();
+
+        // Filtrar por autor
+        if ($request->filled('autor_id')) {
+            $query->where('autor_id', $request->autor_id);
+        }
+
+        // Filtrar por editorial
+        if ($request->filled('editorial_id')) {
+            $query->where('editorial_id', $request->editorial_id);
+        }
+
+        // Filtrar por categoría
+        if ($request->filled('categoria')) {
+            $query->where('categoria', $request->categoria);
+        }
+
+        // Filtrar por grupo de usuarios
+        if ($request->filled('grupo_usuarios')) {
+            $query->where('grupo_usuarios', $request->grupo_usuarios);
+        }
+
+        // Filtrar por fecha de publicación
+        if ($request->filled('fecha_publicacion_min') && $request->filled('fecha_publicacion_max')) {
+            $query->whereBetween('fecha_publicacion', [$request->fecha_publicacion_min, $request->fecha_publicacion_max]);
+        } elseif ($request->filled('fecha_publicacion_min')) {
+            $query->where('fecha_publicacion', '>=', $request->fecha_publicacion_min);
+        } elseif ($request->filled('fecha_publicacion_max')) {
+            $query->where('fecha_publicacion', '<=', $request->fecha_publicacion_max);
+        }
+
+        // Filtrar por número de páginas
+        if ($request->filled('paginas_min') && $request->filled('paginas_max')) {
+            $query->whereBetween('paginas', [$request->paginas_min, $request->paginas_max]);
+        } elseif ($request->filled('paginas_min')) {
+            $query->where('paginas', '>=', $request->paginas_min);
+        } elseif ($request->filled('paginas_max')) {
+            $query->where('paginas', '<=', $request->paginas_max);
+        }
+
+        // Incluir relaciones y paginar los resultados
+        $books = $query->with(['autor', 'editorial'])
+            ->paginate(12)
+            ->appends($request->except('page'));
+
+        $autores = Autore::all();
+        $editoriales = Editoriale::all();
+
+        return view('book.index-users', compact('books', 'autores', 'editoriales'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create()
     {
         $book = new Book();
         $autores = Autore::pluck('nombre', 'id');
@@ -71,10 +120,45 @@ class BookController extends Controller
             ->with('success', 'Book created successfully.');
     }
 
+    public function searchByName(Request $request)
+    {
+        try {
+            $searchTerm = $request->input('searchTerm');
+            $books = Book::where('title', 'LIKE', '%' . $searchTerm . '%')
+                ->with(['autor', 'editorial'])
+                ->get();
+
+            $html = View::make('book.partials.search_result', ['books' => $books])->render();
+            return response()->json(['html' => $html]);
+        } catch (\Exception $e) {
+            // Loguear el error con detalles específicos
+            Log::error('Error en la búsqueda de libros: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            // Devolver un mensaje de error detallado solo en entornos no productivos
+            if (app()->environment('local')) {
+                return response()->json([
+                    'error' => 'Ocurrió un error al realizar la búsqueda.',
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ], 500);
+            } else {
+                // En producción, devolver un mensaje genérico
+                return response()->json([
+                    'error' => 'Ocurrió un error al realizar la búsqueda. Por favor, intenta nuevamente.'
+                ], 500);
+            }
+        }
+    }
+
+
+
+
     /**
      * Display the specified resource.
      */
-    public function show($id): View
+    public function show($id)
     {
         $book = Book::findOrFail($id);
         return view('book.show', compact('book'));
@@ -83,7 +167,7 @@ class BookController extends Controller
     /**
      * Display the PDF viewer for the specified book.
      */
-    public function visor($id): View
+    public function visor($id)
     {
         $book = Book::findOrFail($id);
 
@@ -93,7 +177,7 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id): View
+    public function edit($id)
     {
         $book = Book::findOrFail($id);
         $autores = Autore::pluck('nombre', 'id');

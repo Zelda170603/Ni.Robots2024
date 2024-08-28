@@ -21,7 +21,7 @@ use App\Http\Middleware\CheckRole;
 // Rutas principales
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('Administracion', [AdministracionController::class, "index"])->middleware(CheckRole::class);
+Route::get('Administracion', [AdministracionController::class, "index"])->middleware('admin');
 
 // Rutas de notificaciones
 Route::get('/send-notification', [NotificationController::class, 'create'])->name('notifications.create');
@@ -84,18 +84,34 @@ Route::get('/tipos-afectacion/{categoria_id}', [ResourcesController::class, 'get
 Route::resource('fabricantes', FabricanteController::class);
 Route::get('Administracion/productos', [FabricanteController::class, 'get_products']);
 Route::get('Administracion/productos/compras', [FabricanteController::class, "showPendingOrders"]);
+
 Route::get('Administracion/Libros/create', [BookController::class, 'create'])->name('books.create');
 Route::get('Administracion/Libros', [BookController::class, 'index_admin'])->name('books.index_admin');
 
-Route::resource('books', BookController::class);
+
+Route::controller(BookController::class)->group(function () {
+    Route::middleware('admin')->group(function () {
+        Route::get('Administracion/books', 'index_admin')->name('books.index_admin');
+        Route::get('Administracion/books/create', 'create')->name('books.create');   // Muestra el formulario de creación
+        Route::post('Administracion/books', 'store')->name('books.store');           // Almacena el nuevo libro
+        Route::get('Administracion/books/{book}/edit', 'edit')->name('books.edit');  // Muestra el formulario de edición
+        Route::put('Administracion/books/{book}', 'update')->name('books.update');   // Actualiza el libro
+        Route::delete('Administracion/books/{book}', 'destroy')->name('books.destroy'); // Elimina el libro
+    });
+    Route::post('books/searchByName', 'searchByName')->name('books.searchByName');
+    Route::get('books', 'index')->name('books.index');            // Lista todos los libros
+    Route::get('books/{book}', 'show')->name('books.show');       // Muestra un libro específico
+    Route::get('/books/{id}', 'visor')->name('books.show');       // Visor del libro (conflicto con show, pero dejando la definición aquí)
+    Route::get('/booksVISOR/{id}', 'visor')->name('books.visor'); // Visor específico
+});
 
 Route::resource('Administracion/autores', AutoreController::class);
 Route::resource('Administracion/editoriales', EditorialeController::class);
+
 Route::resource('Administracion/usuarios', UserController::class);
 
 
-Route::get('/books/{id}', [BookController::class, 'visor'])->name('books.show');
-Route::get('/booksVISOR/{id}', [BookController::class, 'visor'])->name('books.visor');
+
 
 // Autenticación
 Auth::routes();

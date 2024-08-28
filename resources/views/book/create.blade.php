@@ -15,7 +15,7 @@
     <main class="p-4 sm:ml-64 mt-14">
         <div class="container mx-auto p-4">
             <h1 class="text-2xl font-bold mb-4 dark:text-gray-200">Libro</h1>
-            <form action="/books" method="POST" enctype="multipart/form-data">
+            <form action="{{route('books.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <!-- Portada -->
@@ -88,6 +88,31 @@
                                     {{ old('editorial_id', $book ? $book->editorial_id : '') == $id ? 'selected' : '' }}>
                                     {{ $nombre }}</option>
                             @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-5">
+                        <label for="categoria"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoria</label>
+                        <select name="categoria" id="categoria"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required>
+                            <option value="">Seleccione una Categoria</option>
+                            <option value="Literatura inclusiva">Literatura inclusiva</option>
+                            <option value="Educacion">Educacion</option>
+                            <option value="Derechos y leyes">Derechos y leyes</option>
+                            <option value="cuidado de la salud">cuidado de la salud</option>
+                        </select>
+                    </div>
+                    <div class="mb-5">
+                        <label for="grupo_usuarios"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoria</label>
+                        <select name="grupo_usuarios" id="grupo_usuarios"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required>
+                            <option value="">Seleccione un grupo de usuarios</option>
+                            <option value="Niños">Niños</option>
+                            <option value="Adolecentes">Adolecentes</option>
+                            <option value="Adultos">Adultos</option>
                         </select>
                     </div>
                     <!-- File URL -->

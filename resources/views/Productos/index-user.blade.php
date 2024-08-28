@@ -191,7 +191,8 @@
                         </div>
                     @endforeach
                 @else
-                    <p>No hay productos disponibles.</p>
+                <h2 class="mt-3 text-xl sm:mb-4 cols-span-4 font-bold text-gray-900 dark:text-white sm:text-2xl">No hay productos disponibles
+                </h2>
                 @endif
             </div>
         </div>

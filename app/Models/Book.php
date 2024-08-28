@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -27,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Book extends Model
 {
+    use HasFactory;
     
     protected $perPage = 20;
 
@@ -35,7 +37,7 @@ class Book extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['title', 'file_url', 'autor_id', 'editorial_id', 'portada', 'descripcion', 'fecha_publicacion', 'isbn', 'paginas'];
+    protected $fillable = ['title', 'file_url', 'autor_id', 'categoria', 'grupo_usuarios', 'editorial_id', 'portada', 'descripcion', 'fecha_publicacion', 'isbn', 'paginas'];
 
 
     /**

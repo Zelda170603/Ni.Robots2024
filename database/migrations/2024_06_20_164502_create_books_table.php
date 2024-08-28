@@ -20,6 +20,8 @@ class CreateBooksTable extends Migration
             $table->unsignedBigInteger('autor_id'); // ID del autor
             $table->unsignedBigInteger('editorial_id'); // ID de la editorial
             $table->string('portada'); // Imagen de la portada
+            $table->enum('categoria',['Literatura inclusiva','Educacion','Derechos y leyes','cuidado de la salud']);
+            $table->enum('grupo_usuarios',['Niños','Adolecentes','Adultos']);
             $table->text('descripcion'); // Descripción del libro
             $table->date('fecha_publicacion'); // Fecha de publicación
             $table->string('isbn')->unique(); // ISBN del libro
