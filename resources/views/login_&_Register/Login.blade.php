@@ -11,7 +11,7 @@
 
 
 <body class="flex flex-col bg-custom-gradient">
-    <div class="flex min-h-full flex-1">
+    <main class="flex min-h-full flex-1">
         <div class="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div class="sm:mx-auto sm:w-full sm:max-w-lg">
                 <div class="backdrop-blur-sm bg-white/20 px-6 py-10 shadow-2xl rounded-lg sm:px-12">
@@ -24,7 +24,7 @@
                             Sign in
                             to your account</h2>
                     </div>
-                    <form class="space-y-6" action="#" method="POST">
+                    <form class="space-y-6" action="{{ route('login') }}" method="POST">
                         <div>
                             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
                                 address</label>
@@ -181,9 +181,7 @@
                 </div>
             </div>
         </div>
-        
-    </div>
-
+    </main>
 </body>
 
 </html>

@@ -10,13 +10,14 @@ export default {
     "./resources/**/*.vue",
     "./node_modules/flowbite/**/*.js"
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       aspectRatio: {
         '2/3': '2 / 3',
       },
       colors: {
-        main_color: '#124474',
+        main_color: '#031930',
       },
       margin: {
         '18': '4.5rem',

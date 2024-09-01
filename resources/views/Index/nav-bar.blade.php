@@ -82,8 +82,7 @@
                             Notifications
                         </div>
                         <div id="notifications-container"
-                            class=" h-96 flex justify-center items-center flex-col divide-y font-bold divide-gray-100 dark:divide-gray-700 overflow-y-auto no-scrollbar">
-
+                            class=" h-96 flex flex-col justify-start items-center  divide-y font-bold divide-gray-100 dark:divide-gray-700 overflow-y-auto no-scrollbar">
                         </div>
                         <a href="#"
                             class="block py-2 text-sm font-bold text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-500 dark:text-white">

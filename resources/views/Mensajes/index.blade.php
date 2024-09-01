@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Mensajes</title>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -18,9 +17,24 @@
         <!-- user list section -->
         <section
             class=" bg-inherit px-4 pt-4  lg:w-80 w-full  lg:border-r border-r-slate-200 dark:border-r-slate-500 flex flex-col h-screen">
-            <div class="text-slate-600 dark:text-white max-w-sm  pb-6">
-                <h1 class="text-3xl font-bold">Mensajes</h1>
+            <div class="flex items-center justify-between">
+                <div class="text-slate-600 dark:text-white max-w-sm  pb-6">
+                    <h1 class="text-3xl font-bold">Mensajes</h1>
+                </div>
+                <button 
+                data-modal-target="default-modal" data-modal-toggle="default-modal" type="button"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm p-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    <svg class="size-4 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28" />
+                    </svg>
+
+                </button>
+                
             </div>
+
             <div class="flex items-center w-full pb-6">
                 <label for="simple-search" class="sr-only">Search</label>
                 <div class="relative w-full">
