@@ -24,12 +24,15 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('Administracion', [ProductoController::class, "index_admin"])->middleware('admin');
 
 // Rutas de notificaciones
-Route::get('/send-notification', [NotificationController::class, 'create'])->name('notifications.create');
-Route::post('/send-notification', [NotificationController::class, 'to_users'])->name('notifications.send');
-Route::get('/notifications', [NotificationController::class, 'index']);
-Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead']);
-Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
-Route::post('/notifications/create', [NotificationController::class, 'store'])->name('send-notification.store');
+Route::middleware('auth')->controller(NotificationController::class)->group(function () {
+    Route::get('/send-notification', 'create')->name('notifications.create');
+    Route::post('/send-notification', 'to_users')->name('notifications.send');
+    Route::get('/notifications', 'index');
+    Route::post('/notifications/mark-as-read', 'markAsRead');
+    Route::delete('/notifications/{id}', 'destroy');
+    Route::post('/notifications/create', 'store')->name('send-notification.store');
+});
+
 
 // Rutas de productos
 
@@ -51,34 +54,47 @@ Route::controller(ProductoController::class)->group(function () {
 });
 
 // Rutas de compras
-Route::get('/compra/process/{orderId}', [CompraController::class, "process"])->name('payment.process');
-Route::get('producto/pago', [CompraController::class, "pago"])->name("productos.pago");
-Route::get('/compra', [CompraController::class, "show"]);
+Route::middleware('auth')->controller(CompraController::class)->group(function () {
+    Route::get('/compra/process/{orderId}', 'process')->name('payment.process');
+    Route::get('producto/pago', 'pago')->name("productos.pago");
+    Route::get('/compra', 'show');
+});
 
 // Rutas de carrito
-Route::post('carrito/store/{productoId}', [CarritoController::class, 'addProducto'])->name('carrito.add');
-Route::get('/carrito/total', [CarritoController::class, 'getCartTotal'])->name('carrito.total');
-Route::get('carrito', [CarritoController::class, 'show']);
-Route::put('carrito/update', [CarritoController::class, 'updateQuantity'])->name("carrito.update");
-Route::delete('carrito/delete/{productoId}', [CarritoController::class, 'removeProducto'])->name("carrito.delete");
+Route::middleware('auth')->controller(CarritoController::class)->group(function () {
+    Route::post('carrito/store/{productoId}', 'addProducto')->name('carrito.add');
+    Route::get('/carrito/total', 'getCartTotal')->name('carrito.total');
+    Route::get('carrito', 'show');
+    Route::put('carrito/update', 'updateQuantity')->name("carrito.update");
+    Route::delete('carrito/delete/{productoId}', 'removeProducto')->name("carrito.delete");
+});
+
 
 // Rutas de mensajes
-Route::get('mensajes', [MensajesController::class, "index"])->name('mensajes.index');
-Route::get('mensajes/get-contactlist', [MensajesController::class, 'contact_list_messages']);
-Route::get('mensajes/get-messages/{receiver_id}', [MensajesController::class, 'show']);
-Route::post('mensajes/searchByName', [MensajesController::class, 'searchByName'])->name('mensajes.searchByName');
-Route::get('mensajes/{name}/{id}', [MensajesController::class, "chat_with"]);
-Route::post('mensajes/send-message', [MensajesController::class, 'store'])->name('mensajes.send-message');
+
+Route::middleware('auth')->controller(MensajesController::class)->group(function () {
+    Route::get('mensajes', 'index')->name('mensajes.index');
+    Route::get('mensajes/get-contactlist', 'contact_list_messages');
+    Route::get('mensajes/get-messages/{receiver_id}', 'show');
+    Route::post('mensajes/searchByName', 'searchByName')->name('mensajes.searchByName');
+    Route::post('mensajes/get_users', 'get_users')->name('mensajes.get_users');
+    Route::get('mensajes/{name}/{id}', 'chat_with');
+    Route::post('mensajes/send-message', 'store')->name('mensajes.send-message');
+});
+
 
 // Rutas de centro de atención
 Route::resource('Centro_atencion', CentroAtencionController::class);
 Route::post('/Centro_atencion/{city}', [CentroAtencionController::class, 'get_city']);
 
 // Rutas de recursos
-Route::get('/departamentos', [ResourcesController::class, 'getDepartamentos']);
-Route::get('/municipios/{departamento_id}', [ResourcesController::class, 'getMunicipios'])->name('municipios.get');
-Route::get('/categorias-afectacion', [ResourcesController::class, 'getCategoriasAfectacion']);
-Route::get('/tipos-afectacion/{categoria_id}', [ResourcesController::class, 'getTiposAfectacion'])->name('tiposAfectacion.get');
+Route::controller(ResourcesController::class)->group(function () {
+    Route::get('/departamentos', 'getDepartamentos');
+    Route::get('/municipios/{departamento_id}', 'getMunicipios')->name('municipios.get');
+    Route::get('/categorias-afectacion', 'getCategoriasAfectacion');
+    Route::get('/tipos-afectacion/{categoria_id}', 'getTiposAfectacion')->name('tiposAfectacion.get');
+});
+
 
 // Rutas de fabricantes
 Route::resource('fabricantes', FabricanteController::class);
