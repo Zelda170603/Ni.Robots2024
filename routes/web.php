@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 // Rutas principales
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('Administracion', [AdministracionController::class, "index"])->middleware('admin');
+Route::get('Administracion', [ProductoController::class, "index_admin"])->middleware('admin');
 
 // Rutas de notificaciones
 Route::middleware('auth')->controller(NotificationController::class)->group(function () {

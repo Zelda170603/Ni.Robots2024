@@ -20,7 +20,7 @@ class TipoProductoSeeder extends Seeder
         ];
 
         foreach ($tiposProductos as $tipoProducto) {
-            TipoProducto::create($tipoProducto);
+            $tiposProductos::create($tipoProducto);
         }
     }
 }
