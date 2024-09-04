@@ -16,7 +16,6 @@ use App\Http\Controllers\ResourcesController;
 use App\Http\Controllers\AutoreController;
 use App\Http\Controllers\EditorialeController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Middleware\CheckRole;
 
 // Rutas principales
 
