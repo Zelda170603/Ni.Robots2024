@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory; // Importa el trait HasFactory
 use Illuminate\Database\Eloquent\Model;
 
 class Fabricante extends Model
 {
+    use HasFactory; // Usa el trait HasFactory
+
     protected $table = 'fabricantes';
 
     protected $fillable = [
@@ -15,9 +18,9 @@ class Fabricante extends Model
         'direccion',
         'correo',
         'telefono',
-        'unique_id', 
-        'descripcion', 
-        'google_map_direction', 
+        'unique_id',
+        'descripcion',
+        'google_map_direction',
     ];
 
     public function role()

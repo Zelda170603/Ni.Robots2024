@@ -60,19 +60,28 @@ class ProductoController extends Controller
             ->paginate(12)
             ->appends($request->except('page'));
         $fabricantes = Fabricante::all();
+        session()->put('productos', $productos);
 
         return view('productos.index-user', compact('productos', 'fabricantes'));
     }
 
+
+
+
+
     public function index_admin(Request $request)
     {
-        $query = Producto::query();
-        $productos = $query->paginate(4)->appends($request->except('page'));
+        $productos = session()->get('productos');
+        $productos->take(5);
 
+        if (!$productos) {
+            $query = Producto::query();
+            $productos = $query->paginate(4)->appends($request->except('page'));
+        }
 
         $fabricantes = Fabricante::all();
 
-        return view('productos.index-admin', compact('productos', 'fabricantes'));
+        return view('administracion.index', compact('productos', 'fabricantes'));
     }
 
 
@@ -153,7 +162,7 @@ class ProductoController extends Controller
         $searchTerm = $request->input('searchTerm');
         $productos = Producto::where('nombre_prod', 'LIKE', '%' . $searchTerm . '%')->get();
         $html = '';
-        
+
         $html = View::make('productos.partials.search_result', ['productos' => $productos])->render();
         $response = ['html' => $html];
         return response()->json($response);

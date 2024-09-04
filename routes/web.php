@@ -21,7 +21,7 @@ use App\Http\Middleware\CheckRole;
 // Rutas principales
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('Administracion', [AdministracionController::class, "index"])->middleware('admin');
+Route::get('Administracion', [ProductoController::class, "index_admin"])->middleware('admin');
 
 // Rutas de notificaciones
 Route::get('/send-notification', [NotificationController::class, 'create'])->name('notifications.create');
