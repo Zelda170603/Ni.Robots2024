@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-</head>
+@section('title', 'Producto')
 
-<body class="bg-white dark:bg-gray-900 mx-auto">
-    @include('Index.nav-bar')
-    <main class="container mx-auto p-4 min-h-full mt-18">
+@section('content')
         <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
             <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
                 <div class=" justify-center max-w-md lg:max-w-lg mx-auto">
@@ -264,7 +253,6 @@
             </div>
 
         </div>
-    </main>
     @include('Productos.partials.cart')
     <script>
         // Función para cambiar la imagen principal y el color del borde
@@ -290,10 +278,5 @@
         firstThumbnail.classList.remove('border-gray-600');
         firstThumbnail.classList.add('border-blue-700');
     </script>
-    @vite('resources/js/dark-mode.js')
-    @vite('resources/js/productos.js')
-    @vite('resources/js/carrito.js')
-    @vite('resources/js/notificaciones.js')
-</body>
-
-</html>
+    @vite('resources/js/productos/carrito.js')
+@endsection

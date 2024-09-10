@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $dates = ['last_seen_at'];
-    
+
     protected $fillable = [
         'name',
         'email',
@@ -27,18 +27,45 @@ class User extends Authenticatable
         'municipio',
         'domicilio'
     ];
-    
+
     public function role()
     {
         return $this->hasOne(Role::class);
     }
     
+    public function paciente()
+    {
+        return self::whereHas('role', function ($query) {
+            $query->where('role_type', 'paciente');
+        })->with('role.roleable')->get();
+    }
+
     public static function fabricantes()
     {
         return self::whereHas('role', function ($query) {
             $query->where('role_type', 'fabricante');
         })->with('role.roleable')->get();
     }
+    
+    public static function doctoresConEspecialidad($especialidadName)
+    {
+        return self::whereHas('role', function ($query) {
+            $query->where('role_type', 'doctor');
+        })
+        ->whereHas('role.roleable', function ($query) use ($especialidadName) {
+            $query->where('especialidad', $especialidadName);
+        })
+        ->with([
+            'role.roleable' => function ($query) {
+                $query->select('id', 'cedula', 'biografia', 'edad', 'genero', 'area', 'especialidad', 'telefono', 'titulacion', 'cod_minsa');
+            }
+        ])
+        ->get();
+    }
+
+    
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todos los libros</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+@section('title', 'Libros')
 
-<body class="bg-white dark:bg-gray-800 mx-auto">
-    @include('Index.nav-bar')
+@section('content')
     <main class="container mx-auto p-4 min-h-full mt-18">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <!-- Heading & Filters -->
@@ -164,13 +156,8 @@
         <div class="mt-4">
             {{ $books->links() }}
         </div>
-    </main>
 
     @include('book.partials.filters');
-    @vite('resources/js/dark-mode.js')
-    @vite('resources/js/libros.js')
-    @vite('resources/js/notificaciones.js')    
-    
-</body>
+    @vite('resources/js/libros.js')   
 
-</html>
+@endsection

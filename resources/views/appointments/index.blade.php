@@ -1,0 +1,49 @@
+
+@extends($layout)
+
+@section('title', 'Citas') 
+
+@section('content')
+    <div class="justify-self-center col-span-4 w-full">
+        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <ul class="flex justify-evenly -mb-px text-sm font-medium text-center" id="default-styled-tab"
+                data-tabs-toggle="#default-styled-tab-content"
+                data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500"
+                data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
+                role="tablist">
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-styled-tab"
+                        data-tabs-target="#styled-profile" type="button" role="tab" aria-controls="profile"
+                        aria-selected="false">citas confirmadas</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button
+                        class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                        id="dashboard-styled-tab" data-tabs-target="#styled-dashboard" type="button" role="tab"
+                        aria-controls="dashboard" aria-selected="false">Citas pedientes</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button
+                        class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                        id="settings-styled-tab" data-tabs-target="#styled-settings" type="button" role="tab"
+                        aria-controls="settings" aria-selected="false">Historial de citas</button>
+                </li>
+            </ul>
+        </div>
+        <div id="default-styled-tab-content">
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-profile" role="tabpanel"
+                aria-labelledby="profile-tab">
+                @include('appointments.tables.confirmed-appointments')
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-dashboard" role="tabpanel"
+                aria-labelledby="dashboard-tab">
+                @include('appointments.tables.pending-appointments')
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="styled-settings" role="tabpanel"
+                aria-labelledby="settings-tab">
+                @include('appointments.tables.old-appointments')
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+@endsection

@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('cancelled_appointments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('justification')->nullable();
-
             //doctor
             $table->unsignedBigInteger('cancelled_by');
-            $table->foreign('cancelled_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('cancelled_by')->references('id')->on('doctor')->onDelete('cascade');
             
             $table->unsignedBigInteger('appointment_id');
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');

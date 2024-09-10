@@ -41,6 +41,9 @@ class LoginController extends Controller
     
                 case 'administrador':
                     return '/Administracion';
+                
+                case 'doctor':
+                    return '/Doctorboard';
     
                 default:
                     return '/'; // Redirección por defecto para roles desconocidos

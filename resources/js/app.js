@@ -1,3 +1,3 @@
 import './bootstrap';
 import 'flowbite';
-import 'apexcharts';
+import ApexCharts from 'apexcharts'

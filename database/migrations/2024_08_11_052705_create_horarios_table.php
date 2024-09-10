@@ -22,8 +22,8 @@ return new class extends Migration
             $table->time('afternoon_start');
             $table->time('afternoon_end');
             //llave foranea con la relacion a la tabla de usuarios
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('doctor_id');
+            $table->foreign('doctor_id')->references('id')->on('doctor');
             $table->timestamps();
         });
     }

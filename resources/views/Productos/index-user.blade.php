@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+@section('title', 'Productos ')
 
-<body class="bg-white dark:bg-gray-800 mx-auto">
-    @include('Index.nav-bar')
-    <main class="container mx-auto p-4 min-h-full mt-18">
+@section('content')
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <!-- Heading & Filters -->
             <div class="mb-4 items-center justify-between space-y-4 md:flex sm:space-y-0 gap-y-4 md:mb-8">
@@ -199,15 +190,11 @@
         <div class="mt-4">
             {{ $productos->links() }}
         </div>
-    </main>
     
     @include('Productos.partials.cart')
-    @include('Productos.partials.filters');
+    @include('Productos.partials.filters')
+    
+    @vite('resources/js/productos/productos.js')
+    @vite('resources/js/productos/carrito.js')
 
-    @vite('resources/js/dark-mode.js')
-    @vite('resources/js/productos.js')
-    @vite('resources/js/carrito.js')
-    @vite('resources/js/notificaciones.js')
-</body>
-
-</html>
+@endsection

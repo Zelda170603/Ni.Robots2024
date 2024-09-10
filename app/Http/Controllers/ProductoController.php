@@ -72,7 +72,6 @@ class ProductoController extends Controller
     public function index_admin(Request $request)
     {
         $productos = session()->get('productos');
-        $productos->take(5);
 
         if (!$productos) {
             $query = Producto::query();

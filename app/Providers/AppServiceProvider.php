@@ -8,6 +8,9 @@ use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Logout;
 use App\Listeners\UpdateUserStatusOnLogin;
 use App\Listeners\UpdateUserStatusOnLogout;
+use App\Interfaces\HorarioServiceInterface;
+use App\Services\HorarioService;
+use Illuminate\Support\ServiceProvide;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        
+        $this->app->bind(HorarioServiceInterface::class, HorarioService::class);
     }
 
     /**

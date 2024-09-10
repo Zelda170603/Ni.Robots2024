@@ -25,7 +25,13 @@ class DatabaseSeeder extends Seeder
         //$this->call(CalificacionProdSeeder::class);
         //$this->call(CalificacionBookSeeder::class);
         //$this->call(municipios_departamentosSeeder::class);
-        $this->call(ProductoSeeder::class);
+        //$this->call(ProductoSeeder::class);
+        //$this->call(PacienteSeeder::class);
+        $this->call(DoctorSeeder::class);
+        //$this->call(SpecialtiesTableSeeder::class);
+        //$this->call(HorarioTableSeeder::class);
+        //$this->call(AppointmentsTablesSeeder::class);
+        //$this->call(CategoriasTiposAfectacionesSeeder::class);
         //$this->call(bookseeder::class);
         //$this->call(UsersTableSeeder::class);
         //$this->call(FabricanteSeeder::class);

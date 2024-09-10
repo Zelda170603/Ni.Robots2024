@@ -21,6 +21,10 @@ class Role extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function paciente(){
+        return $this->belongsTo(Paciente::class,  'roleable_id');
+    }
+
     public function roleable()
     {
         return $this->morphTo();

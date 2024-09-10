@@ -11,4 +11,8 @@ class AdministracionController extends Controller
     {
         return view('Administracion.index');
     }
+
+    public function doctor(){
+        return view('Administracion.Doctor.index');
+    }
 }
