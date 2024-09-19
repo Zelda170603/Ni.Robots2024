@@ -118,17 +118,25 @@
 
                 <div>
                     <label for="tipo_afectacion" class="block text-sm font-medium text-gray-700">Tipo de afectación</label>
-                    <input type="text" name="tipo_afectacion" id="tipo_afectacion"
-                        value="{{ old('tipo_afectacion', $user->paciente->tipo_afectacion) }}"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    <select id="tipo_afectacion" name="tipo_afectacion"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('municipio') ring-red-500 @enderror"
+                            required>
+                            <option value="">selecciona tu tipo de afectacion</option>
+        
+                            <!-- Opciones -->
+                    </select>
+                    
                 </div>
 
                 <div>
                     <label for="nivel_afectacion" class="block text-sm font-medium text-gray-700">Nivel de
                         afectación</label>
-                    <input type="text" name="nivel_afectacion" id="nivel_afectacion"
-                        value="{{ old('nivel_afectacion', $user->paciente->nivel_afectacion) }}"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <select id="nivel_afectacion" name="nivel_afectacion"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('municipio') ring-red-500 @enderror"
+                        required>
+                        <option value="">selecciona tu nivel de afectacion</option>
+                        <!-- Opciones -->
+                    </select>
                 </div>
             </div>
         @endif
