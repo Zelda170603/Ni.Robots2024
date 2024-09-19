@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.adminLY')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Crear Nuevo Producto</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="bg-white dark:bg-gray-800 mx-auto">
-    @include('Administracion.nav-bar')
-    <main class="p-4 sm:ml-64 mt-14">
-        <div class="rounded-lg overflow-hidden">
+@section('content')
+        <div class="rounded-lg overflow-hidden col-span-4">
             <div class="text-slate-900 dark:text-white p-4">
                 <h1 class="text-2xl font-bold">Crear Nuevo Producto</h1>
             </div>
@@ -203,7 +192,6 @@
                 </form>
             </div>
         </div>
-    </main>
     <script>
         function handleFileUpload(input) {
             if (input.files && input.files.length > 0) {
@@ -219,8 +207,4 @@
         }
     </script>
     @vite('resources/js/resources/Cargas_Tipos_niveles_Afectacion.js');
-    @vite('resources/js/dark-mode.js')
-    @vite('resources/js/notificaciones.js')
-</body>
-
-</html>
+@endsection

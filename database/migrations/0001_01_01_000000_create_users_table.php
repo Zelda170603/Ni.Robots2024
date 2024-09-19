@@ -27,6 +27,9 @@ return new class extends Migration
             $table->timestamp('last_seen_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->rememberToken();
             $table->timestamps();
+            // Agregar índices aquí
+            $table->index('name');  // Índice simple para 'departamento'
+            $table->index('email');     // Índice simple para 'municipio'
         });
 
 

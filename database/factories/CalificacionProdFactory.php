@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CalificacionProd;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Models\Producto;
@@ -14,8 +15,9 @@ class CalificacionProdFactory extends Factory
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     
      */
+    protected $model = CalificacionProd::class;
     public function definition(): array
     {
         // Obtener todos los usuarios y productos

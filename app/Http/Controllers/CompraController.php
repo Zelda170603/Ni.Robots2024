@@ -25,8 +25,8 @@ class CompraController extends Controller
         $this->client = new Client([
             'base_uri' => 'https://api-m.sandbox.paypal.com',
         ]);
-        $this->client_id = env('PAYPAL_CLIENT_ID');
-        $this->client_secret = env('PAYPAL_CLIENT_SECRET');
+        $this->client_id = 'AUqL3cvaCIGDXcwEmA1goqRftEzPvkImUriLAJaHAO7leEhoMt4WqsvpXrF6NMSnPNc6eNiK7OP_Wxy4';
+        $this->client_secret = 'EGoBuxIQZDMVnRF-oCDuAxd5HbHBDXo22scFXf8zontvI5Anh2ZBWg1kz6eYC2QPvqwqUEXWVaZSGf89';
     }
 
     private function getAccessToken()
@@ -84,7 +84,7 @@ class CompraController extends Controller
                     'compra_id' => Str::random(7),
                     'carrito_id' => $carritos->first()->id,
                     'total' => $total,
-                    'status' => 'completada',
+                    'status' => 'pendiente',
                     'paypal_order_id' => $orderId,
                 ]);
 

@@ -38,6 +38,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('id_fabricante')->references('id')->on('fabricantes')
                 ->onDelete('cascade')->onUpdate('cascade');
+
+            $table->index('nombre_prod');
         });
 
         Schema::create('fotos_productos', function (Blueprint $table) {
@@ -46,7 +48,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_producto');
             $table->timestamps();
 
-            // Definir la clave foránea con eliminación en cascada
             $table->foreign('id_producto')
                 ->references('id')->on('productos')
                 ->onDelete('cascade')->onUpdate('cascade');

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Mensajes;
 use App\Models\User;
@@ -15,13 +16,24 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index_admin()
     {
         $users = User::all();
         return view('usuarios.index', compact('users'));
     }
 
-
+    public function index()
+    {
+        $user = Auth::user();
+        // Verifica si el usuario tiene el rol de 'paciente'
+        if ($user->role && $user->role->role_type === 'paciente') {
+            // Trae los datos del paciente relacionados
+            $user = User::with('role.roleable') // Carga la relación morphTo con el modelo Paciente
+                ->where('id', $user->id)
+                ->first();
+        }
+        return view('usuarios.profile', compact('user'));
+    }
 
 
     /**
@@ -87,21 +99,95 @@ class UserController extends Controller
         //
     }
 
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(User $user)
     {
-        //
+        $user = Auth::user();
+        // Verifica si el usuario tiene el rol de 'paciente'
+        if ($user->role && $user->role->role_type === 'paciente') {
+            // Trae los datos del paciente relacionados
+            $user = User::with('role.roleable') // Carga la relación morphTo con el modelo Paciente
+                ->where('id', $user->id)
+                ->first();
+        }
+        // Retornar la vista con el formulario de edición
+        return view('usuarios.settings', compact('user'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, User $user)
     {
-        //
+        // Validar los datos del formulario
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'domicilio' => 'nullable|string|max:255',
+            'departamento' => 'nullable|string|max:255',
+            'municipio' => 'nullable|string|max:255',
+            'profile_picture' => 'nullable|image|max:2048', // Opcional para la foto de perfil
+
+            // Si es paciente, validar también estos campos
+            'biografia' => 'nullable|string|max:1000',
+            'edad' => 'nullable|integer|min:0|max:120',
+            'peso' => 'nullable|numeric|min:0|max:500',
+            'altura' => 'nullable|numeric|min:0|max:300',
+            'genero' => 'nullable|string|in:Masculino,Femenino,Otro',
+            'condicion' => 'nullable|string|max:255',
+            'tipo_afectacion' => 'nullable|string|max:255',
+            'nivel_afectacion' => 'nullable|string|max:255',
+        ]);
+
+        // Actualizar la información básica del usuario
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'domicilio' => $request->domicilio,
+            'departamento' => $request->departamento,
+            'municipio' => $request->municipio,
+        ]);
+
+        // Subir la foto de perfil si existe
+        if ($request->hasFile('profile_picture')) {
+            // Eliminar la foto de perfil antigua si existe
+            if ($user->profile_picture) {
+                $oldImagePath = storage_path('app/public/images/profile_pictures/' . $user->profile_picture);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+            // Guardar la nueva foto de perfil
+            $extension = $request->file('profile_picture')->getClientOriginalExtension();
+            $imageName = time() . '.' . $extension;
+            $request->file('profile_picture')->storeAs('images/profile_pictures', $imageName, 'public');
+            $user->profile_picture = $imageName;
+        }
+
+        // Si el usuario es paciente, actualizar también sus campos
+        if ($user->esPaciente()) {
+            $user->paciente->update([
+                'biografia' => $request->biografia,
+                'edad' => $request->edad,
+                'peso' => $request->peso,
+                'altura' => $request->altura,
+                'genero' => $request->genero,
+                'condicion' => $request->condicion,
+                'tipo_afectacion' => $request->tipo_afectacion,
+                'nivel_afectacion' => $request->nivel_afectacion,
+            ]);
+        }
+        // Guardar los cambios
+        $user->save();
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('edit_profile')->with('success', 'Perfil actualizado exitosamente.');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

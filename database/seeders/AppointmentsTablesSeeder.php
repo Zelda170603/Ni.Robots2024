@@ -14,7 +14,7 @@ class AppointmentsTablesSeeder extends Seeder
     public function run(): void
     {
         Appointment::factory()
-            ->count(300)
+            ->count(10)
             ->create();
     }
 }

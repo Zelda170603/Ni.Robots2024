@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('categorias_afectaciones');
         Schema::dropIfExists('tipos_afectaciones'); 
+        Schema::dropIfExists('categorias_afectaciones'); 
          // Crear tabla para las categorías
         Schema::create('categorias_afectaciones', function (Blueprint $table) {
             $table->id();
@@ -35,8 +35,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
-        Schema::dropIfExists('categorias_afectaciones');
         Schema::dropIfExists('tipos_afectaciones'); 
+        Schema::dropIfExists('categorias_afectaciones');
     }
 };

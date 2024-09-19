@@ -23,6 +23,9 @@ return new class extends Migration
             $table->foreign('id_prod')->references('id')->on('productos')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+
+            $table->index('id_cal');
+            $table->index('id_user');
         });
     }
 

@@ -14,6 +14,7 @@
 
     @include('Index.nav-bar')
     <main class="flex h-screen overflow-hidden pt-14 ">
+        
         <!-- user list section -->
         <section
             class=" bg-inherit px-4 pt-4  lg:w-80 w-full  lg:border-r border-r-slate-200 dark:border-r-slate-500 flex flex-col h-screen">

@@ -33,12 +33,17 @@ class User extends Authenticatable
         return $this->hasOne(Role::class);
     }
     
+    public function esPaciente()
+    {
+        return $this->role && $this->role->role_type === 'paciente';
+    }
+
     public function paciente()
     {
-        return self::whereHas('role', function ($query) {
-            $query->where('role_type', 'paciente');
-        })->with('role.roleable')->get();
+        return $this->hasOneThrough(Paciente::class, Role::class, 'user_id', 'id', 'id', 'roleable_id')
+            ->where('roles.roleable_type', Paciente::class);
     }
+
 
     public static function fabricantes()
     {
@@ -46,24 +51,24 @@ class User extends Authenticatable
             $query->where('role_type', 'fabricante');
         })->with('role.roleable')->get();
     }
-    
+
     public static function doctoresConEspecialidad($especialidadName)
     {
         return self::whereHas('role', function ($query) {
             $query->where('role_type', 'doctor');
         })
-        ->whereHas('role.roleable', function ($query) use ($especialidadName) {
-            $query->where('especialidad', $especialidadName);
-        })
-        ->with([
-            'role.roleable' => function ($query) {
-                $query->select('id', 'cedula', 'biografia', 'edad', 'genero', 'area', 'especialidad', 'telefono', 'titulacion', 'cod_minsa');
-            }
-        ])
-        ->get();
+            ->whereHas('role.roleable', function ($query) use ($especialidadName) {
+                $query->where('especialidad', $especialidadName);
+            })
+            ->with([
+                'role.roleable' => function ($query) {
+                    $query->select('id', 'cedula', 'biografia', 'edad', 'genero', 'area', 'especialidad', 'telefono', 'titulacion', 'cod_minsa');
+                }
+            ])
+            ->get();
     }
 
-    
+
 
 
     /**

@@ -24,6 +24,10 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->enum('tipo', ['Minsa', 'Psicologia',  'Terapia', 'Otros'])->default('Minsa');
             $table->timestamps();
+
+
+            $table->index('id');
+            $table->index('nombre');
         });
         Schema::create('fotos_centro_atencion', function (Blueprint $table) {
             $table->id();

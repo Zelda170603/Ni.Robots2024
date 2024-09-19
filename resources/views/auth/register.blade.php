@@ -9,11 +9,10 @@
                 <div class="sm:mx-auto sm:w-full sm:max-w-md">
                     <h2
                         class="mt-6 text-start text-3xl font-extrabold leading-9 tracking-tight text-opacity-100  bg-gradient-to-tr from-blue-300 dark: via-teal-300 to-blue-600 bg-clip-text text-transparent">
-                        Bienvenido de nuevo, inicia sesion con tu cuenta</h2>
+                        Introduce tus datos para ser parte de Ni.robots</h2>
                 </div>
-                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" class="space-y-6 pt-4">
+                <form method="POST" id="registerForm" action="{{ route('register') }}" enctype="multipart/form-data" class="space-y-6 pt-4">
                     @csrf
-
                     <div>
                         <label for="name"
                             class="block text-sm font-bold leading-6 text-blue-300">{{ __('Name') }}</label>
@@ -158,11 +157,19 @@
                             {{ __('Register') }}
                         </button>
                     </div>
+                    <div>
+                        <a href="{{route('register_patient')}}" type="button" 
+                            class="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                            para mejores beneficios puedes registrarte como Paciente
+                        </a>
+                    </div>
+                    
+                    
+                    
                 </form>
 
             </div>
         </div>
-    </div>
-
+    </div>    
     @vite('resources/js/resources/Cargar_ciudades_departamentos.js')
 @endsection

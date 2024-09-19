@@ -13,14 +13,21 @@
 
 <body class="bg-gray-50 dark:bg-gray-800">
     @include('Administracion.nav-bar')
-    
-    @if (auth()->user()->role->role_type == 'admin')
-        @include('components.aside-admin')
-    @elseif(auth()->user()->role->role_type == 'doctor')
-      @include('components.aside-doctor')
-    @endif
 
-    @include('components.aside-doctor')
+    @switch(auth()->user()->role->role_type)
+        @case('fabricante')
+            @include('components.aside-fabricante')
+        @break
+
+        @case('admin')
+            @include('components.aside-admin')
+        @break
+
+        @case('doctor')
+            @include('components.aside-doctor')
+        @break
+        @default
+    @endswitch
     <div class="lg:pl-64 pt-20">
         <main class="grid gap-4 xl:grid-cols-4 px-4 2xl:grid-cols-3">
             @yield('content')
@@ -28,7 +35,7 @@
         @include('components.footer-admin')
 
         <p class="my-10 text-sm text-center text-gray-500">
-            &copy; 2019-2023 <a href="https://flowbite.com/" class="hover:underline" target="_blank">Flowbite.com</a>.
+            &copy; 2023-202 <a href="/" class="hover:underline" target="_blank">Ni.Robots.com</a>.
             All rights reserved.
         </p>
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdministracionController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Doctor\HorarioController;
@@ -24,8 +25,10 @@ use Illuminate\Support\Facades\Auth;
 // Rutas principales
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-route::get('/Doctorboard', [AdministracionController::class, "doctor"])->middleware('doctor');
-Route::get('Administracion', [ProductoController::class, "index_admin"])->middleware('admin');
+Route::get('/atencion_medica', [HomeController::class, 'atencion_medica'])->name('atencion_medica');
+route::get('/Administracion/doctor/index', [AdministracionController::class, "doctor"])->middleware('doctor');
+route::get('/Administracion/fabricante/index', [AdministracionController::class, "fabricante"])->middleware('fabricante');
+Route::get('/Administracion', [ProductoController::class, "index_admin"])->middleware('admin');
 
 // Rutas de notificaciones
 Route::middleware('auth')->controller(NotificationController::class)->group(function () {
@@ -39,31 +42,49 @@ Route::middleware('auth')->controller(NotificationController::class)->group(func
 
 
 // Rutas de productos
-
 Route::controller(ProductoController::class)->group(function () {
-    Route::middleware('auth')->group(function () {
-        Route::get('Administracion/productos', 'index_admin')->name('productos.index-admin');
-        Route::get('Administracion/productos/create', 'create')->name('productos.create');
-        Route::post('Administracion/productos', 'store')->name('productos.store');
-        Route::get('Administracion/productos/{producto}/edit', 'edit')->name('productos.edit');
-        Route::put('Administracion/productos/{producto}', 'update')->name('productos.update');
-        Route::delete('Administracion/productos/{producto}', 'destroy')->name('productos.destroy');
+    Route::middleware('fabricante')->group(function(){
+        Route::get('Administracion/fabricante/productos/create', 'create')->name('productos.create');
+        Route::post('Administracion/fabricante/productos', 'store')->name('productos.store');
+        Route::get('Administracion/fabricante/productos/{producto}/edit', 'edit')->name('productos.edit');
+        Route::put('Administracion/fabricante/productos/{producto}', 'update')->name('productos.update');
+        Route::delete('Administracion/fabricante/productos/{producto}', 'destroy')->name('productos.destroy');
     });
-    Route::get('/productos', 'index')->name('productos.index');
-    Route::post('/productos/searchByName', 'searchByName')->name('productos.searchByName');
-    Route::get('/productos/{producto}', 'show')->name('productos.show');
-   
     // Subgrupo con middleware 'auth'
     Route::middleware('auth')->group(function () {
         Route::post('productos/rate', 'rate_prod')->name('productos.rate_prod');
     });
+    // Subgrupo sin middleware'
+    Route::get('/productos', 'index')->name('productos.index');
+    Route::post('/productos/searchByName', 'searchByName')->name('productos.searchByName');
+    Route::get('/productos/{producto}', 'show')->name('productos.show');
 });
+
+Route::controller(UserController::class)->group(function(){
+    Route::middleware('auth')->group(function(){
+        Route::get('/perfil', 'index')->name('user_perfil');
+        Route::get('/perfil/configuracion', 'edit')->name('edit_profile');
+        Route::put('/perfil/configuracion', 'update')->name('update_profile');
+    });
+    
+    Route::get('Administracion/usuarios', 'index_admin')->middleware('auth')->name("get_users");
+});
+
+// Rutas de fabricantes
+Route::controller(FabricanteController::class)->group(function () {
+    Route::get('Administracion/fabricante/productos', 'get_products');
+    Route::get('/Administracion/fabricante/productos/compras', "showAllOrders")->name('showOrders');
+    Route::get('/Administracion/fabricante/productos/compras_pendientes', "showPendingOrders")->name('showPendingOrders');
+    Route::get('/Administracion/fabricante/productos/compras_canceladas', "showCancellOrders")->name('showCancellOrders');
+    Route::get('/Administracion/fabricante/productos/compras_completadas', "showCompletedOrders")->name('showCompletedOrders');
+});
+
 
 // Rutas de compras
 Route::middleware('auth')->controller(CompraController::class)->group(function () {
     Route::get('/compra/process/{orderId}', 'process')->name('payment.process');
     Route::get('producto/pago', 'pago')->name("productos.pago");
-    Route::get('/compra', 'show');
+    Route::get('/compras', 'show')->name('mis_compras');
 });
 
 // Rutas de carrito
@@ -103,13 +124,6 @@ Route::controller(ResourcesController::class)->group(function () {
 });
 
 
-// Rutas de fabricantes
-Route::resource('fabricantes', FabricanteController::class);
-Route::get('Administracion/productos', [FabricanteController::class, 'get_products']);
-Route::get('Administracion/productos/compras', [FabricanteController::class, "showPendingOrders"]);
-
-Route::get('Administracion/Libros/create', [BookController::class, 'create'])->name('books.create');
-Route::get('Administracion/Libros', [BookController::class, 'index_admin'])->name('books.index_admin');
 
 
 Route::controller(BookController::class)->group(function () {
@@ -124,7 +138,7 @@ Route::controller(BookController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::post('books/rate', 'rate_book')->name('books.rate_book');
     });
-   
+
     Route::post('books/searchByName', 'searchByName')->name('books.searchByName');
     Route::get('books', 'index')->name('books.index');            // Lista todos los libros
     Route::get('books/{book}', 'show')->name('books.show');       // Muestra un libro específico
@@ -132,16 +146,17 @@ Route::controller(BookController::class)->group(function () {
 
 Route::resource('Administracion/autores', AutoreController::class);
 Route::resource('Administracion/editoriales', EditorialeController::class);
-Route::resource('Administracion/usuarios', UserController::class);
+
 
 // Autenticación
 Auth::routes();
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get("register/patient", [RegisterController::class, "register_patient"])->name("register_patient");
+Route::post("register/patient", [RegisterController::class, "create_patient"])->name("create_patient");
 
 
 Route::middleware('admin')->group(function () {
     // Rutas Especialidades
-    Route::controller(SpecialtyController::class)->group(function() {
+    Route::controller(SpecialtyController::class)->group(function () {
         Route::get('/especialidades', 'index');
         Route::get('/especialidades/create', 'create');
         Route::get('/especialidades/{specialty}/edit', 'edit');
@@ -156,7 +171,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('pacientes', 'App\Http\Controllers\Admin\PatientController');
 
     // Rutas Reportes
-    Route::controller(ChartController::class)->group(function() {
+    Route::controller(ChartController::class)->group(function () {
         Route::get('/reportes/citas/line', 'appointments');
         Route::get('/reportes/doctors/column', 'doctors');
         Route::get('/reportes/doctors/column/data', 'doctorsJson');
@@ -164,15 +179,16 @@ Route::middleware('admin')->group(function () {
 });
 
 
-
 Route::middleware('doctor')->controller(HorarioController::class)->group(function () {
     Route::get('/horario', 'edit');
     Route::post('/horario', 'store');
 });
 
-Route::middleware('auth')->group(function() {
+
+
+Route::middleware('auth')->group(function () {
     // Rutas de Citas
-    Route::controller(AppointmentController::class)->group(function() {
+    Route::controller(AppointmentController::class)->group(function () {
         Route::get('/reservarcitas/create', 'create');
         Route::post('/reservarcitas', 'store');
         Route::get('/miscitas', 'index');
@@ -183,19 +199,13 @@ Route::middleware('auth')->group(function() {
     });
 
     // JSON Endpoints
-    Route::controller(App\Http\Controllers\Api\SpecialtyController::class)->group(function() {
+    Route::controller(App\Http\Controllers\Api\SpecialtyController::class)->group(function () {
         Route::get('/especialidades/{specialty}/medicos', 'doctors');
     });
 
-    Route::controller(App\Http\Controllers\Api\HorarioController::class)->group(function() {
+    Route::controller(App\Http\Controllers\Api\HorarioController::class)->group(function () {
         Route::get('/horario/horas', 'hours');
     });
 
-    // Perfil de usuario
-    Route::controller(App\Http\Controllers\UserController::class)->group(function() {
-        Route::get('/profile', 'edit');
-        Route::post('/profile', 'update');
-    });
+    
 });
-
-

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('justification')->nullable();
             //doctor
-            $table->unsignedBigInteger('cancelled_by');
-            $table->foreign('cancelled_by')->references('id')->on('doctor')->onDelete('cascade');
+            $table->unsignedBigInteger('cancelled_by_id');
+            $table->foreign('cancelled_by_id')->references('id')->on('doctor')->onDelete('cascade');
             
             $table->unsignedBigInteger('appointment_id');
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');

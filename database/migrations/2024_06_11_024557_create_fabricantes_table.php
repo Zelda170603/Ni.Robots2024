@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('google_map_direction',300);
             $table->bigInteger('telefono');
             $table->timestamps();
+            $table->index('nombre');
+            $table->index('id');
         });
     }
 

@@ -23,7 +23,7 @@ class HorarioTableSeeder extends Seeder
                 'afternoon_start'=> ($i==0 ? '15:00:00' : '14:00:00'),
                 'afternoon_end'=> ($i==0 ? '17:00:00' : '14:00:00'),
                 //llave foranea con la relacion a la tabla de usuarios
-                'user_id' => 3
+                'doctor_id' => 3
             ]);
         }
     }

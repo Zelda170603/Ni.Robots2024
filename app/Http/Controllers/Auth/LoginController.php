@@ -37,13 +37,14 @@ class LoginController extends Controller
     
             switch ($role) {
                 case 'fabricante':
-                    return '/Administracion/productos';
+                    return '/Administracion/fabricante/index
+                    ';
     
                 case 'administrador':
                     return '/Administracion';
                 
                 case 'doctor':
-                    return '/Doctorboard';
+                    return '/Administracion/doctor/index';
     
                 default:
                     return '/'; // Redirección por defecto para roles desconocidos

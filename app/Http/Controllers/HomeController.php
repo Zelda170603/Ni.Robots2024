@@ -25,4 +25,8 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function atencion_medica() {
+        return view("atencion_medica");
+    }
 }

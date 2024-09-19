@@ -6,6 +6,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Auth\User;
 use App\Models\Book;
+use App\Models\CalificacionBook;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CalificacionBook>
@@ -17,6 +18,7 @@ class CalificacionBookFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = CalificacionBook::class;
     public function definition(): array
     {
         // Obtener todos los usuarios y productos

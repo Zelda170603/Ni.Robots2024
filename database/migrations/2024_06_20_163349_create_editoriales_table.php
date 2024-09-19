@@ -21,6 +21,7 @@ class CreateEditorialesTable extends Migration
             $table->string('correo_electronico');
             $table->string('sitio_web');
             $table->timestamps();
+            $table->index('nombre');
         });
     }
 

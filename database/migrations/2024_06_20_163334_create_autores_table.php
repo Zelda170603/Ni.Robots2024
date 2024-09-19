@@ -22,6 +22,7 @@ class CreateAutoresTable extends Migration
             $table->string('nacionalidad'); // Nationality
             $table->text('biografia'); // Biography
             $table->timestamps();
+            $table->index('nombre');
         });
     }
 

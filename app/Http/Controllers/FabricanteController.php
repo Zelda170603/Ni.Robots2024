@@ -26,9 +26,10 @@ class FabricanteController extends Controller
      */
     public function index()
     {
-        $fabricantes = Fabricante::paginate(1);
+        $fabricantes = Fabricante::paginate(10);
         return view('fabricantes.index', compact('fabricantes'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -76,7 +77,7 @@ class FabricanteController extends Controller
 
         // Crear un nuevo registro de Fabricante
         $fabricante = Fabricante::create($validated);
-        
+
         $user = User::create([
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
@@ -93,21 +94,79 @@ class FabricanteController extends Controller
         return redirect()->route('fabricantes.create')->with('success', 'Fabricante creado exitosamente');
     }
 
-    public function showPendingOrders()
+    public function showAllOrders()
     {
         // Obtener el ID del fabricante
         $fabricante = Auth::user()->role->roleable;
         $fabricanteId = $fabricante->id;
 
         // Obtener todos los datos de los productos de compra para el fabricante
-        $comprasPendientes = Compra_Producto::where('fabricante_id', $fabricanteId)
+        $compras = Compra_Producto::where('fabricante_id', $fabricanteId)
             ->with('compra', 'producto') // Cargar la relación con Compra y Producto
             ->get()
             ->groupBy('compra_id'); // Agrupar por ID de compra
 
         // Pasar los datos a la vista
-        return view('fabricantes.compras', compact('comprasPendientes'));
+        return view('Administracion.Fabricante.compras', compact('compras'));
     }
+
+    public function showPendingOrders()
+    {
+        // Obtener el ID del fabricante
+        $fabricante = Auth::user()->role->roleable;
+        $fabricanteId = $fabricante->id;
+
+        // Obtener todas las compras pendientes para el fabricante
+        $comprasPendientes = Compra_Producto::where('fabricante_id', $fabricanteId)
+            ->whereHas('compra', function ($query) {
+                $query->where('status', 'pendiente'); // Filtrar solo compras pendientes
+            })
+            ->with('compra', 'producto') // Cargar la relación con Compra y Producto
+            ->get()
+            ->groupBy('compra_id'); // Agrupar por ID de compra
+
+        // Pasar los datos a la vista
+        return view('Administracion.Fabricante.compras-pendientes', ['comprasPendientes' => $comprasPendientes]);
+    }
+
+    public function showCancellOrders()
+    {
+        // Obtener el ID del fabricante
+        $fabricante = Auth::user()->role->roleable;
+        $fabricanteId = $fabricante->id;
+
+        // Obtener todas las compras pendientes para el fabricante
+        $comprasCanceladas = Compra_Producto::where('fabricante_id', $fabricanteId)
+            ->whereHas('compra', function ($query) {
+                $query->where('status', 'cancelada'); // Filtrar solo compras canceladas
+            })
+            ->with('compra', 'producto') // Cargar la relación con Compra y Producto
+            ->get()
+            ->groupBy('compra_id'); // Agrupar por ID de compra
+
+        // Pasar los datos a la vista
+        return view('Administracion.Fabricante.compras-canceladas', ['comprasCanceladas' => $comprasCanceladas]);
+    }
+
+    public function showCompletedOrders()
+    {
+        // Obtener el ID del fabricante
+        $fabricante = Auth::user()->role->roleable;
+        $fabricanteId = $fabricante->id;
+
+        // Obtener todas las compras pendientes para el fabricante
+        $comprascompletadas = Compra_Producto::where('fabricante_id', $fabricanteId)
+            ->whereHas('compra', function ($query) {
+                $query->where('status', 'completada'); // Filtrar solo compras completadas
+            })
+            ->with('compra', 'producto') // Cargar la relación con Compra y Producto
+            ->get()
+            ->groupBy('compra_id'); // Agrupar por ID de compra
+
+        // Pasar los datos a la vista
+        return view('Administracion.Fabricante.compras-completadas', ['comprasCompletadas' => $comprascompletadas]);
+    }
+
     /**
      * Display the specified resource.
      */
@@ -170,10 +229,10 @@ class FabricanteController extends Controller
         return redirect()->route('fabricantes.index')->with('success', 'Fabricante eliminado con éxito.');
     }
 
-    public function get_products(){
+    public function get_products()
+    {
         $fabricante = Fabricante::find(Auth::id());
         $productos = Producto::where('id_fabricante', $fabricante->id)->paginate(15);
         return view("Administracion.Fabricante.productos")->with('productos', $productos);
     }
-    
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Paciente extends Model
 {
     use HasFactory;
-    protected $table = 'paciente';
+    protected $table = 'pacientes';
 
     protected $fillable = [
         'cedula',
@@ -21,7 +21,6 @@ class Paciente extends Model
         'tipo_afectacion',
         'nivel_afectacion',
     ];
-
     public function role()
     {
         return $this->morphOne(Role::class, 'roleable');

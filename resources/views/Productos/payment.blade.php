@@ -3,7 +3,7 @@
 @section('title', 'Productos | pago')
 
 @section('content')
-    <div class="mx-auto max-w-5xl">
+    <div class="mx-auto max-w-5xl col-span-4">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Metodos de Pago</h2>
         <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
             <div class="w-full lg:max-w-lg ">
@@ -115,7 +115,7 @@
 
                 <!-- Script de PayPal -->
                 <script
-                    src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID') }}&components=buttons,funding-eligibility">
+                    src="https://www.paypal.com/sdk/js?client-id=AUqL3cvaCIGDXcwEmA1goqRftEzPvkImUriLAJaHAO7leEhoMt4WqsvpXrF6NMSnPNc6eNiK7OP_Wxy4&components=buttons,funding-eligibility">
                 </script>
             </div>
             <div class="mt-6 grow flex flex-col gap-2 sm:mt-8 lg:mt-0">
@@ -248,12 +248,12 @@
         </div>
 
         <p class="mt-6 text-center text-gray-500 dark:text-gray-400 sm:mt-8 lg:text-left">
-            Payment processed by <a href="#" title=""
-                class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Paddle</a>
+            Payment processed by <a href="/" title=""
+                class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Paypal</a>
             for <a href="#" title=""
-                class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Flowbite
+                class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Ni.Robots
                 LLC</a>
-            - United States Of America
+            - Republica de Nicaragua
         </p>
     </div>
 
@@ -263,7 +263,7 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: '100' // Asegúrate de que este valor sea una cadena
+                            value: {{$total}} // Asegúrate de que este valor sea una cadena
                         }
                     }],
                 });

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 255);
             $table->timestamps();
+            $table->index('nombre');
         });
 
         Schema::create('municipios', function (Blueprint $table) {
@@ -22,8 +23,8 @@ return new class extends Migration
             $table->unsignedBigInteger('departamento_id');
             $table->string('nombre', 255);
             $table->timestamps();
-
             $table->foreign('departamento_id')->references('id')->on('departamentos');
+            $table->index('nombre');
         });
     }
 

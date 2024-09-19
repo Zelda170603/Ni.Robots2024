@@ -29,6 +29,8 @@ class CreateBooksTable extends Migration
             $table->timestamps(); // Timestamps para created_at y updated_at
             $table->foreign('autor_id')->references('id')->on('autores')->onDelete('cascade');
             $table->foreign('editorial_id')->references('id')->on('editoriales')->onDelete('cascade');
+
+            $table->index("title");
         });
     }
 
