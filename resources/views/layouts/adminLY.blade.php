@@ -19,7 +19,7 @@
             @include('components.aside-fabricante')
         @break
 
-        @case('admin')
+        @case('administrador')
             @include('components.aside-admin')
         @break
 
@@ -42,6 +42,19 @@
 
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/datepicker.min.js"></script>
+    <script>
+        document.getElementById('toggleSidebarMobile').addEventListener('click', function() {
+            // Alternar la visibilidad del sidebar
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+    
+            // Alternar los iconos de hamburguesa y cerrar
+            var hamburgerIcon = document.getElementById('toggleSidebarMobileHamburger');
+            var closeIcon = document.getElementById('toggleSidebarMobileClose');
+            hamburgerIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    </script>
 </body>
 
 </html>

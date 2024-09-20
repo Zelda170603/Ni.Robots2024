@@ -17,6 +17,7 @@ class PacienteSeeder extends Seeder
      */
     public function run(): void
     {
+        /* 
         // Generar 10 usuarios y asociarlos con pacientes aleatorios
         User::factory()
             ->count(10)
@@ -33,11 +34,11 @@ class PacienteSeeder extends Seeder
                     'roleable_type' => Paciente::class,
                 ]);
             });
-
+*/
         // Crear un paciente con datos personalizados
         $customUser = User::create([
-            'name' => 'Jose Marcos',
-            'email' => 'josemarcos@gmail.com',
+            'name' => 'Maria Daniela',
+            'email' => 'daniela@gmail.com',
             'departamento' => 'Granada',
             'municipio' => 'Granada',
             'domicilio' => 'Avenida Central, Granada',

@@ -50,7 +50,7 @@ class DoctorSeeder extends Seeder
             'edad' => 45,
             'genero' => 'masculino',
             'area' => 'Cirugía',
-            'especialidad' => 'Cirujano',  // Puede coincidir con alguna especialidad
+            'especialidad' => 'Cardiologia',  // Puede coincidir con alguna especialidad
             'telefono' => '88888888',
             'titulacion' => 'Doctor en Medicina',
             'cod_minsa' => 'XYZ123',

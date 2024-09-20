@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 use App\Models\Specialty;
 
 class DoctorController extends Controller
@@ -17,6 +18,39 @@ class DoctorController extends Controller
         $doctors = User::doctors()->paginate(10);
         return view('doctors.index', compact('doctors'));
     }
+
+    public function index_user()
+    {
+        $doctors = User::whereHas('role', function ($query) {
+            $query->where('role_type', 'doctor');
+        })->with('doctor')->paginate(12);
+
+        return view('doctores.index_user', compact("doctors"));
+    }
+
+    public function searchByName(Request $request)
+    {
+        try {
+            $searchTerm = $request->input('searchTerm');
+
+            $doctores = User::whereHas('role', function ($query) {
+                $query->where('role_type', 'doctor');
+            })->with('doctor')->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhereHas('doctor', function ($query) use ($searchTerm) {
+                        $query->where('especialidad', 'LIKE', '%' . $searchTerm . '%');
+                    });
+            })
+                ->get();
+
+            $html = View::make('doctores.partials.search_result', ['doctores' => $doctores])->render();
+            return response()->json(['html' => $html]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while searching for doctors: ' . $e->getMessage()], 500);
+        }
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -32,7 +66,7 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        
+
 
         $rules = [
             'name' => 'required|min:3',
@@ -54,43 +88,40 @@ class DoctorController extends Controller
 
         $this->validate($request, $rules, $messages);
         /**
-        * creammos un arreglo asosiativo, la informacion del rquest
+         * creammos un arreglo asosiativo, la informacion del rquest
          */
-        $user= User :: create(
-            $request->only('name','email','cedula','address','phone')
-            +[
-                'role' => 'doctor',
-                'password' => bcrypt($request->input('password'))
-            ]
+        $user = User::create(
+            $request->only('name', 'email', 'cedula', 'address', 'phone')
+                + [
+                    'role' => 'doctor',
+                    'password' => bcrypt($request->input('password'))
+                ]
         );
 
         $user->specialties()->attach($request->input('specialties'));
-    /**
-     * al crear al usuario retornaremos a la pagina de los medicos
-     */
-    $notification= 'El medico se ha creado exitosamente.';
+        /**
+         * al crear al usuario retornaremos a la pagina de los medicos
+         */
+        $notification = 'El medico se ha creado exitosamente.';
 
-    return redirect('/medicos')->with(compact('notification'));
+        return redirect('/medicos')->with(compact('notification'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show() {}
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        $doctor= User::doctors()->findOrFail($id);
+        $doctor = User::doctors()->findOrFail($id);
         $specialties = Specialty::all();
 
-        $specialties_ids= $doctor->specialties()->pluck('specialties.id');
-        return view('doctors.edit', compact('doctor','specialties','specialties_ids'));
+        $specialties_ids = $doctor->specialties()->pluck('specialties.id');
+        return view('doctors.edit', compact('doctor', 'specialties', 'specialties_ids'));
     }
 
     /**
@@ -119,23 +150,23 @@ class DoctorController extends Controller
         $this->validate($request, $rules, $messages);
         $user = User::doctors()->findOrFail($id);
 
-        $data = $request->only('name','email','cedula','address','phone');
+        $data = $request->only('name', 'email', 'cedula', 'address', 'phone');
         $password = $request->input('password');
-        
-        if($password)
+
+        if ($password)
             $data['password'] = bcrypt($password);
         $user->fill($data);
         $user->save();
         $user->specialties()->sync($request->input('specialties'));
-        
-    /**
-     * al crear al usuario retornaremos a la pagina de los medicos
-     */
-    $notification= 'El información del medico se ha actualizado exitosamente.';
-    return redirect('/medicos')->with(compact('notification'));
+
+        /**
+         * al crear al usuario retornaremos a la pagina de los medicos
+         */
+        $notification = 'El información del medico se ha actualizado exitosamente.';
+        return redirect('/medicos')->with(compact('notification'));
     }
 
-    
+
     public function destroy(string $id)
     {
         //para obtener el id del usuario creamos user

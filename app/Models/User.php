@@ -32,7 +32,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Role::class);
     }
-    
+
     public function esPaciente()
     {
         return $this->role && $this->role->role_type === 'paciente';
@@ -43,6 +43,13 @@ class User extends Authenticatable
         return $this->hasOneThrough(Paciente::class, Role::class, 'user_id', 'id', 'id', 'roleable_id')
             ->where('roles.roleable_type', Paciente::class);
     }
+
+    public function doctor()
+    {
+        return $this->hasOneThrough(Doctor::class, Role::class, 'user_id', 'id', 'id', 'roleable_id')
+            ->where('roles.roleable_type', Doctor::class);
+    }
+
 
 
     public static function fabricantes()

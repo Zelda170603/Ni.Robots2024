@@ -20,10 +20,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);*/
-
-        /* */ $this->call(municipios_departamentosSeeder::class);
+        
+        /*  $this->call(municipios_departamentosSeeder::class);
         $this->call(CategoriasTiposAfectacionesSeeder::class);
-        $this->call(UsersTableSeeder::class);
+         $this->call(UsersTableSeeder::class);
         $this->call(AutorSeeder::class);
         $this->call(EditorialSeeder::class);
         $this->call(bookseeder::class);
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EditorialSeeder::class);
         $this->call(CalificacionBookSeeder::class);
         $this->call(HorarioTableSeeder::class);
-        $this->call(AppointmentsTablesSeeder::class);
+        $this->call(AppointmentsTablesSeeder::class);*/
         
         
     }

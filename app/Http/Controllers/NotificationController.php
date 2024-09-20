@@ -79,6 +79,8 @@ class NotificationController extends Controller
         switch ($type) {
             case 'message':
                 return $this->formatMessageNotification($notification, $readClass);
+            case 'appointment':
+                return $this->formatReserva_citaNotification($notification, $readClass);
             case 'global':
                 return $this->formatGlobalNotification($notification, $readClass);
             case 'user':
@@ -88,6 +90,34 @@ class NotificationController extends Controller
             default:
                 return '';
         }
+    }
+
+    private function formatReserva_citaNotification($notification, $readClass)
+    {
+        $senderName = $notification->data['sender']['name'];
+        $senderAvatar = $notification->data['sender']['avatar'];
+        $avatarUrl = Storage::url('images/profile_pictures/' . $senderAvatar);
+
+        return '
+        <div href="" class="flex px-4 py-3  ' . $readClass . '" data-id="' . $notification->id . '">
+            <div class="flex-shrink-0 ">
+                <img class="rounded-full w-11 h-11" src="' . $avatarUrl . '">
+                <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
+                    <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                        <path d="M1 18h16a1 1 0 0 0 1-1v-6h-4.439a.99.99 0 0 0-.908.6 3.978 3.978 0 0 1-7.306 0 .99.99 0 0 0-.908-.6H0v6a1 1 0 0 0 1 1Z" />
+                        <path d="M4.439 9a2.99 2.99 0 0 1 2.742 1.8 1.977 1.977 0 0 0 3.638 0A2.99 2.99 0 0 1 13.561 9H17.8L15.977.783A1 1 0 0 0 15 0H3a1 1 0 0 0-.977.783L.2 9h4.239Z" />
+                    </svg>
+                </div>
+            </div>
+            <div class="w-full ps-3 text-gray-500 text-sm mb-1.5 dark:text-gray-400">
+                <div class=""> Tienes una solicitud para reservar una cita de
+                    <span class="font-semibold  text-gray-900 dark:text-white">' . $senderName . '</span>: "
+                </div>
+                <button onclick="MarkAsRead(\'' . $notification->id . '\')" class="text-blue-600 dark:text-blue-500">Mark as read</button>
+                <button onclick="DeleteNotification(\'' . $notification->id . '\')" class="text-red-600 dark:text-red-500">Borrar</button> 
+                <div class="text-xs text-blue-600 dark:text-blue-500">' . $notification->created_at->diffForHumans() . '</div>
+            </div>
+        </div>';
     }
 
     private function formatMessageNotification($notification, $readClass)

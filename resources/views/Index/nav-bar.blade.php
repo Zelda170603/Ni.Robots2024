@@ -253,7 +253,7 @@
                                         class="flex flex-col font-bold md:flex-row md:justify-end md:items-center gap-0.5 md:gap-1">
 
                                         <button id="theme-toggle" type="button"
-                                            class="text-gray-500 dark:text-gray-400 ml-4 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">
+                                            class="text-gray-500 dark:text-gray-400 lg:ml-4 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">
                                             <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor"
                                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z">
@@ -292,7 +292,7 @@
                                             Educacion
                                         </a>
                                         <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none dark:hover:text-blue-500 focus:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
-                                            href="#">
+                                            href="{{route("atencion_medica")}}">
                                             <svg class="shrink-0 size-4 me-3 md:me-2 block md:hidden"
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -302,7 +302,7 @@
                                                 <path d="M22 13a18.15 18.15 0 0 1-20 0" />
                                                 <rect width="20" height="14" x="2" y="6" rx="2" />
                                             </svg>
-                                            Centros de Atencion
+                                            Atencion medica
                                         </a>
 
                                         <a class="p-2 flex items-center text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none dark:hover:text-blue-500 focus:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
@@ -350,6 +350,31 @@
             </div>
         </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Selecciona el botón de toggle y el contenedor del menú
+        const toggleButton = document.getElementById('hs-header-base-collapse');
+        const menu = document.getElementById('hs-header-base');
+
+        // Añadir evento de clic al botón
+        toggleButton.addEventListener('click', function () {
+            // Alternar la clase 'hidden' en el menú
+            menu.classList.toggle('hidden');
+
+            // Alternar el estado del botón (cambiar icono entre hamburguesa y cruz)
+            const icons = toggleButton.querySelectorAll('svg');
+            icons.forEach(icon => {
+                icon.classList.toggle('hidden');
+            });
+
+            // Actualizar aria-expanded para accesibilidad
+            const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+            toggleButton.setAttribute('aria-expanded', !isExpanded);
+        });
+    });
+</script>
+
 <!-- Sidebar -->
 @auth
     @include('Index.aside')

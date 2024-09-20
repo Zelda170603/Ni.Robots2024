@@ -5,6 +5,7 @@ use App\Http\Controllers\AdministracionController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\ChartController;
+use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Doctor\HorarioController;
 use App\Http\Controllers\FabricanteController;
 use App\Http\Controllers\ProductoController;
@@ -153,6 +154,9 @@ Auth::routes();
 Route::get("register/patient", [RegisterController::class, "register_patient"])->name("register_patient");
 Route::post("register/patient", [RegisterController::class, "create_patient"])->name("create_patient");
 
+Route::get('doctores', [DoctorController::class, 'index_user'])->name('view_doctores_user');
+Route::post('doctores/searchByName', [DoctorController::class, 'searchByName'])->name('doctores.searchByName');
+
 
 Route::middleware('admin')->group(function () {
     // Rutas Especialidades
@@ -190,6 +194,7 @@ Route::middleware('auth')->group(function () {
     // Rutas de Citas
     Route::controller(AppointmentController::class)->group(function () {
         Route::get('/reservarcitas/create', 'create');
+        Route::get('/reservarcitas/create/{medico}', 'create_with_medico')->name("create_with_medico");
         Route::post('/reservarcitas', 'store');
         Route::get('/miscitas', 'index');
         Route::get('/miscitas/{appointment}', 'show');

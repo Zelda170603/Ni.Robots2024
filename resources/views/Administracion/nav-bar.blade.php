@@ -1,10 +1,10 @@
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+    <div class="px-3 py-2 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between ">
             <div class="flex items-center justify-start rtl:justify-end">
-                <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
-                    type="button"
-                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
+                    aria-controls="default-sidebar" type="button"
+                    class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                     <span class="sr-only">Open sidebar</span>
                     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -56,7 +56,7 @@
                         Notifications
                     </div>
                     <div id="notifications-container"
-                        class=" h-96 flex justify-center items-center flex-col divide-y font-bold divide-gray-100 dark:divide-gray-700 overflow-y-auto no-scrollbar">
+                        class=" h-96 flex justify-start items-center flex-col divide-y font-bold divide-gray-100 dark:divide-gray-700 overflow-y-auto no-scrollbar">
 
                     </div>
                     <a href="#"
