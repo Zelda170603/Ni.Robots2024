@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (currentStep < totalSteps) {
             currentStep++;
             updateStepDisplay();
+            window.scrollTo(0, 0); // Desplazarse al inicio
         }
     });
 
@@ -52,8 +53,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (currentStep > 1) {
             currentStep--;
             updateStepDisplay();
+            window.scrollTo(0, 0); // Desplazarse al inicio
         }
     });
 
     updateStepDisplay(); // Initial call to set up the stepper
 });
+

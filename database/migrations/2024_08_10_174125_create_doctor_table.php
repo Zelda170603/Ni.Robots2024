@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('area', 100);
             $table->string('especialidad', 100);
             $table->bigInteger('telefono');
+            $table->string('direccion_consultorio');
+            $table->string('google_map_direction');
             $table->string('titulacion', 100);
             $table->string('cod_minsa',10);
             $table->timestamps();

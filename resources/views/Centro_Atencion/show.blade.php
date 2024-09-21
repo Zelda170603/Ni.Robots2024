@@ -79,7 +79,6 @@
                     }
                 ]
             });
-
             // Añadir un marcador en las coordenadas
             new google.maps.Marker({
                 position: { lat: coordinates[0], lng: coordinates[1] },

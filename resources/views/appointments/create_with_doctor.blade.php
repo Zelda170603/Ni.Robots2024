@@ -25,7 +25,6 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Especialidad</label>
                         <select name="specialty" id="specialty"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="">Seleccionar especialidad</option>
                             <option value="{{ $specialty }}" @if (old('specialty') == $specialty) selected @endif>
                                 {{ $specialty }}
                             </option>
@@ -37,7 +36,6 @@
                         <select name="doctor_id" id="doctor"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required>
-                            <option value="">Seleccionar medico</option>
                             <option value="{{ $medico->doctor->id }}">
                                 {{ $medico->name }}
                             </option>
@@ -154,5 +152,5 @@
         </div>
     </div>
     <!-- Footer -->
-    @vite('resources/js/appointments/create.js')
+    @vite('resources/js/appointments/createWithMedico.js')
 @endsection

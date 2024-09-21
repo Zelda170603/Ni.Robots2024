@@ -10,13 +10,20 @@
     min-height: 100vh; /* Asegura que el fondo cubra al menos la altura completa de la ventana */
 }
 
-
 .dark .custom-bg-gradient {
     background-image: url("../../public/images/Auth/bg-dark.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
     min-height: 100vh; /* Asegura que el fondo cubra al menos la altura completa de la ventana */
+}
+
+.dark .dark-background-text{
+    background-image: linear-gradient(to top right, #6ab7ff, #4fd1c5, #2563eb);
+}
+
+.background-text {
+    background-image: linear-gradient(to top right, #2984da,  #2563eb , #0a3563);
 }
 
 

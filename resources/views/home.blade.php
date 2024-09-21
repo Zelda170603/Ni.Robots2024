@@ -6,7 +6,7 @@
     <div class="gap-8 py-8 px-4 mx-auto max-w-6xl relative lg:py-4 xl:grid xl:grid-cols-12">
         <div class="col-span-8">
             <h1
-                class="mb-4 font-extrabold tracking-tight text-3xl md:text-6xl  bg-gradient-to-tr from-sky-800 via-teal-800 to-teal-800 bg-clip-text text-transparent">
+                class="mb-4 font-extrabold tracking-tight text-3xl md:text-6xl background-text dark-background-text bg-clip-text text-transparent">
                 Discover new product and best possibilities</h1>
             <p class="mb-6 font-medium dark:text-gray-400 xl:mb-8 md:text-lg lg:text-lg text-gray-700">
                 Here at Flowbite we focus on markets where technology, innovation, and capital can unlock

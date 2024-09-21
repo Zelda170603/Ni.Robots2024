@@ -28,6 +28,14 @@ class DoctorController extends Controller
         return view('doctores.index_user', compact("doctors"));
     }
 
+    public function show($doctor) {
+        $medico = User::whereHas('role', function ($query) use ($doctor) {
+            $query->where('role_type', 'doctor')->where('roleable_id', $doctor);
+        })->with('doctor.specialty')->first();
+
+        return view('doctores.show')->with('medico', $medico);
+    }
+
     public function searchByName(Request $request)
     {
         try {
@@ -110,7 +118,7 @@ class DoctorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show() {}
+    
 
     /**
      * Show the form for editing the specified resource.

@@ -62,4 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         xhr.send(JSON.stringify({ searchTerm: searchTerm }));
     };
+
+    
 });

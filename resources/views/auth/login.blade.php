@@ -8,17 +8,17 @@
             <div class=" px-6 py-8 rounded-lg sm:px-12">
                 <div class="sm:mx-auto sm:w-full sm:max-w-md">
                     <h2
-                        class="mt-6 text-start text-3xl font-extrabold leading-9 tracking-tight text-opacity-100  bg-gradient-to-tr from-blue-300 dark: via-teal-300 to-blue-300 bg-clip-text text-transparent">
-                        Bienvenido de nuevo, inicia sesion con tu cuenta</h2>
+                        class="mt-6 text-start text-3xl font-extrabold leading-9 tracking-tight text-opacity-100 background-text dark-background-text bg-clip-text text-transparent">
+                        Bienvenido, inicia sesion con tu cuenta</h2>
                 </div>
                 <form class="space-y-6 pt-4" action="{{route("login")}}" method="POST">
                     @csrf
                     <div>
-                        <label for="email" class="block text-sm font-bold leading-6 text-blue-300">Email
+                        <label for="email" class="block text-sm font-bold leading-6 text-blue-800 dark:text-blue-300">Email
                             address</label>
                         <div class="mt-2">
                             <input id="email" type="email"
-                                class="bg-transparent block w-full rounded-md border-0 py-2 text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                               class="bg-transparent block w-full rounded-md border-1 dark:border-0  border-blue-800 py-2  text-blue-800 dark:text-blue-300 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 "
                                 name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                             @error('email')
                                 <span class="text-red-500" role="alert">
@@ -29,10 +29,10 @@
                     </div>
                     <div>
                         <label for="password"
-                            class="block text-sm font-bold leading-6 text-blue-300">Password</label>
+                        class="block text-sm font-bold leading-6 text-blue-800 dark:text-blue-300">Password</label>
                         <div class="mt-2">
                             <input id="password" type="password"
-                                class="bg-transparent block w-full rounded-md border-0 py-2 text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                class="bg-transparent block w-full rounded-md border-1 dark:border-0  border-blue-800 py-2  text-blue-800 dark:text-blue-300 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 name="password" required autocomplete="current-password">
                             @error('password')
                                 <span class="text-red-500" role="alert">
@@ -45,11 +45,11 @@
                         <div class="flex items-center">
                             <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" />
                             <label for="remember"
-                                class="ml-3 block text-sm font-medium leading-6 text-blue-300">Remember
+                                class="ml-3 block text-sm font-medium leading-6 text-blue-800 dark:text-blue-300">Remember
                                 me</label>
                         </div>
                         <div class="text-sm leading-6">
-                            <a href="#" class="font-semibold text-blue-300 hover:text-blue-500">Forgot
+                            <a href="#" class="font-semibold text-blue-800 dark:text-blue-300 hover:text-blue-500">Forgot
                                 password?</a>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                 <div>
                     <div class="relative mt-6">
                         <div class="relative flex justify-center text-sm font-medium leading-6">
-                            <span class=" bg-transparent px-6 text-blue-300">Or continue with</span>
+                            <span class=" bg-transparent px-6 text-blue-800 dark:text-blue-300">Or continue with</span>
                         </div>
                     </div>
                     <div class="mt-6 grid grid-cols-2 gap-4">

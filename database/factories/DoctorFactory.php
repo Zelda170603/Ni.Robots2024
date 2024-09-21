@@ -26,6 +26,10 @@ class DoctorFactory extends Factory
             'area' => $this->faker->word(),
             'especialidad' => Specialty::inRandomOrder()->first()->name, // Randomly assign a specialty
             'telefono' => $this->faker->numerify('########'),
+            'direccion_consultorio' => $this->faker->address(),
+            'google_map_direction' => 
+                '12.428988307766408,-86.86766192273375' 
+            ,
             'titulacion' => $this->faker->word(),
             'cod_minsa' => $this->faker->unique()->regexify('[A-Z0-9]{6}'),
         ];

@@ -18,6 +18,8 @@ class Doctor extends Model
         'area',
         'especialidad',
         'telefono',
+        'direccion_consultorio',
+        'google_map_direction',
         'titulacion',
         'cod_minsa'
     ];

@@ -44,7 +44,7 @@ Route::middleware('auth')->controller(NotificationController::class)->group(func
 
 // Rutas de productos
 Route::controller(ProductoController::class)->group(function () {
-    Route::middleware('fabricante')->group(function(){
+    Route::middleware('fabricante')->group(function () {
         Route::get('Administracion/fabricante/productos/create', 'create')->name('productos.create');
         Route::post('Administracion/fabricante/productos', 'store')->name('productos.store');
         Route::get('Administracion/fabricante/productos/{producto}/edit', 'edit')->name('productos.edit');
@@ -61,13 +61,13 @@ Route::controller(ProductoController::class)->group(function () {
     Route::get('/productos/{producto}', 'show')->name('productos.show');
 });
 
-Route::controller(UserController::class)->group(function(){
-    Route::middleware('auth')->group(function(){
+Route::controller(UserController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
         Route::get('/perfil', 'index')->name('user_perfil');
         Route::get('/perfil/configuracion', 'edit')->name('edit_profile');
         Route::put('/perfil/configuracion', 'update')->name('update_profile');
     });
-    
+
     Route::get('Administracion/usuarios', 'index_admin')->middleware('auth')->name("get_users");
 });
 
@@ -112,8 +112,23 @@ Route::middleware('auth')->controller(MensajesController::class)->group(function
 
 
 // Rutas de centro de atención
-Route::resource('Centro_atencion', CentroAtencionController::class);
-Route::post('/Centro_atencion/{city}', [CentroAtencionController::class, 'get_city']);
+Route::controller(CentroAtencionController::class)->group(function () {
+
+    Route::middleware('auth')->group(function () {
+        Route::get('Administracion/Centro_atencion/create', 'create')->name('CentroAtencion.create');
+        Route::post('Administracion/Centro_atencion', 'store')->name('CentroAtencion.store');
+        Route::get('Administracion/Centro_atencion/{Centro_atencion}', 'show')->name('CentroAtencion.show');
+        Route::get('Administracion/{Centro_atencion}/edit', 'edit')->name('CentroAtencion.edit');
+        Route::put('Administracion/Centro_atencion/{Centro_atencion}', 'update')->name('CentroAtencion.update');
+        Route::patch('Administracion/Centro_atencion/{Centro_atencion}', 'update')->name('CentroAtencion.update');
+        Route::delete('Administracion/Centro_atencion/{Centro_atencion}', 'destroy')->name('CentroAtencion.destroy');
+    });
+
+    Route::get('/Centro_atencion', 'index')->name('CentroAtencion.index');
+    Route::post('/Centro_atencion/{city}', 'get_city');
+});
+
+
 
 // Rutas de recursos
 Route::controller(ResourcesController::class)->group(function () {
@@ -156,6 +171,7 @@ Route::post("register/patient", [RegisterController::class, "create_patient"])->
 
 Route::get('doctores', [DoctorController::class, 'index_user'])->name('view_doctores_user');
 Route::post('doctores/searchByName', [DoctorController::class, 'searchByName'])->name('doctores.searchByName');
+Route::get('doctor/{doctor}', [DoctorController::class, 'show'])->name('show.doctor');
 
 
 Route::middleware('admin')->group(function () {
@@ -168,11 +184,6 @@ Route::middleware('admin')->group(function () {
         Route::put('/especialidades/{specialty}', 'update');
         Route::delete('/especialidades/{specialty}', 'destroy');
     });
-    // Rutas Médicos
-    Route::resource('medicos', 'App\Http\Controllers\Admin\DoctorController');
-
-    // Rutas Pacientes
-    Route::resource('pacientes', 'App\Http\Controllers\Admin\PatientController');
 
     // Rutas Reportes
     Route::controller(ChartController::class)->group(function () {
@@ -211,6 +222,4 @@ Route::middleware('auth')->group(function () {
     Route::controller(App\Http\Controllers\Api\HorarioController::class)->group(function () {
         Route::get('/horario/horas', 'hours');
     });
-
-    
 });

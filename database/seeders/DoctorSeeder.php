@@ -16,7 +16,7 @@ class DoctorSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()
+        /*  User::factory()
             ->count(10)
             ->create()
             ->each(function (User $user) {
@@ -30,11 +30,11 @@ class DoctorSeeder extends Seeder
                     'roleable_type' => Doctor::class,
                 ]);
             });
-
+*/
         // Crear un doctor con datos específicos
         $customUser = User::create([
-            'name' => 'Marcos Alonso',
-            'email' => 'marcos@gmail.com',
+            'name' => 'Juan Marcos',
+            'email' => 'juanmarcos@gmail.com',
             'departamento' => 'Managua',  // Datos personalizados para el usuario
             'municipio' => 'Managua',
             'domicilio' => 'Calle 123, Managua',
@@ -50,9 +50,11 @@ class DoctorSeeder extends Seeder
             'edad' => 45,
             'genero' => 'masculino',
             'area' => 'Cirugía',
-            'especialidad' => 'Cardiologia',  // Puede coincidir con alguna especialidad
+            'especialidad' => 'Cardiologia', 
             'telefono' => '88888888',
-            'titulacion' => 'Doctor en Medicina',
+            'direccion_consultorio' => 'del pali proquinsa una cuadra al este',
+            'google_map_direction' => '12.428988307766408,-86.86766192273375' ,
+            'titulacion' => 'Doctor en Medicina graduado de la unan leon',
             'cod_minsa' => 'XYZ123',
         ]);
 
