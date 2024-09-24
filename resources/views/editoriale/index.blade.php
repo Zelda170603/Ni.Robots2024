@@ -1,107 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.adminLY')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Administracion</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="bg-white dark:bg-gray-800 mx-auto">
-    @include('index.nav-bar')
-    <main class="mt-14 overflow-hidden">
-        hola perros
-        <div class="sm:flex sm:items-center">
+@section('content')
+    <div class="col-span-4">
+        <div class="sm:flex sm:items-center justify-between">
             <div class="sm:flex-auto">
-                <h1 class="text-base font-semibold leading-6 text-gray-900">{{ __('Editoriales') }}</h1>
-                <p class="mt-2 text-sm text-gray-700">A list of all the {{ __('Editoriales') }}.</p>
+                <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">{{ __('Editoriales') }}</h1>
+                <p class="mt-2 text-sm text-gray-700 dark:text-gray-400">A list of all the {{ __('Editoriales') }}.</p>
             </div>
             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                <a type="button" href="{{ route('editoriales.create') }}"
-                    class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add
-                    new</a>
+                <a href="{{ route('editoriales.create') }}"
+                    class="inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400">
+                    Add new
+                </a>
             </div>
         </div>
 
-        <div class="flow-root">
-            <div class="mt-8 overflow-x-auto">
-                <div class="inline-block min-w-full py-2 align-middle">
-                    <table class="w-full divide-y divide-gray-300">
-                        <thead>
-                            <tr>
-                                <th scope="col"
-                                    class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    No</th>
-
-                                <th scope="col"
-                                    class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    Nombre</th>
-                                <th scope="col"
-                                    class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    Direccion</th>
-                                <th scope="col"
-                                    class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    Telefono</th>
-                                <th scope="col"
-                                    class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    Correo Electronico</th>
-                                <th scope="col"
-                                    class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    Sitio Web</th>
-
-                                <th scope="col"
-                                    class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                </th>
+        <div class="mt-6 flow-root">
+            <div
+                class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg dark:ring-white/10 dark:shadow-lg">
+                <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-800">
+                        <tr>
+                            <th scope="col"
+                                class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300 sm:pl-6">
+                                No
+                            </th>
+                            <th scope="col"
+                                class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300">
+                                Nombre
+                            </th>
+                            <th scope="col"
+                                class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300">
+                                Dirección
+                            </th>
+                            <th scope="col"
+                                class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300">
+                                Teléfono
+                            </th>
+                            <th scope="col"
+                                class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300">
+                                Correo Electrónico
+                            </th>
+                            <th scope="col"
+                                class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300">
+                                Sitio Web
+                            </th>
+                            <th scope="col"
+                                class="relative py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-700 dark:text-gray-300 sm:pr-6">
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
+                        @foreach ($editoriales as $editoriale)
+                            <tr class="even:bg-gray-50 hover:bg-gray-100 dark:even:bg-gray-800 dark:hover:bg-gray-700">
+                                <td
+                                    class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900 dark:text-gray-100 sm:pl-6">
+                                    {{ ++$i }}
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-600 dark:text-gray-300">
+                                    {{ $editoriale->nombre }}
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-600 dark:text-gray-300">
+                                    {{ $editoriale->direccion }}
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-600 dark:text-gray-300">
+                                    {{ $editoriale->telefono }}
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-600 dark:text-gray-300">
+                                    {{ $editoriale->correo_electronico }}
+                                </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-blue-600 dark:text-blue-400">
+                                    <a href="{{ $editoriale->sitio_web }}" target="_blank">{{ $editoriale->sitio_web }}</a>
+                                </td>
+                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-right sm:pr-6">
+                                    <form action="{{ route('editoriales.destroy', $editoriale->id) }}" method="POST">
+                                      
+                                        <a href="{{ route('editoriales.edit', $editoriale->id) }}"
+                                            class="text-indigo-600 font-bold hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">{{ __('Edit') }}</a>
+                                        @csrf
+                                        @method('DELETE')
+                                        <a href="{{ route('editoriales.destroy', $editoriale->id) }}"
+                                            class="text-red-600 font-bold hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                            onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;">
+                                            {{ __('Delete') }}
+                                        </a>
+                                    </form>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 bg-white">
-                            @foreach ($editoriales as $editoriale)
-                                <tr class="even:bg-gray-50">
-                                    <td
-                                        class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900">
-                                        {{ ++$i }}</td>
-
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ $editoriale->nombre }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ $editoriale->direccion }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ $editoriale->telefono }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ $editoriale->correo_electronico }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {{ $editoriale->sitio_web }}</td>
-
-                                    <td
-                                        class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-                                        <form
-                                            action="{{ route('editoriales.destroy', $editoriale->id) }}"
-                                            method="POST">
-                                            <a href="{{ route('editoriales.show', $editoriale->id) }}"
-                                                class="text-gray-600 font-bold hover:text-gray-900 mr-2">{{ __('Show') }}</a>
-                                            <a href="{{ route('editoriales.edit', $editoriale->id) }}"
-                                                class="text-indigo-600 font-bold hover:text-indigo-900  mr-2">{{ __('Edit') }}</a>
-                                            @csrf
-                                            @method('DELETE')
-                                            <a href="{{ route('editoriales.destroy', $editoriale->id) }}"
-                                                class="text-red-600 font-bold hover:text-red-900"
-                                                onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;">{{ __('Delete') }}</a>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-                    <div class="mt-4 px-4">
-                        {!! $editoriales->withQueryString()->links() !!}
-                    </div>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-    </main>
-</body>
-</html>
+
+        <div class="mt-6 px-4">
+            {!! $editoriales->withQueryString()->links() !!}
+        </div>
+    </div>
+@endsection

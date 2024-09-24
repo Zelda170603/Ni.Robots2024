@@ -12,13 +12,11 @@
 
 <body class="bg-white dark:bg-gray-800 mx-auto">
     @include('Index.nav-bar')
+    @include('Index.chatbot')
     @include('Index.search-results')
     <main class="container mx-auto p-4 min-h-full mt-18">
         @yield('content')
     </main>
     @vite('resources/js/dark-mode.js')
-    @auth
-        @vite('resources/js/notificaciones')
-    @endauth
     
 </body>

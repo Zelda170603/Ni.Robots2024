@@ -4,20 +4,21 @@
 
 @section('content')
 
-    <div class="max-w-[85rem] px-4 sm:px-6 lg:px-8  relative mx-auto">
-        <div class=" mb-4 text-gray-500 sm:text-lg dark:text-gray-400">
+    <div class="max-w-[85rem] px-4 sm:px-6 lg:px-8 relative mx-auto">
+        <div class="mb-4 text-gray-500 sm:text-lg dark:text-gray-400">
             <h2
                 class="mb-4 text-6xl tracking-tight font-extrabold background-text dark-background-text bg-clip-text text-transparent">
-                Powering innovation at <span class="font-extrabold">200,000+</span> companies worldwide</h2>
-            <p class="mb-4 font-light">Track work across the enterprise through an open, collaborative platform. Link
-                issues across Jira and ingest data from other software development tools, so your IT support and
-                operations teams have richer contextual information to rapidly respond to requests, incidents, and
-                changes.</p>
-            <p class="mb-4 font-medium">Deliver great service experiences fast - without the complexity of traditional
-                ITSM solutions.Accelerate critical development work, eliminate toil, and deploy changes with ease.</p>
+                Brindando asistencia a más de <span class="font-extrabold">200,000+</span> personas con discapacidades
+                físicas en Nicaragua</h2>
+            <p class="mb-4 font-light">Conéctate con una red de centros de atención médica especializados en Nicaragua.
+                Encuentra fácilmente el apoyo y los servicios necesarios para el tratamiento de diversas discapacidades
+                físicas en tu área.</p>
+            <p class="mb-4 font-medium">Ofrecemos una experiencia eficiente y sin complicaciones para facilitar la búsqueda
+                de atención médica de calidad, asegurando que cada persona reciba el cuidado adecuado para mejorar su
+                calidad de vida.</p>
             <a href="#"
                 class="inline-flex items-center font-medium text-blue-600 hover:text-primary-800 dark:text-primary-500 dark:hover:text-blue-700">
-                Learn more
+                Aprende más
                 <svg class="ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -41,11 +42,11 @@
                                     <path
                                         d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
                                 </svg>
-                                +7% this month
+                                +7% este mes
                             </span>
                         </p>
-                        <p class="mt-2 sm:mt-3 text-gray-500 dark:text-neutral-500">of U.S. adults have bought from
-                            businesses using Space</p>
+                        <p class="mt-2 sm:mt-3 text-gray-500 dark:text-neutral-500">de personas han encontrado centros de
+                            atención con nuestra plataforma en Nicaragua</p>
                     </div>
                     <!-- End Stats -->
                 </div>
@@ -57,21 +58,23 @@
                         <!-- Stats -->
                         <div>
                             <p class="text-3xl font-semibold text-blue-600">99.95%</p>
-                            <p class="mt-1 text-gray-500 dark:text-neutral-500">in fulfilling orders</p>
+                            <p class="mt-1 text-gray-500 dark:text-neutral-500">de satisfacción en la localización de
+                                centros de atención en Nicaragua</p>
                         </div>
                         <!-- End Stats -->
 
                         <!-- Stats -->
                         <div>
                             <p class="text-3xl font-semibold text-blue-600">2,000+</p>
-                            <p class="mt-1 text-gray-500 dark:text-neutral-500">partner with Preline</p>
+                            <p class="mt-1 text-gray-500 dark:text-neutral-500">centros médicos asociados en Nicaragua</p>
                         </div>
                         <!-- End Stats -->
 
                         <!-- Stats -->
                         <div>
                             <p class="text-3xl font-semibold text-blue-600">85%</p>
-                            <p class="mt-1 text-gray-500 dark:text-neutral-500">this year alone</p>
+                            <p class="mt-1 text-gray-500 dark:text-neutral-500">de crecimiento anual en solicitudes de
+                                atención en Nicaragua</p>
                         </div>
                         <!-- End Stats -->
                     </div>
@@ -93,10 +96,10 @@
                 </div>
                 <h3
                     class="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 group-focus:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white dark:group-focus:text-white">
-                    Unity’s inside sales team drives 80% of its revenue with Preline.
+                    El equipo de Unity conecta a personas con discapacidades a través de nuestra plataforma en Nicaragua.
                 </h3>
                 <p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
-                    September 12, 2022
+                    12 de septiembre, 2022
                 </p>
             </a>
             <!-- End Card -->
@@ -110,10 +113,10 @@
                 </div>
                 <h3
                     class="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 group-focus:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white dark:group-focus:text-white">
-                    Living Spaces creates a unified experience across the customer journey.
+                    Living Spaces crea una experiencia inclusiva para personas con discapacidades físicas en Nicaragua.
                 </h3>
                 <p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
-                    September 12, 2022
+                    12 de septiembre, 2022
                 </p>
             </a>
             <!-- End Card -->
@@ -127,10 +130,10 @@
                 </div>
                 <h3
                     class="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 group-focus:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white dark:group-focus:text-white">
-                    Atlassian powers sales and support at scale with Preline.
+                    Inclusividad en cada rincón: cómo estamos cambiando la narrativa en Nicaragua.
                 </h3>
                 <p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
-                    September 12, 2022
+                    12 de septiembre, 2022
                 </p>
             </a>
             <!-- End Card -->
@@ -139,43 +142,48 @@
             <a class="group block rounded-xl focus:outline-none" href="#">
                 <div class="h-48 overflow-hidden rounded-xl">
                     <img class="w-full h-full object-cover rounded-xl"
-                        src="https://images.unsplash.com/photo-1668584054131-d5721c515211?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80"
+                        src="https://images.unsplash.com/photo-1668141679993-cdb3ef748031?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80"
                         alt="Blog Image">
                 </div>
                 <h3
                     class="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 group-focus:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white dark:group-focus:text-white">
-                    Everything you need to know about Preline Pro.
+                    Historias de vida: testimonio de usuarios en Nicaragua que han mejorado sus vidas atraves de nuestra
+                    plataforma.
                 </h3>
                 <p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
-                    September 12, 2022
+                    12 de septiembre, 2022
                 </p>
             </a>
             <!-- End Card -->
         </div>
-
-
-        <div class="absolute left-1/2 top-0 -z-10 -translate-x-1/2 blur-3xl xl:-top-6" aria-hidden="true">
-            <div class="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#80a2ff] to-[#9089fc] opacity-30"
-                style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
-            </div>
-        </div>
         <!-- End Grid -->
     </div>
     <!-- End Card Blog -->
-    <!-- End Card Blog -->
-    <div class=" relative flex flex-col md:flex-row justify-evenly items-center gap-x-1">
+    <div class="space-y-4 my-3 max-w-[85rem] mx-auto py-8">
+        <h2 class="text-3xl font-extrabold mb-4 background-text dark-background-text bg-clip-text text-transparent">Búsqueda
+            General</h2>
+        <p class="text-gray-700 dark:text-gray-200 text-lg mb-4">
+            Para facilitar tu búsqueda de centros de atención, te invitamos a seleccionar un departamento. Al hacerlo,
+            podrás visualizar una lista más amplia de centros disponibles en tu región. Encuentra fácilmente los servicios
+            que mejor se adaptan a tus necesidades dentro de tu departamento.
+        </p>
+    </div>
+
+    <div class=" relative flex flex-col mt-4 md:flex-row justify-evenly items-center gap-x-1">
+
         <div id="pathInfo"
             class="hidden w-full md:w-2/5 mb-3 h-full p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700 justify-center items-center">
             <h2 id="pathName" class="text-lg font-semibold text-gray-900 dark:text-white"></h2>
-            <div id="content" class="flex flex-col justify-center items-center gap-4 p-4 overflow-y-auto no-scrollbar">
+            <div id="content" class="flex flex-col  items-center gap-4 p-2 overflow-y-auto no-scrollbar">
 
             </div>
         </div>
-        <div class="h-full whitespace-no-wrap overflow-x-scroll" id="scrollableDiv">
+        <div class="h-full overflow-x-auto">
             <svg xmlns:mapsvg="http://mapsvg.com" xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg"
-                xmlns="http://www.w3.org/2000/svg" mapsvg:geoViewBox="-87.690700 15.026288 -82.737853 10.707073"
+                xmlns="http://www.w3.org/2000/svg"  mapsvg:geoViewBox="-87.690700 15.026288 -82.737853 10.707073"
                 width="594.9704" height="529.08319" stroke="#ffffff" fill="#124474" id="map-svg">
+                
                 <path class="transition-colors duration-200"
                     d="m 493.9455,171.948 -0.85,0.21 -0.28,-0.39 0.85,-0.96 -0.48,-0.96 2.04,-1.47 0.29,0.18 0.03,1.16 -1.6,2.23 z m 100.46,-95.460002 0.31,4.42 -1.75,2.91 -2.75,0.14 -0.61,-0.77 -1.6,-0.4 -2.28,0.75 -0.19,-0.29 0.5,-0.75 1.51,-0.76 0.33,-1.07 1.31,-1.67 0.17,-1.44 0.78,-0.86 1.11,-0.43 1.46,0.43 1.23,-0.43 0.47,0.22 z m -51.14,-67.6899996 -1.68,0.36 -1.8,-0.23 -0.21,-0.31 0.21,-0.21 1.87,0.4 1.85,-0.49 -0.24,0.48 z m 1.87,-3.6 -1,1.95 -0.36,-0.23 0.18,-0.92 -0.23,-0.17 -0.34,0.78 -0.59,-0.11 0.09,-1.07 2.53,-1.34 0.21,0.55 -0.49,0.56 z m -25.05,-1.7 0.52,0.48 0.71,-0.17 0.25,-1.54 0.34,-0.11 1.69,0.4 3.31,1.59 2.67,-0.53 0.29,0.23 -0.11,0.71 -1.59,1.39 1.07,0.75 0.39,0.01 0.75,-1.19 2.52,-0.08 1.97,0.48 3.33,-1.54 2.15,0.36 2.15,1.54 -0.12,1.43 -0.99,0.27 -0.19,-0.21 0.76,-0.61 -0.15,-0.23 -0.61,0.42 -0.43,-0.74 -0.94,0.08 -0.92,-0.89 -0.44,0 -1.08,1.88 0.5,0.09 0.42,-0.56 0.32,0.04 0.14,0.39 -0.46,0.77 -3.15,3.5999996 -0.69,0.32 -3.36,4.05 -1.12,2.67 -0.4,3.71 -3.42,7.89 -2.75,0.16 -0.37,-0.42 0.95,-0.55 -0.12,-0.88 1.44,-1.17 -0.12,-0.59 -1.23,0.78 -0.29,-0.19 -0.15,-1.57 0.74,-1.08 0.7,-0.34 0.46,0.51 1.41,0.31 0.75,0.82 0.25,-0.27 -0.28,-1.61 -1.55,-2.96 -0.49,-4.29 -0.41,-0.99 -0.67,-0.49 -2.77,0.2 -2.01,1.21 -1.1,1.32 -2.61,5.07 -0.65,0.09 -1.76,-1.07 -0.59,0.09 1.29,1.25 0.06,2.44 -0.47,0.7 -1.52,0.5 -0.55,0.86 0.08,0.58 0.82,0.14 0.85,-1.27 0.31,0.05 0.28,1.42 1.33,-0.62 0.44,2.61 1.16,2.04 -0.01,1.21 3.46,2.86 2.92,-0.22 0.31,-1.5 -1.03,-1.64 -3.36,-0.66 0.11,-0.66 3.11,0.2 1.08,1 0.68,1.22 0.69,0.21 0.01,-0.48 -0.83,-0.99 0.38,-0.56 -0.26,-0.94 0.72,-0.95 0.55,0.08 2.6,13.87 1.39,4.73 0.53,3.61 3.89,12.35 0.72,0.86 0.37,2.54 -0.82,-1.54 -2.15,0.18 -1.54,-1.23 -0.1,-0.63 0.41,-0.47 -0.63,-1.89 -2.31,-3.58 -0.9,-0.04 0.35,0.91 -0.32,0.45 0.08,0.29 1.28,0.38 -0.33,2.35 0.23,0.11 0.58,-0.86 0.55,0.22 -0.29,1.02 1.05,3.35 -0.19,1.94 0.73,0.12 1.13,-0.87 0.86,0.04 0.48,-1.06 0.4,-0.01 0.51,1 0.69,0.29 0.63,1.63 0.42,0.26 0.43,-0.5 0.37,0.06 0.3,0.77 -0.2,1.47 2.1,12.83 -2.42,7.57 -4.2,9.170002 -3.12,5.59 0.06,-0.9 1.26,-2.11 0.09,-1.42 1.14,-1.61 -0.02,-2.49 0.82,-1.330002 1.65,-4.69 -0.02,-1.65 -1.49,-2.49 -1.62,-1.38 0.26,-0.72 1.18,1.16 0.22,-0.77 -2.12,-4.47 -2.55,-3.68 -1.13,-0.3 -1.04,2.06 1.5,1 1.49,2.67 -1.04,-0.38 -1.2,-1.27 -1.78,-0.32 -0.7,-0.92 -0.67,0 2.04,4.27 -1.75,0.28 -0.36,-1.35 -0.66,0.48 -0.88,0.1 -0.27,1.16 0.77,0.38 0.92,1.61 0.84,-1.37 0.87,-0.18 0.24,1.91 -0.67,2.42 0.88,1.34 0.27,1.53 1.46,0.76 0.19,-0.18 -0.55,-1 0.45,-0.24 0.94,0.36 1.59,1.32 -0.11,-1.4 0.92,0.39 0.16,1.32 -0.6,0.27 -0.27,0.82 1.91,1.42 -0.73,0.790002 0.18,1.74 -1.44,3.06 -1.35,-0.71 -0.78,1.5 -1.02,0.32 -0.17,0.35 0.9,0.2 1.71,-1.43 0.73,0.3 -1.37,2.33 -0.14,2.62 -0.62,0.39 -0.65,1.8 -2.38,1.99 -3.09,3.68 -1.12,2.72 -2.21,2.19 -1.13,1.62 -1.16,0.07 -2.49,2.25 -1.16,1.82 -0.42,1.35 -1.03,0.86 0.3,0.88 -1.2,2.39 -0.28,-1.1 -1.28,-1.48 0.12,-1.82 0.35,-0.7 2.19,-1.45 0.52,-2.06 -2.22,1.75 -0.96,-1.84 -2.58,-2.51 1.1,-2.83 -1.81,-1.32 0.18,-1.58 -2.25,-0.28 -0.16,-0.39 0.66,0.02 0.09,-0.38 -0.24,-1.65 -0.7,-1.13 0.11,-1.47 -0.45,-0.5 -2.46,-0.18 -1.52,-0.76 -0.26,-1.8 -1.08,-0.85 0.07,-1.95 -0.65,-1.77 0.62,0.46 0.34,-0.28 1.11,0.06 -0.64,-0.59 1.19,-2.99 -4.73,-3.500002 -0.36,-0.93 0.35,-1.52 -1.48,-0.25 -1.26,-2.89 -0.22,-1.59 -1.32,-0.23 -1.09,1.14 -0.69,-0.62 -2.1,-0.55 -1.78,0.91 -0.89,-0.1 -2.56,-1.52 -2.2,-0.62 -3.01,-1.66 0.35,0.88 0.72,0.42 3.26,0.89 3.86,2.42 0.91,0.01 0.83,-0.88 1.55,0.28 1.18,0.99 1.83,-1.09 0.71,0.67 0.06,1.54 1,2.26 0.75,0.51 0.77,0.02 -0.3,1.29 0.49,0.93 3.23,2.190002 1.27,1.5 -1.14,2.08 -0.83,0.01 -0.35,0.35 0.4,1.75 0,2.35 1.08,1.13 0.52,1.72 4.09,1.34 1.11,2.78 -0.78,1.2 0.15,0.97 0.37,0.37 1.6,0.05 -0.19,1.37 1.7,1.27 -0.06,0.73 -0.91,1.29 0.1,0.52 1.48,1.89 2.26,2.04 -0.12,0.94 -0.47,0.59 -1.57,0.55 -0.17,-1.25 -0.41,-0.35 -3.19,-1.61 -0.57,0.03 -0.8,0.97 -0.88,2.23 -0.11,1.15 0.37,0.35 3.34,-0.75 0.87,0.62 0.09,0.71 -1.3,1.79 0,1.01 0.62,0.81 1.28,0.05 1.61,-0.61 1.09,0.21 0.41,0.44 -0.55,2.52 0.17,1.38 -0.7,1.96 -0.05,0.86 0.59,0.93 -1.51,2.32 -1.82,4.23 -2.26,10.35 -2.88,19.99 -0.79,-0.64 -0.68,-3.61 0.12,-1.71 1.35,-4.03 -0.73,-2.2 0.57,-1.34 1.64,-1.88 0.18,-0.72 -1.44,-2.86 -0.84,-0.23 0.44,0.71 -2.9,0.31 -0.58,0.57 0.71,1.41 1.38,0.52 -0.33,0.83 -1.72,0.78 -3.1,-0.61 -1.95,0.72 -0.43,0.59 0.09,1.61 -0.39,0.51 -1.72,-1.6 -1.38,-2.3 -0.31,-1.14 0.12,-1.69 -0.46,-0.97 -0.89,-0.81 -1.99,-0.34 -2.7,-3.22 -0.43,-2.51 -0.62,0.57 0.14,1.52 1.1,2.78 4.71,2.83 0.27,2.13 0.73,1.62 2.84,3.42 -0.05,0.28 -1.41,-0.22 -0.18,0.41 1.15,0.51 0.53,-0.33 0.67,0.35 1.76,2.28 1.2,2.92 1.76,0.59 -0.44,0.72 0.18,0.28 1.01,-0.07 0.73,0.44 0.68,-0.59 0.31,0.31 0.36,1.79 -0.94,0.65 -0.38,-0.89 -0.54,-0.29 0.04,1.24 0.41,0.48 1.54,-0.08 1.54,1.31 -0.09,1.26 -0.78,-0.44 -0.87,-0.07 -0.23,0.31 1.9,1.41 0.36,0.63 -0.83,1.11 -0.16,1.21 -1.64,3.64 -0.12,1.11 -1.34,-1.81 -1.02,-0.66 -1.67,-0.8 -1.4,0.27 1.15,1.18 2.73,1.49 -1.01,1.03 0.14,0.47 0.27,0.18 1.31,-1.34 -0.89,6.42 -0.73,0.76 -0.33,-0.13 0.63,-2.07 -1.69,0.27 -1.64,1.75 -0.6,1.27 -1.23,-0.39 -0.87,0.35 -0.88,2.75 -1.76,-0.42 -1.01,1 -3.89,2.41 -0.94,-0.27 -0.55,-1.79 0.37,-0.66 -0.26,-0.63 -3.34,-0.61 -1.4,-0.75 -2.52,0.65 -1.01,-0.1 -0.82,-0.96 -0.52,-1.96 -1.91,-1.49 -1.21,-1.71 -2.3,-0.79 -0.28,-0.5 0.1,-2.49 -3.73,-4.24 -0.12,-1.37 2.18,-2.09 -1.06,-3.96 -2.62,-2.94 -1.52,-0.19 -2.89,-1.35 -1.29,0.37 -1.46,1.39 -2.38,-0.23 0.74,1.02 1.1,0.04 1.51,-0.68 1.35,-1.42 1.17,0.42 0.71,0.86 1.66,0.61 1.14,-0.11 2.17,3.19 0.09,1.85 0.43,0.89 -0.14,0.62 -1.41,0.84 0.13,0.95 -0.47,1.41 1.61,1.83 0.34,0.88 1.11,0.17 -0.37,0.72 1.12,0.17 0.24,0.5 0.06,3.07 -0.5,0.79 -2.16,0.55 -2.93,2.59 -1.33,-0.06 -1.44,0.49 -1.59,-1.72 -0.98,-0.27 -2.14,0.18 -3.75,-0.33 -1.09,0.78 -0.93,-0.03 -1.55,-0.69 -0.18,-0.62 -0.81,-0.57 -2.46,-0.49 -0.38,-0.88 -1.32,-0.51 0.68,-1.17 -2.23,-0.37 -0.8,0.72 -0.27,-0.09 -0.06,-0.92 -2.18,-0.78 -0.8,0.76 -1.1,-0.23 -1.07,0.42 -1.11,-1.43 -2.06,1.45 -2.29,0.29 -6.38,-2.63 -1.2,-0.21 -0.41,0.68 -1.37,0.91 -0.57,1.86 0.71,0.31 0.55,-0.17 0.12,-1.63 1.54,-0.95 5.91,2.58 3.47,-0.1 1.8,-1.33 0.66,1 0.69,0.2 0.9,-0.5 2.4,-0.46 1.7,1.48 1.89,-0.66 0.08,1.22 1.73,1.01 0.78,0.91 2.39,0.72 3.3,1.83 2.04,-0.72 2.85,-0.24 2.63,0.55 2.56,1.69 1.3,-0.64 0.93,0.02 2.89,-2.01 2.83,-0.9 0.65,-0.76 0.47,-0.04 1.55,0.65 2.6,2.59 1.12,2.81 2.01,0.63 2.21,-0.71 2.44,0.96 1.85,-0.01 0.51,2.58 1.53,1.2 1.29,-0.17 1.39,-0.77 1.4,-1.5 1.58,-0.72 1.02,0.38 0.89,-0.39 0.59,-0.95 -0.09,-1.4 0.56,-0.46 0.67,0.33 2.39,3.24 1.65,-1.95 0.88,-2.47 0.32,0.01 0.24,0.61 -0.52,1.58 -1.22,14.94 1.44,15.57 2.1,14.27 0,0 -5.02,-0.73 -7.03,0.24 -21.45,-14.34 -0.67,-0.93 0.08,-0.71 1.27,-3.03 2.53,-4.44 -0.21,-0.86 -0.73,-0.44 -1.51,-0.35 -1.67,0.1 -3.01,-2.3 -5.2,0.03 -11.76,-2.39 -7.79,-0.91 -3.56,-1.36 -8.48,0.48 -1.51,0.6 -2.54,0.12 -3.27,2.47 -0.98,0.27 -1.12,-0.21 -0.81,-1.71 -0.65,-0.42 -1.03,0.57 -0.95,-0.14 -0.62,0.36 -0.94,-0.61 -0.72,-0.01 -1.13,0.61 -2.51,2.68 -25.39,0.67 -25.33,3.64 -6.78,9.49 -1.35,0.56 -5.23,0.91 -2.23,1.13 -2.11,3.52 -1.67,1.48 -10.68,-0.68 -5.45,-1.25 -5.99,4.13 0,0 -0.75,-1.36 -1.25,-1.11 -0.5,-1.19 0,-1.02 0.75,-1.7 3.76,-1.87 0.58,-0.85 -0.42,-1.02 1.59,-2.47 0.08,-1.02 -0.5,-0.68 -2.5,-0.17 -2.59,0.77 -1.25,1.11 -0.42,1.96 -0.83,-0.43 -0.92,-1.53 -2.59,0.17 -0.25,2.64 -0.33,0.43 -1.92,-2.6 -1.64,1.67 -1.52,-0.23 -1.23,1.72 -2.18,0.03 -0.47,0.27 -0.78,1.56 -0.81,0.07 -1.23,-0.94 -1.02,-0.1 -0.67,-1.21 -1.42,-0.34 -1,-2.28 -1.89,-0.39 -0.92,-1.34 -1.31,-0.78 -0.76,-1.1 -0.51,-0.22 -1.07,0.82 -1.77,0.2 -2.8,-1.9 -1.75,-2.31 -0.86,-2.08 -2.89,-1.47 -1.73,-3.21 -1.76,-1.23 -3.6,-4.53 -1.16,-2.81 -0.35,-2.17 -0.8,-1.63 0,0 -0.73,-2.19 0.11,-1.19 0.78,-1.34 1.52,-1.53 2.66,-1.65 3.69,-3.27 3.49,-1.17 1.53,-2.51 -0.13,-3.1 1.21,-2.6 0.7,-3.38 -0.59,-1.43 -2.15,-1.7 -1.19,-1.56 -0.17,-0.76 0.63,-1.66 2.9,-1.72 0.8,-0.93 1.43,-6.72 9.23,-0.22 16.5,-10.72 11.78,5.86 24.82,-40.27 -1.53,-7.17 4.67,-23.980002 -14.2,-0.84 -0.61,-1.51 -1.26,-0.23 -0.86,-2.01 -1.55,-0.89 -0.65,-1.99 -1.28,-0.72 -0.34,-0.76 0.2,-0.74 1.07,-0.28 0.89,-0.76 -0.06,-3.32 -0.7,-0.95 0.46,-1.75 0.52,-0.15 1.25,-1.37 0.1,-1.23 -1.2,-2.01 -1.84,-0.23 -1.68,-2.02 0.76,-1.67 -0.91,-0.78 0.03,-0.86 0.81,-1.52 0.16,-1.33 1.04,-1.56 -0.42,-1.54 -1.92,-0.88 -0.63,-0.9 -1.55,0.09 0,0 -1.52,-0.17 -0.22,-0.43 1.63,-1.65 0.29,-0.82 -0.55,-1.14 -2.22,-1.5 -0.3,-0.94 0.23,-0.68 0.8,-0.58 1.37,0.14 1.03,-1.89 -0.65,-0.55 0.07,-1.13 1.98,-1.99 1.65,-1 1.21,-1.52 1.28,-0.33 1.89,-1.74 3.91,-0.81 0.3,-1.73 1.2,-1.71 0.51,-1.41 1.59,-1.5 2.2,-0.1 2.48,0.39 2.58,-1.56 2.27,-0.44 1.14,0.69 0.87,0.01 0.54,0.84 0.67,0.17 0.41,1.94 0.85,1.24 3.33,2.14 0.3,1.11 -0.52,0.74 -1.06,-0.21 -0.72,0.74 0.58,0.84 0.67,0.17 1.43,-0.69 0.38,0.88 -0.57,1.45 0.45,1.74 2.89,2.53 1.26,0.29 0.86,3.33 1.1,0.09 1.78,-3.21 0.67,0.21 -0.13,0.67 0.7,0.76 1.33,0.73 2.65,-0.56 0.58,1.27 2.09,0.11 2,0.82 0.99,-0.38 1.01,0.92 1.51,-0.41 1.05,0.88 0.8,-0.54 3.52,-0.38 0.15,0.44 -0.56,0.74 -1.07,0.34 0.3,1.58 1.58,-0.17 1.23,-0.53 0.47,0.13 0.15,0.83 0.94,0.7 3.48,0.8 0.36,-0.12 1,-1.81 2.96,-0.2 2.78,-1.41 0.19,-1.29 3.03,-2.89 0.7,-1.67 1.18,-1.38 -0.08,-0.82 0.44,-0.38 1.29,0.93 1.3,0.31 -0.94,1.96 -0.01,0.82 0.33,0.39 0.86,0.45 1.73,0.17 0.73,-0.23 0.45,-0.76 0.92,-0.32 0.71,0.59 0.36,1.55 0.48,0.49 2.11,0.66 2.93,-2.41 -0.95,-0.88 0.37,-1.97 -1.16,-2.62 0.17,-1.63 0.49,-0.67 2.97,-2.07 1.15,0.11 0.81,0.64 -0.75,2.11 1.2,0.55 1.52,1.37 3.12,0.96 4.06,-0.71 0.79,-0.95 1.31,-0.56 3.65,0.44 -0.08,-1.89 -0.89,-0.68 -1.39,-3.34 0.06,-1.01 0.49,-0.67 1.74,-0.17 1.44,0.41 0.28,0.44 0.01,2.75 0.28,0.34 0.58,0.11 3.06,-1.54 0.43,0.06 0.58,2.71 1.97,0.51 2.86,-1.35 2.77,1.15 3.06,-1.3 0.58,0.01 1.19,0.89 0.96,0.06 0.2,-0.48 -0.97,-2.33 0.25,-0.33 1.54,0.07 0.68,-0.57 2.29,1.63 1.11,-0.42 -0.33,-0.58 0.41,-1.58 0.39,-0.09 0.57,0.54 0.45,1.79 1.65,-0.74 1.44,0.12 1.91,-2.09 4.73,-0.4 -2.67,-1.68 -0.14,-0.39 0.53,-0.28 2.39,1 0.83,-0.52 0.02,-1.2 0.34,-0.33 1.33,1.32 1.3,0.21 0.25,-0.62 -0.17,-1.11 0.69,-0.9 2.54,0.96 -0.08,-0.87 -0.66,-0.88 0.39,-0.19 1.25,0.17 0.97,-0.27 1.1,0.79 0.72,0.01 -0.13,-0.63 0.35,-0.86 -1.72,-0.7 0.44,-0.57 0.97,-0.08 0.73,-0.57 -0.12,-1.59 0.44,-0.09 0.9,0.79 2.19,-1.31 1.44,0.07 0.64,-0.57 0.82,0.01 1.63,0.27 0.43,0.44 -0.07,1.16 0.66,0.64 0.44,-0.23 -0.36,-1.31 1.19,-1.62 -0.57,-0.68 0.01,-0.53 2.47,-0.73 -0.36,-1.5 1.16,-0.07 1,0.6 1.07,-0.61 1.15,0.45 0.3,-3.22 0.49,-0.28 1.39,0.31 0.25,-0.48 -0.89,-1.51 0.29,-0.19 1.48,0.8 0.29,-0.24 -0.75,-0.9799996 -0.45,-1.89 0.45,-0.81 1.43,0.99 0.48,-0.14 -0.56,-1.07 -0.17,-1.3 0.35,-0.43 1.33,1.18 0.51,-1.29 0.84,-1 1.75,-0.64 1,0.49 -0.03,1.6 1.9,1.48 1.5,-0.31 1.9,-1.31 1.78,-0.06 1.96,-1.8 0.18,-3.23 0.91,0.17 0.97,1.17 1.44,0.03 1.29,0.54 0.78,1.29 z"
                     title="Atlántico Norte" id="NI-AN" />
@@ -232,5 +240,47 @@
             </svg>
         </div>
     </div>
+
+    <div class="space-y-4 my-3 max-w-[85rem] mx-auto py-4">
+        <div>
+            <h2 class="text-3xl font-extrabold mb-4 background-text dark-background-text bg-clip-text text-transparent">
+                Búsqueda Específica</h2>
+            <p class="text-gray-700 dark:text-gray-200 text-lg mb-4">
+                Para ayudarte a encontrar los servicios más relevantes, te invitamos a seleccionar tu municipio. Al elegir
+                un
+                municipio, podrás acceder a información y recursos adaptados a tus necesidades locales. ¡Explora y descubre
+                cómo
+                podemos apoyarte en tu área!
+            </p>
+        </div>
+        <div class="flex justify-evenly items-center gap-4 max-w-[85rem] mx-auto py-4 ">
+            <div>
+                <label for="departamento"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Departamento</label>
+                <select id="departamento" name="departamento" required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="">Selecciona un departamento</option>
+
+                </select>
+            </div>
+
+            <div>
+                <label for="municipio"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Municipio</label>
+                <select id="municipio" name="municipio" required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="">Selecciona un municipio</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="map" class="w-full  inset-0" style="height: 600px;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_YZ_TU27pADC0ThLH7U5QvSgG42fsuv8&callback=initMap" async
+        defer></script>
+
+    @vite('resources/js/centros_Atencion/cargar_centros_municipios.js')
     @vite('resources/js/centros_Atencion/cargar_centros.js')
+    @vite('resources/js/resources/Cargar_ciudades_departamentos.js')
 @endsection

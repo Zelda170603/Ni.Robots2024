@@ -23,9 +23,8 @@ class BookController extends Controller
 
     public function index_admin(Request $request)
     {
-        $books = Book::with(['autor', 'editorial'])->paginate();
-        return view('book.index-admin', compact('books'))
-            ->with('i', ($request->input('page', 1) - 1) * $books->perPage());
+        $books = Book::with(['autor', 'editorial'])->paginate(10);
+        return view('book.index-admin', compact('books'));
     }
 
 
@@ -118,7 +117,7 @@ class BookController extends Controller
         // Crear el libro con los datos validados
         Book::create($validatedData);
 
-        return Redirect::route('books.index')
+        return Redirect::route('books.create')
             ->with('success', 'Book created successfully.');
     }
 
@@ -240,11 +239,43 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book): RedirectResponse
     {
-        $book->update($request->validated());
+        // Obtener los datos validados del request
+        $validatedData = $request->validated();
 
+        // Manejar la subida de la nueva portada (si es que se sube una nueva)
+        if ($request->hasFile('portada')) {
+            // Eliminar la portada anterior si existe
+            if ($book->portada && file_exists(public_path($book->portada))) {
+                unlink(public_path($book->portada)); // Elimina la portada anterior
+            }
+
+            // Guardar la nueva portada con un nombre único
+            $imageName = time() . '_portada.' . $request->portada->extension();
+            $request->portada->storeAs('public/librosPortada', $imageName);
+            $validatedData['portada'] = 'storage/librosPortada/' . $imageName;
+        }
+
+        // Manejar la subida del nuevo archivo del libro (si es que se sube uno nuevo)
+        if ($request->hasFile('file_url')) {
+            // Eliminar el archivo anterior si existe
+            if ($book->file_url && file_exists(public_path($book->file_url))) {
+                unlink(public_path($book->file_url)); // Elimina el archivo anterior
+            }
+
+            // Guardar el nuevo archivo
+            $filePath = $request->file('file_url')->store('librosPDF', 'public');
+            $validatedData['file_url'] = 'storage/' . $filePath;
+        }
+
+        // Actualizar los datos del libro
+        $book->update($validatedData);
+
+        // Redirigir al índice de libros con un mensaje de éxito
         return Redirect::route('books.index')
-            ->with('success', 'Book updated successfully');
+            ->with('success', 'Book updated successfully.');
     }
+
+
 
     public function destroy($id): RedirectResponse
     {

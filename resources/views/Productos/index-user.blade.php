@@ -62,7 +62,7 @@
                         <div
                             class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                             <div class="h-56 w-full">
-                                <a href="#">
+                                <a href="/productos/{{$producto->id}}">
                                     <img class="mx-auto h-full dark:hidden"
                                         src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/xbox-light.svg"
                                         alt="" />

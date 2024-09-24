@@ -1,5 +1,6 @@
-<aside class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
-    aria-label="Sidenav" id="drawer-navigation">
+<aside  id="default-sidebar"
+    class="fixed top-0 left-0 z-40 w-64 pt-12 h-screen transition-transform -translate-x-full lg:translate-x-0"
+    aria-label="Sidebar" >
     <div
         class="relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto no-scrollbar">

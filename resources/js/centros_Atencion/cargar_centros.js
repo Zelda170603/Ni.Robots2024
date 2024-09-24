@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const content = document.getElementById('content');
         const errorContainer = document.getElementById(
             'error-container'); // Asume que tienes un contenedor para errores
-
         fetch(`/Centro_atencion/${ciudad}`, {
             method: 'POST',
             headers: {

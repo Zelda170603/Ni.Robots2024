@@ -7,25 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Centro_Atencion extends Model
 {
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $table = 'centro_atencion';
 
     protected $fillable = [
-        'nombre', 'correo', 'telefono', 'direccion', 'departamento', 'municipio',  'google_map_direction', 'descripcion', 'tipo',
+        'nombre',
+        'correo',
+        'telefono',
+        'direccion',
+        'foto_centro',
+        'departamento',
+        'municipio',
+        'google_map_direction',
+        'descripcion',
+        'tipo',
     ];
 
-    public function fotoPrincipal()
+    public function fotos()
     {
-        return $this->hasOne(Fotos_Centro_Atencion::class, 'centro_atencion_id')->where('principal', true);
-    }
-
-    public function fotosSecundarias()
-    {
-        return $this->hasMany(Fotos_Centro_Atencion::class, 'centro_atencion_id')->where('principal', false);
+        return $this->hasMany(Fotos_Centro_Atencion::class, 'id_centro');
     }
 }
+

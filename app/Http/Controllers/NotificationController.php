@@ -31,14 +31,14 @@ class NotificationController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('administracion.notif', compact('users'));
+        return view('Administracion.Notify', compact('users'));
     }
 
     public function to_users(Request $request)
     {
         $user = User::find($request->user_id);
         $user->notify(new UserNotification('user', $request->message));
-        return view('administracion.notif')->with('status', 'Notification sent successfully!');
+        return view('Administracion.Notify')->with('status', 'Notification sent successfully!');
     }
 
     public function index()

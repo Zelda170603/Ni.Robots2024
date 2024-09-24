@@ -29,7 +29,7 @@
         @default
     @endswitch
     <div class="lg:pl-64 pt-20">
-        <main class="grid gap-4 xl:grid-cols-4 px-4 2xl:grid-cols-3">
+        <main class="grid gap-4 xl:grid-cols-4 px-4 2xl:grid-cols-3 overflow-hidden">
             @yield('content')
         </main>
         @include('components.footer-admin')
@@ -43,18 +43,36 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/datepicker.min.js"></script>
     <script>
-        document.getElementById('toggleSidebarMobile').addEventListener('click', function() {
-            // Alternar la visibilidad del sidebar
-            var sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('hidden');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener el botón y el sidebar
+            const toggleButton = document.getElementById('sidebar_button');
+            const sidebar = document.getElementById('sidebar');
     
-            // Alternar los iconos de hamburguesa y cerrar
-            var hamburgerIcon = document.getElementById('toggleSidebarMobileHamburger');
-            var closeIcon = document.getElementById('toggleSidebarMobileClose');
-            hamburgerIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
+            // Función para alternar la visibilidad del sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('-translate-x-full');
+            }
+    
+            // Escuchar el clic en el botón para alternar el sidebar
+            toggleButton.addEventListener('click', toggleSidebar);
+    
+            // Función para ajustar la visibilidad del sidebar según el tamaño de la pantalla
+            function checkScreenSize() {
+                if (window.innerWidth >= 1024) {
+                    // Pantalla grande (lg), mostrar el sidebar
+                    sidebar.classList.remove('-translate-x-full');
+                } else {
+                    // Pantalla pequeña, ocultar el sidebar
+                    sidebar.classList.add('-translate-x-full');
+                }
+            }
+    
+            // Ejecutar la función al cargar la página y al cambiar el tamaño de la ventana
+            window.addEventListener('load', checkScreenSize);
+            window.addEventListener('resize', checkScreenSize);
         });
     </script>
+    
 </body>
 
 </html>

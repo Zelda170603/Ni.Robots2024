@@ -1,5 +1,5 @@
 <aside  id="default-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 pt-12 h-screen transition-transform -translate-x-full sm:translate-x-0"
+    class="fixed top-0 left-0 z-40 w-64 pt-12 h-screen transition-transform -translate-x-full lg:translate-x-0"
     aria-label="Sidebar" >
     
     <div

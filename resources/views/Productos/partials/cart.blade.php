@@ -66,15 +66,14 @@
                 <input id="terms-checkbox-2" type="checkbox" value=""
                     class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600">
                 <label for="terms-checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> I agree
-                    with the <a href="#" title=""
-                        class="text-primary-700 underline hover:no-underline dark:text-primary-500">Terms and
+                    with the <a href="" title=""
+                        class="text-blue-700 underline hover:no-underline dark:text-blue-500">Terms and
                         Conditions</a>
-                    of use of the Flowbite marketplace </label>
+                    of use of the Ni.Robots marketplace </label>
             </div>
             <div class="flex items-center">
                 <a href="/producto/pago" type="submit"
-                    class="mt-4 flex w-full items-center justify-center rounded-lg bg-blue-700  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-blue-300  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:mt-0">Send
-                    the order</a>
+                    class="mt-4 flex w-full items-center justify-center rounded-lg bg-blue-700  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-blue-300  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:mt-0">Ir a pagar</a>
             </div>
         </div>
 

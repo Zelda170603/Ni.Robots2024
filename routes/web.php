@@ -22,7 +22,9 @@ use App\Http\Controllers\AutoreController;
 use App\Http\Controllers\EditorialeController;
 use App\Http\Controllers\AppointmentController; //citas
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ChatbotController;
 
+Route::post('/chatbot', [ChatbotController::class, 'handleChatRequest']);
 // Rutas principales
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -33,9 +35,9 @@ Route::get('/Administracion', [ProductoController::class, "index_admin"])->middl
 
 // Rutas de notificaciones
 Route::middleware('auth')->controller(NotificationController::class)->group(function () {
-    Route::get('/send-notification', 'create')->name('notifications.create');
+    Route::get('Administracion/send-notification', 'create')->name('notifications.create');
     Route::post('/send-notification', 'to_users')->name('notifications.send');
-    Route::get('/notifications', 'index');
+    Route::get('Administracion/notifications', 'index');
     Route::post('/notifications/mark-as-read', 'markAsRead');
     Route::delete('/notifications/{id}', 'destroy');
     Route::post('/notifications/create', 'store')->name('send-notification.store');
@@ -126,6 +128,7 @@ Route::controller(CentroAtencionController::class)->group(function () {
 
     Route::get('/Centro_atencion', 'index')->name('CentroAtencion.index');
     Route::post('/Centro_atencion/{city}', 'get_city');
+    Route::post('/Centro_atencion_municipio/{city}', 'get_centros');
 });
 
 
@@ -160,8 +163,7 @@ Route::controller(BookController::class)->group(function () {
     Route::get('books/{book}', 'show')->name('books.show');       // Muestra un libro específico
 });
 
-Route::resource('Administracion/autores', AutoreController::class);
-Route::resource('Administracion/editoriales', EditorialeController::class);
+
 
 
 // Autenticación
@@ -191,6 +193,8 @@ Route::middleware('admin')->group(function () {
         Route::get('/reportes/doctors/column', 'doctors');
         Route::get('/reportes/doctors/column/data', 'doctorsJson');
     });
+    Route::resource('Administracion/autores', AutoreController::class);
+    Route::resource('Administracion/editoriales', EditorialeController::class);
 });
 
 

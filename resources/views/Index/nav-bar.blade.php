@@ -25,7 +25,7 @@
                 @endauth
 
                 <a class="flex-none font-extrabold text-xl  max-w-32 text-black focus:outline-none focus:opacity-80 dark:text-white"
-                    href="#" aria-label="Brand">Ni.Robots</a>
+                    href="{{route("home")}}" aria-label="Brand">Ni.Robots</a>
                 <div class="hidden md:block " data-modal-target="default-modal" data-modal-toggle="default-modal" id="search-div">
                     <div class="hidden md:block md:pl-2">
                         <label for="topbar-search" class="sr-only">Search</label>

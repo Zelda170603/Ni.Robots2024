@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('correo');
             $table->string('telefono');
             $table->string('direccion');
+            $table->string('foto_centro');
             $table->string('departamento');
             $table->string('municipio');
             $table->string('google_map_direction');
@@ -30,12 +31,13 @@ return new class extends Migration
             $table->index('nombre');
         });
         Schema::create('fotos_centro_atencion', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('centro_atencion_id');
-            $table->string('foto');
-            $table->boolean('principal')->default(false);
+            $table->bigIncrements('id');
+            $table->string('nombre', 100);
+            $table->unsignedBigInteger('id_centro');
             $table->timestamps();
-            $table->foreign('centro_atencion_id')->references('id')->on('centro_atencion')->onDelete('cascade');
+            $table->foreign('id_centro')
+                ->references('id')->on('centro_atencion')
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

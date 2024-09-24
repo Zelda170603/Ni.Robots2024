@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Producto;
+use App\Models\CalificacionProd;
 class CalificacionProdSeeder extends Seeder
 {
     /**
@@ -12,6 +12,6 @@ class CalificacionProdSeeder extends Seeder
      */
     public function run(): void
     {
-        Producto::factory()->count(20)->create();
+        CalificacionProd::factory()->count(20)->create();
     }
 }

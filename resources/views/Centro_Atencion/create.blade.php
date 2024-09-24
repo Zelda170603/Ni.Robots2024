@@ -1,37 +1,110 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.adminLY')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Create centro de atencion</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="bg-white dark:bg-gray-800 mx-auto">
-    @include('Index.nav-bar')
-    <main class="p-4 sm:ml-64 mt-14">
+@section('content')
+    <div class="col-span-4">
         <div class="text-slate-900 dark:text-white">
-            <h1 class="text-2xl font-bold">Crear Nuevo Producto</h1>
+            <h1 class="text-2xl font-bold">Crear Nuevo Centro de atencion</h1>
         </div>
-        <form action="{{ route('Centro_atencion.store') }}" class="pt-4" method="POST" enctype="multipart/form-data">
+        <!-- Mostrar errores de validación -->
+        @if ($errors->any())
+            <div class="mb-4">
+                <ul class="text-red-600">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form action="{{ route('CentroAtencion.store') }}" class="pt-4" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div class="mb-5">
-                    <label for="nombre"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                <div class="shrink-0 items-center mb-5 justify-center w-full">
+                    <label for="foto_centro"
+                        class="upload-container flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 mb-2">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            </svg>
+                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
+                                    upload</span>
+                                or drag and drop</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX.
+                                800x400px)</p>
+                        </div>
+                        <input id="foto_centro" name="foto_centro[]" type="file" class="hidden"
+                            onchange="handleFileUpload(this)" />
+                    </label>
+                    <div id="thumbnails" class="flex justify-between gap-2 mb-4">
+                        <label for="foto_centro_2"
+                            class="upload-container flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                </svg>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Fotos Secundarias</p>
+                            </div>
+                            <input id="foto_centro_2" name="foto_centro[]" type="file" class="hidden"
+                                onchange="handleFileUpload(this)" />
+                        </label>
+                        <label for="foto_centro_3"
+                            class="upload-container flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                </svg>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Fotos Secundarias</p>
+                            </div>
+                            <input id="foto_centro_3" name="foto_centro[]" type="file" class="hidden"
+                                onchange="handleFileUpload(this)" />
+                        </label>
+                        <label for="foto_centro_4"
+                            class="upload-container flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                </svg>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Fotos Secundarias</p>
+                            </div>
+                            <input id="foto_prod_4" name="foto_centro[]" type="file" class="hidden"
+                                onchange="handleFileUpload(this)" />
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <div class="mb-5">
+                        <label for="nombre"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    </div>
+
+                    <div class="mb-5">
+                        <label for="correo"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo</label>
+                        <input type="email" id="correo" name="correo" value="{{ old('correo') }}" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    </div>
+                    <div class="mb-5">
+                        <label for="descripcion"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>
+                        <textarea id="descripcion" name="descripcion"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('descripcion') }}</textarea>
+                    </div>
                 </div>
 
-                <div class="mb-5">
-                    <label for="correo"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo</label>
-                    <input type="email" id="correo" name="correo" value="{{ old('correo') }}" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                </div>
+                <!-- Foto principal -->
+
 
                 <div class="mb-5">
                     <label for="telefono"
@@ -54,39 +127,35 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="">Selecciona un departamento</option>
                         @foreach ($cities as $id => $nombre)
-                            <option value="{{ $id }}">{{ $nombre }}</option>
+                            <option value="{{ $nombre }}">{{ $nombre }}</option>
                         @endforeach
                     </select>
                 </div>
-                
+
                 <div class="mb-5">
                     <label for="municipio"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Municipio</label>
                     <select id="municipio" name="municipio" required
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="">Selecciona un municipio</option>
-                        
+
                     </select>
                 </div>
-                
-                
+
+
 
                 <div class="mb-5">
                     <label for="google_map_direction"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Haz click en la ubicacion de tu centro de atecion en el mapa</label>
-                        
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Haz
+                        click en la ubicacion de tu centro de atecion en el mapa</label>
+
                     <div id="map" class="w-full h-72"></div>
                     <input type="hidden" id="google_map_direction" name="google_map_direction"
                         value="{{ old('google_map_direction') }}" required
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
 
-                <div class="mb-5">
-                    <label for="descripcion"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>
-                    <textarea id="descripcion" name="descripcion"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('descripcion') }}</textarea>
-                </div>
+
 
                 <div class="mb-5">
                     <label for="tipo"
@@ -101,65 +170,26 @@
                     </select>
                 </div>
 
-                <div class="mb-5">
-                    <label for="foto_principal"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto Principal</label>
-                    <input type="file" id="foto_principal" name="foto_principal" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                </div>
 
-                <div class="mb-5">
-                    <label for="fotos_secundarias"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fotos Secundarias (Máx
-                        3)</label>
-                    <input type="file" id="fotos_secundarias" name="fotos_secundarias[]" multiple
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                </div>
+
+
+
             </div>
             <div class="flex justify-end">
                 <button type="submit"
                     class="bg-green-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-700">Guardar</button>
             </div>
         </form>
-
-    </main>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const departamentoSelect = document.getElementById('departamento');
-            const municipioSelect = document.getElementById('municipio');
-    
-            departamentoSelect.addEventListener('change', function() {
-                const departamentoId = this.value;
-                if (departamentoId) {
-                    fetch(`/municipios/${departamentoId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            municipioSelect.innerHTML = '<option value="">Selecciona un municipio</option>';
-                            Object.keys(data).forEach(id => {
-                                const option = document.createElement('option');
-                                option.value = id;
-                                option.textContent = data[id];
-                                municipioSelect.appendChild(option);
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error fetching municipios:', error);
-                            municipioSelect.innerHTML = '<option value="">Selecciona un municipio</option>';
-                        });
-                } else {
-                    municipioSelect.innerHTML = '<option value="">Selecciona un municipio</option>';
-                }
-            });
-        });
-    </script>
-    @vite('resources/js/dark-mode.js')
-    @vite('resources/js/notificaciones.js');
+    </div>
     <script>
         var map;
         var marker;
 
         function initMap() {
-            var center = { lat: 12.865416, lng: -85.207229 };
+            var center = {
+                lat: 12.865416,
+                lng: -85.207229
+            };
             map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 7,
                 center: center
@@ -184,8 +214,22 @@
             });
         }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_YZ_TU27pADC0ThLH7U5QvSgG42fsuv8&callback=initMap" async defer></script>
-</body>
+    <script>
+        function handleFileUpload(input) {
+            if (input.files && input.files.length > 0) {
+                // Agregar la clase verde al contenedor del input
+                const container = input.closest('.upload-container');
+                // Modo claro
+                container.classList.add('bg-green-100', 'border-green-500');
+                container.classList.remove('bg-gray-50', 'border-gray-300');
+                // Modo oscuro
+                container.classList.add('dark:bg-green-900', 'dark:border-green-500');
+                container.classList.remove('dark:bg-gray-700', 'dark:border-gray-600');
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_YZ_TU27pADC0ThLH7U5QvSgG42fsuv8&callback=initMap" async
+        defer></script>
 
-</html>
-
+    @vite('resources/js/resources/Cargar_ciudades_departamentos.js')
+@endsection
