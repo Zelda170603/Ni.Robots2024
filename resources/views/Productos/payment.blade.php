@@ -12,12 +12,12 @@
                     <!-- Botón de PayPal -->
                     <div id="paypal-button-container"></div>
                     <!-- Botón de Tarjeta de Crédito
-                    <button id="credit-card-button" type="button" class="text-gray-900 bg-white w-full hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded text-md px-4 py-3 text-center flex items-center justify-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2">
-                    <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M6 14h2m3 0h5M3 7v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/>
-                        </svg>
-                        Pago con tarjeta de credito o debito
-                    </button>-->
+                        <button id="credit-card-button" type="button" class="text-gray-900 bg-white w-full hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded text-md px-4 py-3 text-center flex items-center justify-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 me-2 mb-2">
+                        <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M6 14h2m3 0h5M3 7v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/>
+                            </svg>
+                            Pago con tarjeta de credito o debito
+                        </button>-->
                 </div>
 
                 <!-- Formulario para tarjeta de crédito -->
@@ -225,7 +225,7 @@
                             ${{ number_format($total, 2) }}</dd>
                     </dl>
                 </div>
-
+                <input id="total-cart" type="hidden" value="{{ number_format($total, 2) }}" disabled>
                 <div class="mt-6 flex items-center justify-center gap-8">
                     <img class="h-8 w-auto dark:hidden"
                         src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal.svg" alt="" />
@@ -256,98 +256,5 @@
             - Republica de Nicaragua
         </p>
     </div>
-
-    <script>
-        paypal.Buttons({
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: {{$total}} // Asegúrate de que este valor sea una cadena
-                        }
-                    }],
-                });
-            },
-            onApprove: function(data, actions) {
-                return fetch('/compra/process/' + data.orderID)
-                    .then(response => {
-                        if (!response.ok) {
-                            return response.json().then(errorData => {
-                                throw new Error(errorData.error || 'Network response was not ok');
-                            });
-                        }
-                        return response.json();
-                    })
-                    .then(orderData => {
-                        if (orderData.error) {
-                            throw new Error(orderData.error);
-                        }
-                        alert('Transaction completed with Compra ID: ' + orderData.compra_id);
-                    })
-                    .catch(error => {
-                        console.error('There was an error processing the order:', error);
-                        alert('Ha ocurrido un error al realizar el pago: ' + error.message);
-                    });
-            },
-            onError: function(err) {
-                console.log(err);
-                alert("Ha ocurrido un error al realizar el pago, intentar más tarde");
-            }
-        }).render('#paypal-button-container');
-        /* Obtener referencias a los elementos
-        const creditCardButton = document.getElementById('credit-card-button');
-        const creditCardForm = document.getElementById('credit-card-form');
-
-        // Añadir un evento para mostrar el formulario de tarjeta de crédito al hacer clic en el botón
-        creditCardButton.addEventListener('click', function() {
-            creditCardForm.classList.toggle('hidden');
-        });*/
-    </script>
-    <script>
-        cartlist = document.getElementById("product-list");
-
-        // Función para eliminar un producto del carrito
-        function deleteProductFromCart(productId) {
-            fetch(`/carrito/delete/${productId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        updateCartTotal()
-                        alert(data.message);
-                        // Eliminar el elemento del DOM si es necesario
-                        document.getElementById(`cart-item-${productId}`).remove();
-                    } else {
-                        alert('Hubo un problema al eliminar el producto del carrito.');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        function updateCartTotal() {
-            fetch('/carrito/total', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    let tax = document.getElementById("cart-tax");
-                    let subtotal = document.getElementById("cart-originalprice");
-                    let total = document.getElementById('cart-total');
-                    subtotal.innerText = `$${data.subtotal.toFixed(2)}`;
-                    tax.innerText = `$${data.tax.toFixed(2)}`;
-                    total.innerText = `$${data.total.toFixed(2)}`;
-                })
-                .catch(error => console.error('Error:', error));
-        }
-        updateCartTotal();
-    </script>
+    @vite('resources/js/productos/send_compra.js')
 @endsection

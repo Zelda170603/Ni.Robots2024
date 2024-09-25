@@ -16,27 +16,23 @@ class CarritoController extends Controller
     // Agregar un producto al carrito
     public function addProducto($productoId)
     {
-        try {
-            // Lógica para añadir el producto al carrito
-            Producto::findOrFail($productoId);
-            // Crear o actualizar el carrito para el usuario
-            $carrito = Carrito::where('user_id', Auth::id())->where('producto_id', $productoId)->first();
-            if ($carrito) {
-                // Establecer la cantidad a 1 para asegurar que solo una unidad sea mostrada
-                $carrito->cantidad = 1;
-                $carrito->save();
-            } else {
-                // Crear una nueva entrada en el carrito con cantidad 1
-                Carrito::create([
-                    'user_id' => Auth::id(),
-                    'producto_id' => $productoId,
-                    'cantidad' => 1
-                ]);
-            }
-            return response()->json(['html' => "success"]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        // Lógica para añadir el producto al carrito
+        Producto::findOrFail($productoId);
+        // Crear o actualizar el carrito para el usuario
+        $carrito = Carrito::where('user_id', Auth::id())->where('producto_id', $productoId)->first();
+        if ($carrito) {
+            // Establecer la cantidad a 1 para asegurar que solo una unidad sea mostrada
+            $carrito->cantidad = 1;
+            $carrito->save();
+        } else {
+            // Crear una nueva entrada en el carrito con cantidad 1
+            Carrito::create([
+                'user_id' => Auth::id(),
+                'producto_id' => $productoId,
+                'cantidad' => 1
+            ]);
         }
+        return response()->json(['html' => "success"]);
     }
 
 
@@ -156,10 +152,10 @@ class CarritoController extends Controller
         $total = $subtotal + $tax;
 
         return view('Productos.pago', [
-            'carritos' => $carritos, 
+            'carritos' => $carritos,
             'subtotal' => $subtotal,
-            'tax' => $tax, 
-            'total' => $total, 
+            'tax' => $tax,
+            'total' => $total,
             'user' => $user,
         ]);
     }

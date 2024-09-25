@@ -19,7 +19,7 @@
                 <div class="flex gap-4 col-span-2 items-center">
 
                     <a class="flex-none font-extrabold text-xl  max-w-32 text-black focus:outline-none focus:opacity-80 dark:text-white"
-                        href="#" aria-label="Brand">Ni.Robots</a>
+                        href="{{route('home')}}" aria-label="Brand">Ni.Robots</a>
 
                 </div>
 

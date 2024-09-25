@@ -221,4 +221,7 @@
             </div>
         </div>
     </div>
+        
+        
+    @include('Index.chatbot')   
 @endsection

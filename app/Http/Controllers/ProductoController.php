@@ -296,7 +296,6 @@ class ProductoController extends Controller
 
     public function rate_prod(Request $request)
     {
-
         // Validar los datos recibidos
         $validatedData = $request->validate([
             'puntuacion' => 'required|integer|min:1|max:5',
@@ -308,11 +307,21 @@ class ProductoController extends Controller
         $userId = Auth::id();
 
         // Insertar la calificación en la tabla calificacion_prod
-        DB::table('calificacion_prod')->insert([
-            'puntuacion' => $validatedData['puntuacion'],
-            'comentario' => $validatedData['comentario'],
-            'id_prod' => $validatedData['id_prod'],
-            'id_user' => $userId,
-        ]);
+        try {
+            DB::table('calificacion_prod')->insert([
+                'puntuacion' => $validatedData['puntuacion'],
+                'comentario' => $validatedData['comentario'],
+                'id_prod' => $validatedData['id_prod'],
+                'id_user' => $userId,
+                'created_at' => now(), // Marca de tiempo de creación
+                'updated_at' => now(), // Marca de tiempo de actualización
+            ]);
+
+            // Retornar respuesta exitosa
+            return response()->json(['message' => 'Tu reseña se ha enviado correctamente.'], 200);
+        } catch (\Exception $e) {
+            // Retornar error en caso de excepción
+            return response()->json(['message' => 'Error al enviar la reseña: ' . $e->getMessage()], 500);
+        }
     }
 }

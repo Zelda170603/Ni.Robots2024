@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 try {
                     const jsonData = JSON.parse(data); // Intentar parsear la respuesta
                     if (jsonData.html) {
-                        alert(jsonData.html);
+                        alert("El producto se ha anadido al carrito");
                     } else {
                         alert('Hubo un problema al añadir el producto al carrito.');
                     }

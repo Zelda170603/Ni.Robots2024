@@ -14,20 +14,20 @@ class ChatbotController extends Controller
         if (!$userMessage) {
             return response()->json(['error' => 'Mensaje vacío'], 400);
         }
-    
+
         // Mensaje del sistema con contexto sobre el proyecto Ni.Robots
-        $systemMessage = "Eres un asistente útil que ayuda a las personas con discapacidades físicas en Nicaragua. " . 
-                         "El proyecto Ni.Robots se centra en proporcionar acceso a servicios médicos, productos especializados, " . 
-                         "educación sobre condiciones médicas, y comunicación con profesionales de la salud. " . 
-                         "Por favor, proporciona respuestas relevantes y útiles basadas en esta información.";
-    
+        $systemMessage = "Eres un asistente útil que ayuda a las personas con discapacidades físicas en Nicaragua. 
+                      El proyecto Ni.Robots se centra en proporcionar acceso a servicios médicos, productos especializados, 
+                      educación sobre condiciones médicas, y comunicación con profesionales de la salud. 
+                      Por favor, proporciona respuestas relevantes y útiles basadas en esta información.";
+
         // Llama a la API de OpenAI
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer sk-5LKv099MMFbhllIO07o0VKqvAqabk4tkSjBekHDGd2T3BlbkFJHRee4j75nmoYvxyxEQ36Fj497Hag6K64RvT-YYAa0A', 
+                'Authorization' => 'Bearer sk-Kr5J7qJAwPswU1My66tMzJmorFvlgwLi5sP0tGoxAVT3BlbkFJuP1_XdPYXiG2C9eD8Ja6JEPQPhKeICHQG7r4sQUfkA',
                 'Content-Type' => 'application/json',
             ])->post('https://api.openai.com/v1/chat/completions', [
-                'model' => 'gpt-3.5-turbo',
+                'model' => 'davinci-002',
                 'messages' => [
                     ['role' => 'system', 'content' => $systemMessage],
                     ['role' => 'user', 'content' => $userMessage],
@@ -35,7 +35,7 @@ class ChatbotController extends Controller
                 'max_tokens' => 150,
                 'temperature' => 0.7,
             ]);
-    
+
             // Verifica si la respuesta fue exitosa
             if ($response->successful()) {
                 $data = $response->json();
@@ -43,17 +43,22 @@ class ChatbotController extends Controller
                     'reply' => $data['choices'][0]['message']['content']
                 ]);
             }
-    
+
             // Manejo de errores en la respuesta de OpenAI
             $errorData = $response->json();
-            return response()->json([
-                'error' => isset($errorData['error']['message']) ? $errorData['error']['message'] : 'Error al procesar la solicitud de OpenAI'
-            ], 500);
+            $errorMessage = isset($errorData['error']['message']) ? $errorData['error']['message'] : 'Error al procesar la solicitud de OpenAI';
+
+            // Manejo específico para la cuota excedida
+            if (strpos($errorMessage, 'exceeded your current quota') !== false) {
+                return response()->json([
+                    'error' => 'Has excedido tu cuota de uso. Por favor, revisa tu plan y considera actualizarlo si es necesario.'
+                ], 429); // 429 Too Many Requests
+            }
+
+            return response()->json(['error' => $errorMessage], 500);
         } catch (\Exception $e) {
             // Manejo de excepciones de conexión o problemas de red
             return response()->json(['error' => 'Error al conectarse con OpenAI: ' . $e->getMessage()], 500);
         }
     }
-    
 }
-

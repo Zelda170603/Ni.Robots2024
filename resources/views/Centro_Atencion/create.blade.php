@@ -102,10 +102,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('descripcion') }}</textarea>
                     </div>
                 </div>
-
                 <!-- Foto principal -->
-
-
                 <div class="mb-5">
                     <label for="telefono"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
@@ -138,12 +135,8 @@
                     <select id="municipio" name="municipio" required
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value="">Selecciona un municipio</option>
-
                     </select>
                 </div>
-
-
-
                 <div class="mb-5">
                     <label for="google_map_direction"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Haz
@@ -154,9 +147,6 @@
                         value="{{ old('google_map_direction') }}" required
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </div>
-
-
-
                 <div class="mb-5">
                     <label for="tipo"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo</label>
@@ -169,11 +159,6 @@
                         <option value="Otros" {{ old('tipo') == 'Otros' ? 'selected' : '' }}>Otros</option>
                     </select>
                 </div>
-
-
-
-
-
             </div>
             <div class="flex justify-end">
                 <button type="submit"

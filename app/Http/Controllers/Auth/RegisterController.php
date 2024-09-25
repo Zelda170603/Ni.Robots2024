@@ -147,6 +147,17 @@ class RegisterController extends Controller
             $user->save();
         }
 
+        $tipo_afectacion = DB::table('categorias_afectaciones')
+            ->select('nombre')
+            ->where('id', $validated['tipo_afectacion'])
+            ->first();
+
+        // Seleccionar un tipo de afectación basado en la categoría seleccionada
+        $nivel_afectacion = DB::table('tipos_afectaciones')
+            ->select('tipo')
+            ->where('id', $validated['nivel_afectacion'])
+            ->first();
+
         // Crear el paciente asociado al usuario
         $paciente = Paciente::create([
             'cedula' => $validated['cedula'],
@@ -156,8 +167,8 @@ class RegisterController extends Controller
             'altura' => $validated['altura'],
             'genero' => $validated['genero'],
             'condicion' => $validated['condicion'],
-            'tipo_afectacion' => $validated['tipo_afectacion'],
-            'nivel_afectacion' => $validated['nivel_afectacion'],
+            'tipo_afectacion' => $tipo_afectacion->nombre,
+            'nivel_afectacion' => $nivel_afectacion->tipo,
         ]);
 
         // Crear el rol para el paciente

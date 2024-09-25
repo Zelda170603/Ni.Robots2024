@@ -1,4 +1,4 @@
-<button id="chatbot-toggler" class="fixed bottom-5 right-5 p-2 bg-blue-500 text-white rounded-full shadow-lg z-50">
+<button id="chatbot-toggler" class="fixed bottom-4 right-4 p-2 bg-blue-500 text-white rounded-full shadow-lg z-50">
     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
         height="24" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -8,12 +8,12 @@
 
 <!-- Chatbox -->
 <div id="chatbot"
-    class="fixed bottom-16 right-5 w-96 shadow-lg rounded-lg opacity-0 pointer-events-none scale-50 transition-all transform origin-bottom-right z-40">
+    class="fixed bottom-16 right-5 w-96 shadow-lg overflow-hidden rounded-lg opacity-0 pointer-events-none scale-50 transition-all transform origin-bottom-right z-40">
     <div class="flex justify-between items-center bg-gray-200 dark:bg-gray-700 p-3 rounded-t-lg">
         <h3 class="text-white font-semibold">Chatbot</h3>
         <button id="close-btn" class="text-white font-bold">x</button>
     </div>
-    <div id="chatWindow" class="chatbox flex flex-col gap-4 p-4 h-80 overflow-y-auto no-scrollbar bg-gray-300 dark:bg-gray-800">
+    <div id="chatWindow" class="chatbox flex flex-col gap-4 p-4 h-screen sm:h-80 overflow-y-auto no-scrollbar bg-gray-300 dark:bg-gray-800">
         <div class="flex gap-1">
             <div class="w-8 h-8 object-cover rounded-full">
                 <svg class="size-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"

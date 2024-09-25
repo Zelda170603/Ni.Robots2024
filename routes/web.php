@@ -37,7 +37,7 @@ Route::get('/Administracion', [ProductoController::class, "index_admin"])->middl
 Route::middleware('auth')->controller(NotificationController::class)->group(function () {
     Route::get('Administracion/send-notification', 'create')->name('notifications.create');
     Route::post('/send-notification', 'to_users')->name('notifications.send');
-    Route::get('Administracion/notifications', 'index');
+    Route::get('notifications', 'index');
     Route::post('/notifications/mark-as-read', 'markAsRead');
     Route::delete('/notifications/{id}', 'destroy');
     Route::post('/notifications/create', 'store')->name('send-notification.store');
@@ -76,6 +76,8 @@ Route::controller(UserController::class)->group(function () {
 // Rutas de fabricantes
 Route::controller(FabricanteController::class)->group(function () {
     Route::get('Administracion/fabricante/productos', 'get_products');
+    Route::get('Administracion/fabricante/create', 'create')->name('fabricantes.create');
+    Route::post('Administracion/fabricante/create', 'store')->name('fabricantes.store');
     Route::get('/Administracion/fabricante/productos/compras', "showAllOrders")->name('showOrders');
     Route::get('/Administracion/fabricante/productos/compras_pendientes', "showPendingOrders")->name('showPendingOrders');
     Route::get('/Administracion/fabricante/productos/compras_canceladas', "showCancellOrders")->name('showCancellOrders');
