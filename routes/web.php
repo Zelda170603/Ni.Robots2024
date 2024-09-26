@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdministracionController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\ChartController;
-use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Doctor\HorarioController;
 use App\Http\Controllers\FabricanteController;
 use App\Http\Controllers\ProductoController;
@@ -22,9 +22,7 @@ use App\Http\Controllers\AutoreController;
 use App\Http\Controllers\EditorialeController;
 use App\Http\Controllers\AppointmentController; //citas
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ChatbotController;
 
-Route::post('/chatbot', [ChatbotController::class, 'handleChatRequest']);
 // Rutas principales
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -35,9 +33,9 @@ Route::get('/Administracion', [ProductoController::class, "index_admin"])->middl
 
 // Rutas de notificaciones
 Route::middleware('auth')->controller(NotificationController::class)->group(function () {
-    Route::get('Administracion/send-notification', 'create')->name('notifications.create');
+    Route::get('/send-notification', 'create')->name('notifications.create');
     Route::post('/send-notification', 'to_users')->name('notifications.send');
-    Route::get('notifications', 'index');
+    Route::get('/notifications', 'index');
     Route::post('/notifications/mark-as-read', 'markAsRead');
     Route::delete('/notifications/{id}', 'destroy');
     Route::post('/notifications/create', 'store')->name('send-notification.store');
@@ -63,16 +61,20 @@ Route::controller(ProductoController::class)->group(function () {
     Route::get('/productos/{producto}', 'show')->name('productos.show');
 });
 
-Route::controller(UserController::class)->group(function () {
+
+Route::controller(ProfileController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/perfil', 'index')->name('user_perfil');
         Route::get('/perfil/configuracion', 'edit')->name('edit_profile');
         Route::put('/perfil/configuracion', 'update')->name('update_profile');
     });
-
-    Route::get('Administracion/usuarios', 'index_admin')->middleware('auth')->name("get_users");
 });
 
+Route::controller(UserController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('Administracion/usuarios', 'index_admin')->name('get_users');
+    });
+});
 // Rutas de fabricantes
 Route::controller(FabricanteController::class)->group(function () {
     Route::get('Administracion/fabricante/productos', 'get_products')->name('get_productos');
@@ -166,7 +168,8 @@ Route::controller(BookController::class)->group(function () {
     Route::get('books/{book}', 'show')->name('books.show');       // Muestra un libro específico
 });
 
-
+Route::resource('Administracion/autores', AutoreController::class);
+Route::resource('Administracion/editoriales', EditorialeController::class);
 
 
 // Autenticación
@@ -175,10 +178,6 @@ Route::get("register/patient", [RegisterController::class, "register_patient"])-
 Route::post("register/patient", [RegisterController::class, "create_patient"])->name("create_patient");
 Route::get("register/doctor", [RegisterController::class, "register_doctor"])->name("register_doctor");
 Route::post("register/doctor", [RegisterController::class, "create_doctor"])->name("create_doctor");
-
-Route::get('doctores', [DoctorController::class, 'index_user'])->name('view_doctores_user');
-Route::post('doctores/searchByName', [DoctorController::class, 'searchByName'])->name('doctores.searchByName');
-Route::get('doctor/{doctor}', [DoctorController::class, 'show'])->name('show.doctor');
 
 
 Route::middleware('admin')->group(function () {
@@ -191,6 +190,11 @@ Route::middleware('admin')->group(function () {
         Route::put('/especialidades/{specialty}', 'update');
         Route::delete('/especialidades/{specialty}', 'destroy');
     });
+    // Rutas Médicos
+    Route::resource('medicos', 'App\Http\Controllers\Admin\DoctorController');
+
+    // Rutas Pacientes
+    Route::resource('pacientes', 'App\Http\Controllers\Admin\PatientController');
 
     // Rutas Reportes
     Route::controller(ChartController::class)->group(function () {
@@ -198,8 +202,6 @@ Route::middleware('admin')->group(function () {
         Route::get('/reportes/doctors/column', 'doctors');
         Route::get('/reportes/doctors/column/data', 'doctorsJson');
     });
-    Route::resource('Administracion/autores', AutoreController::class);
-    Route::resource('Administracion/editoriales', EditorialeController::class);
 });
 
 
@@ -214,7 +216,6 @@ Route::middleware('auth')->group(function () {
     // Rutas de Citas
     Route::controller(AppointmentController::class)->group(function () {
         Route::get('/reservarcitas/create', 'create');
-        Route::get('/reservarcitas/create/{medico}', 'create_with_medico')->name("create_with_medico");
         Route::post('/reservarcitas', 'store');
         Route::get('/miscitas', 'index');
         Route::get('/miscitas/{appointment}', 'show');
@@ -231,4 +232,6 @@ Route::middleware('auth')->group(function () {
     Route::controller(App\Http\Controllers\Api\HorarioController::class)->group(function () {
         Route::get('/horario/horas', 'hours');
     });
+
+
 });
