@@ -66,7 +66,11 @@ class ProductoController extends Controller
     }
 
 
-
+    public function index_fab(){
+        $id = Auth::user()->role->roleable_id;
+        $productos = Producto::where('id_fabricante', $id)->get();
+        return view('Administracion.Fabricante.productos', compact('productos'));
+    }
 
 
     public function index_admin(Request $request)
@@ -89,7 +93,6 @@ class ProductoController extends Controller
      */
     public function create()
     {
-
         $fabricantes = Fabricante::all();
         return view('productos.create', compact('fabricantes'));
     }
@@ -101,6 +104,10 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar si el usuario es un fabricante
+        $user = auth()->user();
+        $isFabricante = $user->role->role_type === 'fabricante';
+
         // Validar los datos de entrada
         $validated = $request->validate([
             'nombre_prod' => 'required|string|max:100',
@@ -113,8 +120,15 @@ class ProductoController extends Controller
             'grupo_usuarios' => 'required|string|max:100',
             'existencias' => 'required|integer',
             'tipo_producto' => 'required',
-            'id_fabricante' => 'required|exists:fabricantes,id',
+            // Validar id_fabricante solo si el usuario NO es fabricante
+            'id_fabricante' => $isFabricante ? 'nullable' : 'required|exists:fabricantes,id',
         ]);
+
+        // Si el usuario es fabricante, asignar automáticamente su ID de fabricante
+        if ($isFabricante) {
+            $validated['id_fabricante'] = $user->role->roleable_id; // Asignar el ID del fabricante asociado al usuario autenticado
+        }
+
         // Manejar la foto principal
         if ($request->hasFile('foto_prod') && $request->file('foto_prod')[0]) {
             $imageName = time() . '_main.' . $request->foto_prod[0]->extension();
@@ -129,6 +143,7 @@ class ProductoController extends Controller
         // Guardar el nombre en lugar del ID
         $validated['tipo_afectacion'] = $tipoAfectacion;
         $validated['nivel_afectacion'] = $nivelAfectacion;
+
         // Generar un ID único
         $validated['unique_id'] = Str::random(7);
 
@@ -153,6 +168,7 @@ class ProductoController extends Controller
 
         return redirect()->route('productos.create')->with('success', 'Producto creado exitosamente');
     }
+
 
 
 

@@ -171,6 +171,7 @@
                                 <option value="ortopedicos">Ortopédicos</option>
                             </select>
                         </div>
+                        @if(auth()->user()->role->role_type === "administrador")
                         <div class="mb-5">
                             <label for="id_fabricante"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fabricante</label>
@@ -183,6 +184,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        @endif
                     </div>
                     <div class="flex justify-end">
                         <button type="submit"

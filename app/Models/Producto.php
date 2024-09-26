@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'productos';
 
     protected $fillable = [
@@ -42,6 +42,28 @@ class Producto extends Model
     public function calificaciones()
     {
         return $this->hasMany(CalificacionProd::class, 'id_prod', 'id');
+    }
+    // Función para obtener el promedio de calificaciones
+    public function getAverageRatingAttribute()
+    {
+        return $this->calificaciones()->avg('puntuacion');
+    }
+    public function compras()
+    {
+        return $this->hasMany(Compra_producto::class, 'producto_id');
+    }
+
+    // Método para calcular las ventas totales
+    public function totalVentas()
+    {
+        return $this->compras()->sum('cantidad');
+    }
+    // Método para calcular las ventas del último mes
+    public function ventasUltimoMes()
+    {
+        return $this->compras()
+            ->where('created_at', '>=', now()->subMonth()) // Filtra por el último mes
+            ->sum('cantidad'); // Suma la cantidad vendida en el último mes
     }
 
     protected static function booted()

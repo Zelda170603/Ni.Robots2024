@@ -166,6 +166,23 @@
             </div>
         </form>
     </div>
+
+    <script>
+        function handleFileUpload(input) {
+            if (input.files && input.files.length > 0) {
+                // Agregar la clase verde al contenedor del input
+                const container = input.closest('.upload-container');
+                // Modo claro
+                container.classList.add('bg-green-100', 'border-green-500');
+                container.classList.remove('bg-gray-50', 'border-gray-300');
+                // Modo oscuro
+                container.classList.add('dark:bg-green-900', 'dark:border-green-500');
+                container.classList.remove('dark:bg-gray-700', 'dark:border-gray-600');
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_YZ_TU27pADC0ThLH7U5QvSgG42fsuv8&callback=initMap" async
+        defer></script>
     <script>
         var map;
         var marker;
@@ -199,22 +216,6 @@
             });
         }
     </script>
-    <script>
-        function handleFileUpload(input) {
-            if (input.files && input.files.length > 0) {
-                // Agregar la clase verde al contenedor del input
-                const container = input.closest('.upload-container');
-                // Modo claro
-                container.classList.add('bg-green-100', 'border-green-500');
-                container.classList.remove('bg-gray-50', 'border-gray-300');
-                // Modo oscuro
-                container.classList.add('dark:bg-green-900', 'dark:border-green-500');
-                container.classList.remove('dark:bg-gray-700', 'dark:border-gray-600');
-            }
-        }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_YZ_TU27pADC0ThLH7U5QvSgG42fsuv8&callback=initMap" async
-        defer></script>
 
     @vite('resources/js/resources/Cargar_ciudades_departamentos.js')
 @endsection

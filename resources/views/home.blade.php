@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Productos ')
+@section('title', 'Ni.Robots')
 
 @section('content')
     <div class="gap-8 py-8 px-4 mx-auto max-w-7xl relative lg:py-4">

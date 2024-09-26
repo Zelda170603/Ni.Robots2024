@@ -99,12 +99,11 @@
             </div>
             <div class="mt-6 sm:mt-8 lg:mt-0">
                 <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                    Apple iMac 24" All-In-One Computer, Apple M1, 8GB RAM, 256GB SSD,
-                    Mac OS, Pink
+                    {{$producto->nombre_prod}}
                 </h1>
                 <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
                     <p class="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                        $1,249.99
+                        ${{$producto->precio}}
                     </p>
                     <div class="flex items-center gap-2 mt-2 sm:mt-0">
                         <div class="flex items-center gap-1">
@@ -200,8 +199,6 @@
                                             d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                     </svg>
                                 @endfor
-                                <h3 class="ms-2 text-sm font-semibold text-gray-900 dark:text-white">Thinking to
-                                    buy another one!</h3>
 
 
                             </div>
@@ -209,9 +206,9 @@
                                 <p>Calificado en {{ $comentario->user->departamento }},
                                     {{ $comentario->user->municipio }} a las
                                     @if ($comentario->created_at)
-                                        <time datetime="{{ $comentario->created_at->format('Y-m-d H:i') }}"
+                                        <time datetime="{{ $comentario->created_at }}"
                                             class="block text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $comentario->created_at->format('F j, Y \a\t g:i A') }}
+                                            {{ $comentario->created_at}}
                                         </time>
                                     @else
                                         <time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">
@@ -232,16 +229,49 @@
             <h1 class="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white mb-6">
                 Productos que te puedan interesar
             </h1>
-            <swiper-container class="mySwiper" pagination-clickable="true" space-between="30" slides-per-view="3">
+            <swiper-container 
+                class="mySwiper" 
+                pagination-clickable="true" 
+                breakpoints='{
+                    "640": {
+                        "slidesPerView": 1,
+                        "spaceBetween": 10
+                    },
+                    "768": {
+                        "slidesPerView": 2,
+                        "spaceBetween": 20
+                    },
+                    "1024": {
+                        "slidesPerView": 3,
+                        "spaceBetween": 30
+                    }
+                }'>
                 {!! $productCardView !!}
             </swiper-container>
         </div>
+        
 
         <div class="py-4">
             <h1 class="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white mb-6">
                 Productos del mismo nivel de afectacion
             </h1>
-            <swiper-container class="mySwiper" pagination-clickable="true" space-between="30" slides-per-view="3">
+            <swiper-container 
+            class="mySwiper" 
+            pagination-clickable="true" 
+            breakpoints='{
+                "640": {
+                    "slidesPerView": 1,
+                    "spaceBetween": 10
+                },
+                "768": {
+                    "slidesPerView": 2,
+                    "spaceBetween": 20
+                },
+                "1024": {
+                    "slidesPerView": 3,
+                    "spaceBetween": 30
+                }
+            }'>
                 {!! $productCardSameLevel !!}
             </swiper-container>
         </div>

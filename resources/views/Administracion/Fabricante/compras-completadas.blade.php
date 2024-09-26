@@ -179,9 +179,7 @@
                                         clip-rule="evenodd" />
                                 </svg>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                                    Delivered on <time
-                                        datetime="{{$orden->compra->created_at}}">{{ $orden->compra->created_at->format('d/m/Y')  }}</time>
-                                </p>
+                                    Delivered on </p>
                             </div>
                         </div>
                     @endforeach

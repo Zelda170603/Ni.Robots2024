@@ -100,7 +100,7 @@ class NotificationController extends Controller
 
         return '
         <div href="" class="flex px-4 py-3  ' . $readClass . '" data-id="' . $notification->id . '">
-            <div class="flex-shrink-0 ">
+            <div class="flex-shrink-0 relative">
                 <img class="rounded-full w-11 h-11" src="' . $avatarUrl . '">
                 <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
                     <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -128,7 +128,7 @@ class NotificationController extends Controller
 
         return '
         <div href="#" class="flex px-4 py-3  ' . $readClass . '" data-id="' . $notification->id . '">
-            <div class="flex-shrink-0 ">
+            <div class="flex-shrink-0 relative">
                 <img class="rounded-full w-11 h-11" src="' . $avatarUrl . '">
                 <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
                     <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -152,7 +152,7 @@ class NotificationController extends Controller
     {
         return '
         <div href="#" class="flex px-4 py-3 ' . $readClass . '" data-id="' . $notification->id . '">
-            <div class="flex-shrink-0">
+            <div class="flex-shrink-0 relative">
                 <img class="rounded-full w-11 h-11" src="">
                 <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
                     <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -175,7 +175,7 @@ class NotificationController extends Controller
     {
         return '
         <div href="#" class="flex px-4 py-3 ' . $readClass . '" data-id="' . $notification->id . '">
-            <div class="flex-shrink-0">
+            <div class="flex-shrink-0 relative">
                 <img class="rounded-full w-11 h-11" src="">
                 <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
                     <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -202,7 +202,7 @@ class NotificationController extends Controller
         $total = $notification->data['details']['total'];
         return '
     <div href="#" class="flex px-4 py-3 ' . $readClass . '" data-id="' . $notification->id . '">
-        <div class="flex-shrink-0">
+        <div class="flex-shrink-0 relative">
             <img class="rounded-full w-11 h-11" src="">
             <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
                 <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">

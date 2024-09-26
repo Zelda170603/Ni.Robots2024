@@ -3,7 +3,6 @@
 @section('title', 'Libros')
 
 @section('content')
-    <main class="container mx-auto p-4 min-h-full mt-18">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <!-- Heading & Filters -->
             <div class="mb-4 items-center justify-between space-y-4 md:flex sm:space-y-0 gap-y-4 md:mb-8">
@@ -158,6 +157,6 @@
         </div>
 
     @include('book.partials.filters');
-    @vite('resources/js/libros.js')   
+    @vite('resources/js/books/libros.js')   
 
 @endsection

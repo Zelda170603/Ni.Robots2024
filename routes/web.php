@@ -29,7 +29,7 @@ Route::post('/chatbot', [ChatbotController::class, 'handleChatRequest']);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/atencion_medica', [HomeController::class, 'atencion_medica'])->name('atencion_medica');
-route::get('/Administracion/doctor/index', [AdministracionController::class, "doctor"])->middleware('doctor');
+route::get('/Administracion/doctor/index', [AdministracionController::class, "doctor"])->middleware('doctor')->name("doctor.index");
 route::get('/Administracion/fabricante/index', [AdministracionController::class, "fabricante"])->middleware('fabricante');
 Route::get('/Administracion', [ProductoController::class, "index_admin"])->middleware('admin');
 
@@ -75,14 +75,15 @@ Route::controller(UserController::class)->group(function () {
 
 // Rutas de fabricantes
 Route::controller(FabricanteController::class)->group(function () {
-    Route::get('Administracion/fabricante/productos', 'get_products');
+    Route::get('Administracion/fabricante/productos', 'get_products')->name('get_productos');
+    Route::get('Administracion/fabricante/reseñas', 'get_reviews')->name('get_reviews');
     Route::get('Administracion/fabricante/create', 'create')->name('fabricantes.create');
     Route::post('Administracion/fabricante/create', 'store')->name('fabricantes.store');
     Route::get('/Administracion/fabricante/productos/compras', "showAllOrders")->name('showOrders');
     Route::get('/Administracion/fabricante/productos/compras_pendientes', "showPendingOrders")->name('showPendingOrders');
     Route::get('/Administracion/fabricante/productos/compras_canceladas', "showCancellOrders")->name('showCancellOrders');
     Route::get('/Administracion/fabricante/productos/compras_completadas', "showCompletedOrders")->name('showCompletedOrders');
-});
+})->middleware('fabricante');
 
 
 // Rutas de compras
@@ -118,7 +119,7 @@ Route::middleware('auth')->controller(MensajesController::class)->group(function
 // Rutas de centro de atención
 Route::controller(CentroAtencionController::class)->group(function () {
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware('admin')->group(function () {
         Route::get('Administracion/Centro_atencion/create', 'create')->name('CentroAtencion.create');
         Route::post('Administracion/Centro_atencion', 'store')->name('CentroAtencion.store');
         Route::get('Administracion/Centro_atencion/{Centro_atencion}', 'show')->name('CentroAtencion.show');
@@ -172,6 +173,8 @@ Route::controller(BookController::class)->group(function () {
 Auth::routes();
 Route::get("register/patient", [RegisterController::class, "register_patient"])->name("register_patient");
 Route::post("register/patient", [RegisterController::class, "create_patient"])->name("create_patient");
+Route::get("register/doctor", [RegisterController::class, "register_doctor"])->name("register_doctor");
+Route::post("register/doctor", [RegisterController::class, "create_doctor"])->name("create_doctor");
 
 Route::get('doctores', [DoctorController::class, 'index_user'])->name('view_doctores_user');
 Route::post('doctores/searchByName', [DoctorController::class, 'searchByName'])->name('doctores.searchByName');

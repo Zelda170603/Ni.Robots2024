@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Paciente;
 use App\Models\Role;
-use App\Models\Fabricante;
 use App\Models\Doctor;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Specialty;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -182,6 +180,78 @@ class RegisterController extends Controller
         // Iniciar sesión automáticamente (opcional)
         Auth::login($user);
         // Redirigir al dashboard o página principal
-        return redirect('home')->with('success', 'Paciente registrado con éxito.');
+        return redirect('')->with('success', 'Paciente registrado con éxito.');
+    }
+
+    public function register_doctor()
+    {
+        $specialties = Specialty::all();
+        return view('auth.register-doctor', compact('specialties'));
+    }
+
+    public function create_doctor(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'departamento' => ['required', 'string'],
+            'municipio' => ['required', 'string'],
+            'domicilio' => ['required', 'string', 'max:255'],
+            'cedula' => ['required', 'string', 'max:20', 'unique:pacientes'],
+            'biografia' => ['required', 'string'],
+            'edad' => ['required', 'integer', 'min:0'],
+            'especialidad' => ['required', 'string'],
+            'telefono' => ['required', 'integer', 'min:8'],
+            'area' => ['required', 'string'],
+            'genero' => ['required', 'string'],
+            'direccion_consultorio' => ['required', 'string'],
+            'google_map_direction' => ['required', 'string'],
+            'titulacion' => ['required', 'string'],
+            'cod_minsa' => ['required', 'string']
+        ]);
+        // Crear el usuario
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'departamento' => $validated['departamento'],
+            'municipio' => $validated['municipio'],
+            'domicilio' => $validated['domicilio'],
+        ]);
+
+        if ($request->hasFile('profile_picture')) {
+            $extension = $request->file('profile_picture')->getClientOriginalExtension();
+            $imageName = time() . '.' . $extension;
+            $request->file('profile_picture')->storeAs('images/profile_pictures', $imageName, 'public');
+            $user->profile_picture = $imageName;
+            $user->save();
+        }
+        $doctor = Doctor::create([
+            'cedula' => $validated['cedula'],
+            'biografia' => $validated['biografia'],
+            'edad' => $validated['edad'],
+            'genero' => $validated['genero'],
+            'especialidad' => $validated['especialidad'],
+            'telefono' => $validated['telefono'],
+            'area' => $validated['area'],
+            'direccion_consultorio' => $validated['direccion_consultorio'],
+            'google_map_direction' => $validated['google_map_direction'],
+            'titulacion' => $validated['titulacion'],
+            'cod_minsa' => $validated['cod_minsa'],
+        ]);
+         // Crear el rol para el paciente
+         Role::create([
+            'user_id' => $user->id,
+            'role_type' => 'doctor',
+            'roleable_id' => $doctor->id,
+            'roleable_type' => Doctor::class,
+        ]);
+
+        // Iniciar sesión automáticamente (opcional)
+        Auth::login($user);
+        // Redirigir al dashboard o página principal
+        return redirect('Administracion/doctor/index')->with('success', 'Medico registrado con éxito.');
     }
 }

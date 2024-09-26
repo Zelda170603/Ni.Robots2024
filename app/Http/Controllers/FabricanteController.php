@@ -231,8 +231,34 @@ class FabricanteController extends Controller
 
     public function get_products()
     {
-        $fabricante = Fabricante::find(Auth::id());
+        $fabricante = Fabricante::find(Auth::user()->role->roleable_id);
         $productos = Producto::where('id_fabricante', $fabricante->id)->paginate(15);
         return view("Administracion.Fabricante.productos")->with('productos', $productos);
+    }
+
+    public function get_reviews()
+    {
+        // Get the authenticated user's fabricante
+        $fabricante = Fabricante::find(Auth::user()->role->roleable_id);
+
+        // Retrieve products related to the fabricante, including their reviews
+        $productos = Producto::with(['calificaciones.user']) // Eager load calificaciones and the associated user
+            ->where('id_fabricante', $fabricante->id)
+            ->paginate(15);
+
+        // Prepare reviews data
+        $reviews = [];
+
+        foreach ($productos as $producto) {
+            foreach ($producto->calificaciones as $calificacion) {
+                $reviews[] = [
+                    'producto' => $producto,
+                    'calificacion' => $calificacion,
+                    'buyer' => $calificacion->user, // Directly get the user from calificacion
+                ];
+            }
+        }
+
+        return view("Administracion.Fabricante.comentarios", compact('reviews'));
     }
 }
