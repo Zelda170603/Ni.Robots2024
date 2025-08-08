@@ -4,7 +4,7 @@
 
 @section('content')
     <section
-        class="bg-inherit px-4 pt-4  lg:w-80 lg:border-r border-r-slate-200 dark:border-r-slate-500 lg:flex hidden flex-col h-screen">
+        class="bg-inherit px-4 pt-4 w-full lg:w-80 lg:border-r border-r-slate-200 dark:border-r-slate-500 flex flex-col h-screen">
         <div class="flex items-center justify-between">
             <div class="text-slate-600 dark:text-white max-w-sm  pb-6">
                 <h1 class="text-3xl font-bold">Mensajes</h1>

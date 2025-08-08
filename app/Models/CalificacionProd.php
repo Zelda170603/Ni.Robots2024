@@ -16,6 +16,7 @@ class CalificacionProd extends Model
         'id_prod',
         'id_user',
     ];
+    
     public $timestamps = true;
 
     // Definir la relación con el modelo Producto

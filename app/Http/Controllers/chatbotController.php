@@ -24,7 +24,7 @@ class ChatbotController extends Controller
         // Llama a la API de OpenAI
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer sk-Kr5J7qJAwPswU1My66tMzJmorFvlgwLi5sP0tGoxAVT3BlbkFJuP1_XdPYXiG2C9eD8Ja6JEPQPhKeICHQG7r4sQUfkA',
+                'Authorization' => 'Bearer sk-Ksnue15rw3zDQ-T6QofZJxxvbtuHeV3PfZATYQEptvT3BlbkFJrMSB9hqdYi5lR9bcO-zyJ7qFEA0Bo06Z4HMVf-6OMA',
                 'Content-Type' => 'application/json',
             ])->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'davinci-002',
@@ -32,7 +32,7 @@ class ChatbotController extends Controller
                     ['role' => 'system', 'content' => $systemMessage],
                     ['role' => 'user', 'content' => $userMessage],
                 ],
-                'max_tokens' => 150,
+                'max_tokens' => 70,
                 'temperature' => 0.7,
             ]);
 

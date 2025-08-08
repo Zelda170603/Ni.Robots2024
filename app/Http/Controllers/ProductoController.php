@@ -207,10 +207,11 @@ class ProductoController extends Controller
         }
         // Obtener los primeros 2 comentarios con calificaciones
         $comentarios = $producto->calificaciones()
-            ->select('puntuacion', 'comentario', 'id_user')
+            ->select()
             ->with('user')
             ->limit(2)
             ->get();
+
 
         // Obtener los 10 productos mejor calificados
         $mejorCalificados = Producto::with('fotos')

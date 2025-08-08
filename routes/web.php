@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\SpecialtyController;
 use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Doctor\HorarioController;
+use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\FabricanteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CentroAtencionController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\MensajesController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ResourcesController;
@@ -22,6 +24,8 @@ use App\Http\Controllers\AutoreController;
 use App\Http\Controllers\EditorialeController;
 use App\Http\Controllers\AppointmentController; //citas
 use Illuminate\Support\Facades\Auth;
+
+Route::post('/chatbot', [ChatbotController::class, "handleChatRequest"]);
 
 // Rutas principales
 
@@ -174,10 +178,15 @@ Route::resource('Administracion/editoriales', EditorialeController::class);
 
 // Autenticación
 Auth::routes();
+
 Route::get("register/patient", [RegisterController::class, "register_patient"])->name("register_patient");
 Route::post("register/patient", [RegisterController::class, "create_patient"])->name("create_patient");
 Route::get("register/doctor", [RegisterController::class, "register_doctor"])->name("register_doctor");
 Route::post("register/doctor", [RegisterController::class, "create_doctor"])->name("create_doctor");
+
+Route::get('doctores', [DoctorController::class, 'index_user'])->name('view_doctores_user');
+Route::post('doctores/searchByName', [DoctorController::class, 'searchByName'])->name('doctores.searchByName');
+Route::get('doctor/{doctor}', [DoctorController::class, 'show'])->name('show.doctor');
 
 
 Route::middleware('admin')->group(function () {
@@ -216,6 +225,7 @@ Route::middleware('auth')->group(function () {
     // Rutas de Citas
     Route::controller(AppointmentController::class)->group(function () {
         Route::get('/reservarcitas/create', 'create');
+        Route::get('/reservarcitas/create/{medico}', 'create_with_medico')->name("create_with_medico");
         Route::post('/reservarcitas', 'store');
         Route::get('/miscitas', 'index');
         Route::get('/miscitas/{appointment}', 'show');
@@ -232,6 +242,4 @@ Route::middleware('auth')->group(function () {
     Route::controller(App\Http\Controllers\Api\HorarioController::class)->group(function () {
         Route::get('/horario/horas', 'hours');
     });
-
-
 });

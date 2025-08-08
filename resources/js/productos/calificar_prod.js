@@ -1,20 +1,3 @@
-// Open modal when the 'Calificar' button is clicked
-document.getElementById('modal').addEventListener('click', function () {
-    document.getElementById('crud-modal').classList.remove('hidden'); // Show the modal
-});
-
-// Close modal when the close button is clicked
-document.querySelector('[data-modal-toggle="crud-modal"]').addEventListener('click', function () {
-    document.getElementById('crud-modal').classList.add('hidden'); // Hide the modal
-});
-
-// Close modal when clicking outside of the modal content
-window.addEventListener('click', function (event) {
-    const modal = document.getElementById('crud-modal');
-    if (event.target === modal) {
-        modal.classList.add('hidden'); // Hide the modal
-    }
-});
 
 // Existing code for handling product ID and rating
 document.querySelectorAll('[data-modal-toggle="crud-modal"]').forEach(button => {
@@ -47,7 +30,7 @@ stars.forEach(function (star) {
             });
         }
     });
-    
+
     star.addEventListener('click', function () {
         clicked = true;
         const selectedId = parseInt(star.id);
@@ -64,6 +47,7 @@ stars.forEach(function (star) {
         });
     });
 });
+
 
 document.getElementById("envio").addEventListener("click", function (event) {
     event.preventDefault();
@@ -82,18 +66,16 @@ document.getElementById("envio").addEventListener("click", function (event) {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         body: JSON.stringify(formData)
-    })
-        .then(response => {
+    }).then(response => {
             if (!response.ok) {
                 return response.json().then(data => {
                     throw new Error(data.message || 'Error en la solicitud');
                 });
             }
             return response.json();
-        })
-        .then(data => {
+        }).then(data => {
             console.log('Operación exitosa:', data.message);
-            
+
             alert("Tu reseña se ha enviado correctamente");
             // Optionally, reset the form fields if needed
             document.getElementById("description").value = ''; // Clear comment field

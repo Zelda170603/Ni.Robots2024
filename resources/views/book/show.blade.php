@@ -144,7 +144,7 @@
                     @foreach ($comentarios as $comentario)
                         <article class="mt-8">
                             <div class="flex items-center mb-4">
-                                <img class="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg"
+                                <img class="w-10 h-10 me-4 rounded-full" src="{{ Storage::url('images/profile_pictures/' . $comentario->user->profile_picture) }}"
                                     alt="">
                                 <div class="font-medium dark:text-white">
                                     <p>{{ $comentario->user->name ?? 'Unknown User' }}
@@ -170,7 +170,7 @@
                                     @if ($comentario->created_at)
                                         <time datetime="{{ $comentario->created_at->format('Y-m-d H:i') }}"
                                             class="block text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $comentario->created_at->format('F j, Y \a\t g:i A') }}
+                                            {{ $comentario->created_at->diffForHumans() }}
                                         </time>
                                     @else
                                         <time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">
@@ -225,10 +225,8 @@
             <h1 class="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white mb-6">
                 Libros que te puedan interesar
             </h1>
-            <swiper-container 
-            class="mySwiper" 
-            pagination-clickable="true" 
-            breakpoints='{
+            <swiper-container class="mySwiper" pagination-clickable="true"
+                breakpoints='{
                 "640": {
                     "slidesPerView": 1,
                     "spaceBetween": 10
@@ -249,10 +247,8 @@
                 <h1 class="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white mb-6">
                     Libros de la categoria {{ $book->categoria }}
                 </h1>
-                <swiper-container 
-                class="mySwiper" 
-                pagination-clickable="true" 
-                breakpoints='{
+                <swiper-container class="mySwiper" pagination-clickable="true"
+                    breakpoints='{
                     "640": {
                         "slidesPerView": 1,
                         "spaceBetween": 10
@@ -274,10 +270,8 @@
                 <h1 class="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white mb-6">
                     Mas libros para {{ $book->grupo_usuarios }}
                 </h1>
-                <swiper-container 
-                class="mySwiper" 
-                pagination-clickable="true" 
-                breakpoints='{
+                <swiper-container class="mySwiper" pagination-clickable="true"
+                    breakpoints='{
                     "640": {
                         "slidesPerView": 1,
                         "spaceBetween": 10
@@ -444,8 +438,10 @@
                     .then(data => {
                         console.log('Operación exitosa:', data.message);
                         // Cierra el modal después de enviar la calificación
-                        const modal = document.getElementById("crud-modal");
-                        modal.classList.add("hidden");
+                        alert("Tu reseña se ha enviado correctamente");
+                        // Optionally, reset the form fields if needed
+                        document.getElementById("description").value = ''; // Clear comment field
+                        document.getElementById("calificacion").value = '';
 
                     })
                     .catch(error => {

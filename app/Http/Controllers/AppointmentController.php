@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interfaces\HorarioServiceInterface;
 use App\Models\Appointment;
 use App\Models\CancelledAppointment;
+use App\Models\Paciente;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Specialty;
@@ -39,21 +40,55 @@ class AppointmentController extends Controller
         // Almacenar la información de los usuarios relacionados (doctores o pacientes)
         $relatedUsers = [];
 
+        $events = []; // Inicializar el array de eventos
+        $relatedUsers = []; // Array para almacenar los usuarios relacionados
+
+        function createEvent($appointment, $relatedUser)
+        {
+            return [
+                'title' => $appointment->specialty,
+                'start' => $appointment->scheduled_date . 'T' . $appointment->scheduled_time,
+                'description' => $appointment->description,
+                'status' => $appointment->status,
+                'type' => $appointment->type,
+                'doctor' => [
+                    'name' => $relatedUser->name ?? 'No disponible', // Nombre del médico
+                    'email' => $relatedUser->email ?? 'No disponible', // Correo del médico
+                    'profile_picture' => $relatedUser->profile_picture ?? '', // Foto de perfil del médico
+                ],
+                'patient' => [
+                    'name' => $appointment->patient->name ?? 'No disponible', // Nombre del paciente
+                    'email' => $appointment->patient->email ?? 'No disponible', // Correo del paciente
+                    'profile_picture' => $appointment->patient->profile_picture ?? '', // Foto de perfil del paciente
+                ],
+            ];
+        }
+
         foreach ($appointments as $appointment) {
+            // Verifica el rol del usuario actual
             if ($role == 'paciente') {
                 // Obtener el user_id del doctor
                 $doctorRole = Role::where("roleable_id", $appointment->doctor_id)
                     ->where('role_type', 'doctor')->first();
+                    
                 $relatedUser = User::with('role.roleable')->find($doctorRole->user_id);
+
                 // Almacenar en el array el doctor relacionado a esta cita
                 $relatedUsers[$appointment->id] = $relatedUser;
+
+                // Agregar el evento usando la función createEvent
+                $events[] = createEvent($appointment, $relatedUser);
             } elseif ($role == 'doctor') {
                 // Obtener el user_id del paciente
                 $patientRole = Role::where("roleable_id", $appointment->patient_id)
                     ->where('role_type', 'paciente')->first();
                 $relatedUser = User::with('role.roleable')->find($patientRole->user_id);
+
                 // Almacenar en el array el paciente relacionado a esta cita
                 $relatedUsers[$appointment->id] = $relatedUser;
+
+                // Agregar el evento usando la función createEvent
+                $events[] = createEvent($appointment, $relatedUser);
             }
         }
 
@@ -63,7 +98,7 @@ class AppointmentController extends Controller
         $oldAppointments = $appointments->whereIn('status', ['Atendida', 'Cancelada']);
 
         // Pasar las citas, usuarios relacionados, el rol, y el layout a la vista
-        return view('appointments.index', compact('confirmedAppointments', 'pendingAppointments', 'oldAppointments', 'role', 'layout', 'relatedUsers'));
+        return view('appointments.index', compact('confirmedAppointments', 'pendingAppointments', 'oldAppointments', 'role', 'events', 'layout', 'relatedUsers'));
     }
 
 
@@ -253,6 +288,7 @@ class AppointmentController extends Controller
     {
 
         $role = Auth::user()->role->role_type;
-        return view('appointments.show', compact('appointment', 'role'));
+        $layout = $role == 'doctor' ? 'layouts.adminLY' : 'layouts.app';
+        return view('appointments.show', compact('appointment', 'role', "layout"));
     }
 }

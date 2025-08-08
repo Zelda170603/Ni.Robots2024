@@ -47,6 +47,7 @@ class ProfileController extends Controller
         // Devuelve la vista con la información del perfil del usuario
         return view('usuarios.profile', compact('user'));
     }
+    
     public function update(Request $request)
     {
         // Validar los datos del formulario
@@ -72,6 +73,7 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         // Actualizar la información básica del usuario
+    
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],

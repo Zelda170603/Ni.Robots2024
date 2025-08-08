@@ -170,7 +170,7 @@ class BookController extends Controller
         }
         // Obtener los primeros 2 comentarios con calificaciones
         $comentarios = $book->calificaciones()
-            ->select('puntuacion', 'comentario', 'id_user')
+            ->select()
             ->with('user')
             ->limit(2)
             ->get();

@@ -31,10 +31,7 @@ class Producto extends Model
         return $this->hasMany(FotosProducto::class, 'id_producto');
     }
     // Relación con Fabricante
-    public function fabricante()
-    {
-        return $this->belongsTo(Fabricante::class, 'id_fabricante');
-    }
+    
     public function carritos()
     {
         return $this->hasMany(Carrito::class);
@@ -48,6 +45,12 @@ class Producto extends Model
     {
         return $this->calificaciones()->avg('puntuacion');
     }
+
+    public function fabricante()
+    {
+        return $this->belongsTo(Fabricante::class, 'id_fabricante');
+    } 
+
     public function compras()
     {
         return $this->hasMany(Compra_producto::class, 'producto_id');

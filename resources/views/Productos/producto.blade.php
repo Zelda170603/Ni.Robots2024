@@ -37,11 +37,10 @@
                         </dt>
                         <dd>
                             <ul>
-                               
-                                <li
-                                    class="me-1  inline-flex items-center text-sm text-gray-800 dark:text-neutral-200">
-                                     
-                                    {{$producto->grupo_usuarios}}
+
+                                <li class="me-1  inline-flex items-center text-sm text-gray-800 dark:text-neutral-200">
+
+                                    {{ $producto->grupo_usuarios }}
                                 </li>
                             </ul>
                         </dd>
@@ -53,11 +52,10 @@
                         </dt>
                         <dd>
                             <ul>
-                                
-                                <li
-                                    class="me-1   inline-flex items-center text-sm text-gray-800 dark:text-neutral-200">
-                                     
-                                    {{$producto->nivel_afectacion}}
+
+                                <li class="me-1   inline-flex items-center text-sm text-gray-800 dark:text-neutral-200">
+
+                                    {{ $producto->nivel_afectacion }}
                                 </li>
                             </ul>
                         </dd>
@@ -69,17 +67,16 @@
                         </dt>
                         <dd>
                             <ul>
-                                
-                                <li
-                                    class="me-1  inline-flex items-center text-sm text-gray-800 dark:text-neutral-200">
-                                     
-                                    {{$producto->tipo_afectacion}}
+
+                                <li class="me-1  inline-flex items-center text-sm text-gray-800 dark:text-neutral-200">
+
+                                    {{ $producto->tipo_afectacion }}
                                 </li>
                             </ul>
                         </dd>
                     </dl>
 
-                   
+
 
                     <dl class="flex flex-col sm:flex-row gap-1">
                         <dt class="min-w-40">
@@ -87,9 +84,8 @@
                         </dt>
                         <dd>
                             <ul>
-                                <li
-                                    class="me-1 inline-flex items-center text-sm text-gray-800 dark:text-neutral-200">
-                                    {{$producto->tipo_producto}}
+                                <li class="me-1 inline-flex items-center text-sm text-gray-800 dark:text-neutral-200">
+                                    {{ $producto->tipo_producto }}
                                 </li>
                             </ul>
                         </dd>
@@ -99,26 +95,25 @@
             </div>
             <div class="mt-6 sm:mt-8 lg:mt-0">
                 <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                    {{$producto->nombre_prod}}
+                    {{ $producto->nombre_prod }}
                 </h1>
                 <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
                     <p class="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                        ${{$producto->precio}}
+                        ${{ $producto->precio }}
                     </p>
                     <div class="flex items-center gap-2 mt-2 sm:mt-0">
                         <div class="flex items-center gap-1">
                             @for ($i = 1; $i <= 5; $i++)
                                 @if ($i <= $promedioCalificaciones)
                                     <svg class="w-4 h-4 text-yellow-300" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        fill="currentColor" viewBox="0 0 24 24">
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path
                                             d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                                     </svg>
                                 @else
-                                    <svg class="w-4 h-4 text-gray-300" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        fill="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                                     </svg>
@@ -137,8 +132,8 @@
                     <a href="#" title=""
                         class="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                         role="button">
-                        <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
                         </svg>
@@ -148,8 +143,8 @@
                     <a href="#" title=""
                         class="text-white mt-4 sm:mt-0 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex items-center justify-center"
                         role="button">
-                        <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                         </svg>
@@ -184,7 +179,8 @@
                     @foreach ($comentarios as $comentario)
                         <article class="mt-8">
                             <div class="flex items-center mb-4">
-                                <img class="w-10 h-10 me-4 rounded-full" src="/docs/images/people/profile-picture-5.jpg"
+                                <img class="w-10 h-10 me-4 rounded-full"
+                                    src="{{ Storage::url('images/profile_pictures/' . $comentario->user->profile_picture) }}"
                                     alt="">
                                 <div class="font-medium dark:text-white">
                                     <p>{{ $comentario->user->name ?? 'Unknown User' }}
@@ -205,10 +201,10 @@
                             <div class="mb-5 text-sm text-gray-500 dark:text-gray-400">
                                 <p>Calificado en {{ $comentario->user->departamento }},
                                     {{ $comentario->user->municipio }} a las
-                                    @if ($comentario->created_at)
+                                    @if ($comentario->id_prod)
                                         <time datetime="{{ $comentario->created_at }}"
                                             class="block text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $comentario->created_at}}
+                                            {{ $comentario->created_at->diffForHumans() }}
                                         </time>
                                     @else
                                         <time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">
@@ -229,9 +225,7 @@
             <h1 class="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white mb-6">
                 Productos que te puedan interesar
             </h1>
-            <swiper-container 
-                class="mySwiper" 
-                pagination-clickable="true" 
+            <swiper-container class="mySwiper" pagination-clickable="true"
                 breakpoints='{
                     "640": {
                         "slidesPerView": 1,
@@ -249,16 +243,14 @@
                 {!! $productCardView !!}
             </swiper-container>
         </div>
-        
+
 
         <div class="py-4">
             <h1 class="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white mb-6">
                 Productos del mismo nivel de afectacion
             </h1>
-            <swiper-container 
-            class="mySwiper" 
-            pagination-clickable="true" 
-            breakpoints='{
+            <swiper-container class="mySwiper" pagination-clickable="true"
+                breakpoints='{
                 "640": {
                     "slidesPerView": 1,
                     "spaceBetween": 10

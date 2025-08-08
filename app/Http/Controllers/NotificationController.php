@@ -28,6 +28,7 @@ class NotificationController extends Controller
         }
         return redirect()->back()->with('success', 'Global notification sent successfully!');
     }
+    
     public function create()
     {
         $users = User::all();

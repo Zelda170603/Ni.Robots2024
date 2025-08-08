@@ -1,4 +1,6 @@
-@extends('layouts.adminLY')
+@extends($layout)
+
+@section('title', 'Citas') 
 
 @section('content')
 

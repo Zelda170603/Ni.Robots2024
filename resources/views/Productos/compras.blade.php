@@ -99,12 +99,6 @@
             </div>
         </div>
     </div>
-    <button id="modal"
-        data-product-id="{{ $compraProducto->producto->id }}"
-        class="text-indigo-600 pr-4 hover:text-indigo-900 border-r border-gray-500 dark:text-indigo-400 dark:border-gray-600"
-        type="button">
-        Calificar
-    </button>
     <!-- Main modal -->
     <div id="crud-modal" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
