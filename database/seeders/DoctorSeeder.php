@@ -16,7 +16,7 @@ class DoctorSeeder extends Seeder
      */
     public function run(): void
     {
-        /*  User::factory()
+         User::factory()
             ->count(10)
             ->create()
             ->each(function (User $user) {
@@ -30,7 +30,6 @@ class DoctorSeeder extends Seeder
                     'roleable_type' => Doctor::class,
                 ]);
             });
-*/
         // Crear un doctor con datos específicos
         $customUser = User::create([
             'name' => 'Juan Marcos',

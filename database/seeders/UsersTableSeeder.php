@@ -14,10 +14,10 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        /*  User::factory()->count(10)->create();
+        User::factory()->count(10)->create();
 
         // Crear un usuario con datos personalizados
-        User::create([
+        /*User::create([
             'name' => 'Jose Antonio Perez',
             'email' => 'antonio.170603@gmail.com',
             'departamento' => 'Leon',  
@@ -25,8 +25,8 @@ class UsersTableSeeder extends Seeder
             'domicilio' => 'Calle Falsa 123',
             'password' => bcrypt('zelda123'),  
             'profile_picture' => 'null.jpg', 
-        ]);*/
-
+        ]);
+*/
         $user = User::create([
             'name' => 'Pavel Rodriguez',
             'email' => 'pavel@gmail.com',
