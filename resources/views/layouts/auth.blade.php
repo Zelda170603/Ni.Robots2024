@@ -15,14 +15,11 @@
 <body class="flex flex-col bg-gradient custom-bg-gradient">
     <nav class="fixed top-0 md:justify-start md:flex-nowrap z-50 w-full backdrop-blur-3xl">
         <div class="max-w-[85rem] w-full mx-auto  md:gap-3 py-2 px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-around items-center ">
+            <div class="flex justify-around items-center">
                 <div class="flex gap-4 col-span-2 items-center">
-
                     <a class="flex-none font-extrabold text-xl  max-w-32 text-black focus:outline-none focus:opacity-80 dark:text-white"
                         href="{{route('home')}}" aria-label="Brand">Ni.Robots</a>
-
-                </div>
-
+                </div> 
                 <div class=" flex flex-wrap font-bold items-center gap-x-1.5">
                     <button id="theme-toggle" type="button"
                         class="text-gray-500 dark:text-gray-400 lg:ml-4 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5">

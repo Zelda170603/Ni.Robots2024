@@ -65,13 +65,11 @@ class ProductoController extends Controller
         return view('productos.index-user', compact('productos', 'fabricantes'));
     }
 
-
     public function index_fab(){
         $id = Auth::user()->role->roleable_id;
         $productos = Producto::where('id_fabricante', $id)->get();
         return view('Administracion.Fabricante.productos', compact('productos'));
     }
-
 
     public function index_admin(Request $request)
     {
@@ -86,7 +84,6 @@ class ProductoController extends Controller
 
         return view('administracion.index', compact('productos', 'fabricantes'));
     }
-
 
     /**
      * Show the form for creating a new resource.

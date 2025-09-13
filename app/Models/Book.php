@@ -60,3 +60,4 @@ class Book extends Model
         return $this->hasMany(CalificacionBook::class, 'id_book', 'id');
     }
 }
+            
