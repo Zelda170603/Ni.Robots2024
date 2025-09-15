@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-gradient{
+    background-image: url("../../public/images/Auth/bg.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+    min-height: 100vh; /* Asegura que el fondo cubra al menos la altura completa de la ventana */
+}
+
+.dark .custom-bg-gradient {
+    background-image: url("../../public/images/Auth/bg-dark.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+    min-height: 100vh; /* Asegura que el fondo cubra al menos la altura completa de la ventana */
+}
+
+.dark .dark-background-text{
+    background-image: linear-gradient(to top right, #6ab7ff, #4fd1c5, #2563eb);
+}
+
+.background-text {
+    background-image: linear-gradient(to top right, #2984da,  #2563eb , #0a3563);
+}
+
+.no-scrollbar {
+    scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Estilos personalizados para FullCalendar en modo oscuro */
+.dark .fc {
+    background-color: #1a202c; /* Fondo oscuro */
+    color: #e2e8f0; /* Texto claro */
+}
+
+.dark .fc .fc-toolbar, 
+.dark .fc .fc-daygrid-day, 
+.dark .fc .fc-daygrid-day-number {
+    background-color: #2d3748; /* Fondo de los días */
+    color: #e2e8f0; /* Texto de los días */
+}
+
+.dark .fc .fc-event {
+    background-color: #4a5568; /* Fondo de los eventos */
+    border-color: #718096; /* Borde de los eventos */
+    color: #f7fafc; /* Texto de los eventos */
+}
