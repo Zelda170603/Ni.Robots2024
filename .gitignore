@@ -1,0 +1,42 @@
+# ===== Global =====
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# Backups/archives locales
+*.tgz
+*.tar.gz
+*.zip
+
+# ===== Docker (mantén compose/Dockerfile/entrypoint) =====
+# (si usas volumen local para DB)
+db_data/
+
+# ===== Proyecto Laravel en Ni.Robots =====
+Ni.Robots/.env
+Ni.Robots/.env.*
+Ni.Robots/vendor/
+Ni.Robots/node_modules/
+Ni.Robots/public/hot
+Ni.Robots/public/build/
+Ni.Robots/public/storage
+Ni.Robots/storage/*.key
+Ni.Robots/storage/app/public
+Ni.Robots/storage/framework/cache/data
+Ni.Robots/storage/framework/sessions
+Ni.Robots/storage/framework/views
+Ni.Robots/storage/framework/testing
+Ni.Robots/storage/logs
+
+# Tests / coverage
+Ni.Robots/.phpunit.result.cache
+Ni.Robots/coverage/
+
+# Archivos de IDE dentro del subproyecto
+Ni.Robots/.idea/
+Ni.Robots/.vscode/
+
+# Carpeta vieja que no queremos versionar
+Ni.Robots_old/
