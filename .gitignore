@@ -9,7 +9,7 @@ Thumbs.db
 *.tgz
 *.tar.gz
 *.zip
-
+.env
 # ===== Docker (mantén compose/Dockerfile/entrypoint) =====
 # (si usas volumen local para DB)
 db_data/
@@ -29,7 +29,7 @@ Ni.Robots/storage/framework/sessions
 Ni.Robots/storage/framework/views
 Ni.Robots/storage/framework/testing
 Ni.Robots/storage/logs
-
+Ni.Robots_old
 # Tests / coverage
 Ni.Robots/.phpunit.result.cache
 Ni.Robots/coverage/
