@@ -40,3 +40,5 @@ Ni.Robots/.vscode/
 
 # Carpeta vieja que no queremos versionar
 Ni.Robots_old/
+/.env
+/Ni.Robots/.env
