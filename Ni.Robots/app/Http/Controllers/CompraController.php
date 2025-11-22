@@ -55,66 +55,85 @@ class CompraController extends Controller
         }
     }
 
-    public function process($orderId)
-    {
-        $accessToken = $this->getAccessToken();
-        if (!$accessToken) {
-            return response()->json(['error' => 'Unable to obtain access token'], 500);
-        }
-        try {
-            $response = $this->client->request('GET', '/v2/checkout/orders/' . $orderId, [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Authorization' => "Bearer $accessToken"
-                ]
+  public function process($orderId)
+{
+    $accessToken = $this->getAccessToken();
+    if (!$accessToken) {
+        return response()->json(['error' => 'Unable to obtain access token'], 500);
+    }
+    
+    try {
+        $response = $this->client->request('GET', '/v2/checkout/orders/' . $orderId, [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => "Bearer $accessToken"
+            ]
+        ]);
+        
+        $data = json_decode($response->getBody(), true);
+        if ($data['status'] == "APPROVED") {
+            $user = Auth::user()->id;
+            $carritos = Carrito::where('user_id', $user)->get();
+            
+            if ($carritos->isEmpty()) {
+                return response()->json(['error' => 'No items in cart'], 400);
+            }
+
+            $total = $carritos->sum(function ($carrito) {
+                return $carrito->producto->precio * $carrito->cantidad;
+            });
+            
+            $compra = Compra::create([
+                'user_id' => $user,
+                'compra_id' => Str::random(7),
+                'carrito_id' => $carritos->first()->id,
+                'total' => $total,
+                'status' => 'pendiente',
+                'paypal_order_id' => $orderId,
             ]);
-            $data = json_decode($response->getBody(), true);
-            if ($data['status'] == "APPROVED") {
-                $user = Auth::user()->id;
-                $carritos = Carrito::where('user_id', $user)->get();
-                if ($carritos->isEmpty()) {
-                    return response()->json(['error' => 'No items in cart'], 400);
+
+            foreach ($carritos as $carrito) {
+                // Obtén el producto
+                $producto = Producto::find($carrito->producto_id);
+                
+                if (!$producto) {
+                    Log::error("Product not found: " . $carrito->producto_id);
+                    continue;
                 }
 
-                $total = $carritos->sum(function ($carrito) {
-                    return $carrito->producto->precio * $carrito->cantidad;
-                });
-                $compra = Compra::create([
-                    'user_id' => $user,
-                    'compra_id' => Str::random(7),
-                    'carrito_id' => $carritos->first()->id,
-                    'total' => $total,
-                    'status' => 'pendiente',
-                    'paypal_order_id' => $orderId,
+                // Crea la relación en Compra_Producto con la cantidad y fabricante
+                Compra_producto::create([
+                    'compra_id' => $compra->id,
+                    'producto_id' => $carrito->producto_id,
+                    'fabricante_id' => $producto->id_fabricante,
+                    'cantidad' => $carrito->cantidad,
                 ]);
 
-                foreach ($carritos as $carrito) {
-                    // Obtén el producto
-                    $producto = Producto::find($carrito->producto_id);
-                    // Crea la relación en Compra_Producto con la cantidad y fabricante
-                    Compra_Producto::create([
-                        'compra_id' => $compra->id,
-                        'producto_id' => $carrito->producto_id,
-                        'fabricante_id' => $producto->id_fabricante, // Asume que existe un campo 'id_fabricante' en 'productos'
-                        'cantidad' => $carrito->cantidad,
-                    ]);
-                    // Reduce la existencia del producto según la cantidad comprada
-                    $producto->existencias -= $carrito->cantidad;
-                    $producto->save();
-                    // Notifica al fabricante del producto sobre la compra
+                // Reduce la existencia del producto según la cantidad comprada
+                $producto->existencias -= $carrito->cantidad;
+                $producto->save();
+
+                // Verificar relaciones antes de notificar
+                if ($producto->fabricante && $producto->fabricante->role && $producto->fabricante->role->user) {
                     $fabricante = $producto->fabricante->role->user;
                     $fabricante->notify(new OrdenRealizadaNotification($compra, $producto, $carrito->cantidad));
+                } else {
+                    Log::warning("Cannot notify manufacturer for product: " . $producto->id . ". Missing relationships.");
                 }
-                Carrito::where('user_id', $user)->delete();
-                return response()->json(['compra_id' => $compra->id]);
-            } else {
-                return response()->json(['error' => 'Payment not approved'], 400);
             }
-        } catch (\Exception $e) {
-            Log::error('Error processing PayPal order: ' . $e->getMessage());
-            return response()->json(['error' => 'Error processing order: ' . $e->getMessage()], 500);
+            
+            Carrito::where('user_id', $user)->delete();
+            return response()->json(['compra_id' => $compra->id]);
+            
+        } else {
+            return response()->json(['error' => 'Payment not approved'], 400);
         }
+        
+    } catch (\Exception $e) {
+        Log::error('Error processing PayPal order: ' . $e->getMessage());
+        return response()->json(['error' => 'Error processing order: ' . $e->getMessage()], 500);
     }
+}
     public function pago()
     {
         $carritos = Carrito::where('user_id', auth()->id())->with('producto')->get();
@@ -127,7 +146,7 @@ class CompraController extends Controller
         $tax = $subtotal * 0.15; // 15% de IVA
         $total = $subtotal + $tax;
 
-        return view('Productos.payment', [
+        return view('productos.payment', [
             'carritos' => $carritos,
             'subtotal' => $subtotal,
             'tax' => $tax,

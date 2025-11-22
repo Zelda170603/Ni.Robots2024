@@ -33,10 +33,12 @@ class Appointment extends Model
     }
 
     // Relación con el paciente
-    public function patient()
-    {
-        return $this->belongsTo(User::class, 'patient_id');
-    }
+    // Appointment.php
+public function patient()
+{
+    return $this->belongsTo(Paciente::class, 'patient_id');
+}
+
 
     public function getScheduledTime12Attribute()
     {

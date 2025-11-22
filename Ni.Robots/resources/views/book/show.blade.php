@@ -5,7 +5,7 @@
 @section('content')
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
-            <div class=" justify-center max-w-md lg:max-w-lg mx-auto">
+            <div class="justify-center max-w-md lg:max-w-lg mx-auto">
                 <!-- Main Image -->
                 <div class="border-2 border-gray-600 rounded-md p-2">
                     <img id="mainImage" class="w-full h-auto dark:block"
@@ -13,7 +13,18 @@
                         alt="{{ $book->title }}" />
                 </div>
 
+                <!-- Botón para abrir el modal del PDF -->
+                <div class="mt-6 text-center">
+                    <button id="open-pdf-modal" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        📖 Leer Libro PDF
+                    </button>
+                </div>
             </div>
+
             <div class="mt-6 sm:mt-8 lg:mt-0">
                 <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
                     {{ $book->title }}
@@ -63,10 +74,9 @@
                         </p>
                     </li>
 
-
                     <li class="flex flex-col gap-2">
                         <p class="text-gray-500 dark:text-gray-400">
-                            categoria:
+                            Público:
                         </p>
                         <span
                             class="me-2 rounded bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
@@ -85,13 +95,12 @@
                     </li>
                     <li class="flex flex-col gap-2">
                         <p class="text-gray-500 dark:text-gray-400">
-                            categoria:
+                            Categoría:
                         </p>
                         <span
-                            class="me-2 rounded bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                            class="me-2 rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
                             {{ $book->categoria }}</span>
                     </li>
-
                 </ul>
                 <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
                     <a href="#" title=""
@@ -105,7 +114,6 @@
                         Add to favorites
                     </a>
 
-
                     <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
                         data-book-id="{{ $book->id }}"
                         class="text-white mt-4 sm:mt-0 bg-primary-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex items-center justify-center"
@@ -116,8 +124,6 @@
                             <path stroke="currentColor" stroke-width="2"
                                 d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
                         </svg>
-
-
                         Calificar
                     </button>
                 </div>
@@ -147,7 +153,7 @@
                                 <img class="w-10 h-10 me-4 rounded-full" src="{{ Storage::url('images/profile_pictures/' . $comentario->user->profile_picture) }}"
                                     alt="">
                                 <div class="font-medium dark:text-white">
-                                    <p>{{ $comentario->user->name ?? 'Unknown User' }}
+                                    <p>{{ $comentario->user->name ?? 'Unknown User' }}</p>
                                 </div>
                             </div>
                             <div class="flex items-center mb-1 space-x-1 rtl:space-x-reverse">
@@ -161,8 +167,6 @@
                                 @endfor
                                 <h3 class="ms-2 text-sm font-semibold text-gray-900 dark:text-white">Thinking to
                                     buy another one!</h3>
-
-
                             </div>
                             <div class="mb-5 text-sm text-gray-500 dark:text-gray-400">
                                 <p>Calificado en {{ $comentario->user->departamento }},
@@ -183,44 +187,78 @@
                             <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
                         </article>
                     @endforeach
+                </div>
+            </div>
+        </div>
 
+        <!-- Modal para el PDF Viewer -->
+        <!-- Modal para el PDF Viewer -->
+       <div id="pdf-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-6xl h-[90vh] flex flex-col" 
+         data-pdf-url="{{ $book->file_url }}">
+        <!-- Header del Modal -->
+        <div class="flex justify-between items-center p-4 border-b dark:border-gray-700">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white">{{ $book->title }}</h3>
+            <button id="close-pdf-modal" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Contenido del PDF -->
+        <div class="flex flex-1 overflow-hidden">
+            <!-- Panel de controles lateral -->
+            <div class="w-16 bg-gray-100 dark:bg-gray-700 flex flex-col items-center py-4 space-y-4">
+                <button id="prev-page" class="p-2 bg-white dark:bg-gray-600 rounded-full shadow hover:bg-gray-200 dark:hover:bg-gray-500 transition duration-300 tooltip" title="Página anterior">
+                    <svg class="w-5 h-5 text-gray-800 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                
+                <div class="text-center text-sm font-medium text-gray-600 dark:text-gray-300">
+                    <span id="current">1</span>
+                    <span class="block text-xs">de</span>
+                    <span id="page-count"></span>
+                </div>
+                
+                <button id="next-page" class="p-2 bg-white dark:bg-gray-600 rounded-full shadow hover:bg-gray-200 dark:hover:bg-gray-500 transition duration-300 tooltip" title="Página siguiente">
+                    <svg class="w-5 h-5 text-gray-800 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+                
+                <div class="flex flex-col space-y-2 mt-4">
+                    <button id="zoom-in" class="p-2 bg-white dark:bg-gray-600 rounded-full shadow hover:bg-gray-200 dark:hover:bg-gray-500 transition duration-300 tooltip" title="Acercar">
+                        <svg class="w-5 h-5 text-gray-800 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                    </button>
+                    <button id="zoom-out" class="p-2 bg-white dark:bg-gray-600 rounded-full shadow hover:bg-gray-200 dark:hover:bg-gray-500 transition duration-300 tooltip" title="Alejar">
+                        <svg class="w-5 h-5 text-gray-800 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
-        </div>
-        <div id="pdf-viewer" class="max-w-5xl mx-auto flex flex-col items-center justify-center py-10"
-            data-title="{{ $book->title }}" data-url="{{ asset($book->file_url) }}">
-            <div id="canvas-container" class="space-y-4">
-                <div class="flex w-full items-center justify-between">
-                    <div id="nav" class="flex items-center justify-start gap-2">
-
-                        <button id="prev-page"
-                            class="py-2 px-3 bg-indigo-600 hover:bg-indigo-200 text-white transition delay-150 duration-300 ease-in-out">
-                            &#8592;
-                        </button>
-
-                        <span id="current" class="text-lg font-semibold">1</span>
-                        de
-                        <span id="page-count" class="text-lg font-semibold"></span>
-                        <button id="next-page"
-                            class="py-2 px-3 bg-indigo-600 hover:bg-indigo-200 text-white transition delay-150 duration-300 ease-in-out">
-                            &#8594;
-                        </button>
-                    </div>
-                    <div class="flex items-center justify-end gap-2">
-                        <button id="zoom-in"
-                            class="rounded-full py-1 px-3 bg-indigo-600 hover:bg-indigo-200 text-white transition delay-150 duration-300 ease-in-out">
-                            &#43;
-                        </button>
-                        <button id="zoom-out"
-                            class="rounded-full py-1 px-3 bg-indigo-600 hover:bg-indigo-200 text-white transition delay-150 duration-300 ease-in-out">
-                            &#45;
-                        </button>
-                    </div>
+            <!-- Área del PDF - VERSIÓN MEJORADA -->
+            <div class="flex-1 bg-gray-200 dark:bg-gray-600 overflow-auto p-4">
+                <div class="flex items-start justify-center min-h-full">
+                    <canvas id="pdf-renderer" class="shadow-lg mx-auto"></canvas>
                 </div>
-                <canvas id="pdf-renderer" class="border"></canvas>
             </div>
         </div>
+
+        <!-- Footer con información -->
+        <div class="p-3 bg-gray-100 dark:bg-gray-700 text-center text-sm text-gray-600 dark:text-gray-300">
+            Usa los controles para navegar • Zoom: +/- • Flechas del teclado • ESC para cerrar
+        </div>
+    </div>
+</div>
+
+
+        <!-- Sección de libros recomendados -->
         <div class="py-4 justify-center">
             <h1 class="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white mb-6">
                 Libros que te puedan interesar
@@ -288,16 +326,9 @@
                     {!! $bookCardmismoPublico !!}
                 </swiper-container>
             </div>
-
         </div>
 
-
-
-
-        <!-- PDF.js desde CDN -->
-
-
-        <!-- Main modal -->
+        <!-- Modal para calificar -->
         <div id="crud-modal" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
@@ -359,99 +390,8 @@
                 </div>
             </div>
         </div>
-        <script>
-            document.querySelectorAll('[data-modal-toggle="crud-modal"]').forEach(button => {
-                button.addEventListener('click', function() {
-                    const bookId = this.getAttribute('data-book-id');
-                    document.getElementById("id_book").value = bookId;
-                });
-            });
-
-            const stars = document.querySelectorAll('.stars');
-            const input = document.getElementById("calificacion");
-            let clicked = false;
-
-            stars.forEach(function(star) {
-                star.addEventListener('mouseover', function() {
-                    const selectedId = parseInt(star.id);
-                    stars.forEach(function(s) {
-                        if (!clicked && parseInt(s.id) <= selectedId) {
-                            s.classList.remove('text-gray-300');
-                            s.classList.add('text-yellow-300');
-                        }
-                    });
-                });
-
-                star.addEventListener('mouseout', function() {
-                    if (!clicked) {
-                        stars.forEach(function(s) {
-                            s.classList.remove('text-yellow-300');
-                            s.classList.add('text-gray-300');
-                        });
-                    }
-                });
-
-                star.addEventListener('click', function() {
-                    clicked = true;
-                    const selectedId = parseInt(star.id);
-                    input.value = selectedId;
-
-                    stars.forEach(function(s) {
-                        if (parseInt(s.id) <= selectedId) {
-                            s.classList.add('text-yellow-300');
-                            s.classList.remove('text-gray-300');
-                        } else {
-                            s.classList.remove('text-yellow-300');
-                            s.classList.add('text-gray-300');
-                        }
-                    });
-                });
-            });
-
-            document.getElementById("envio").addEventListener("click", function(event) {
-                event.preventDefault();
-
-                const formData = {
-                    puntuacion: document.getElementById("calificacion").value,
-                    comentario: document.getElementById("description").value,
-                    id_book: document.getElementById("id_book").value,
-                };
-                console.log(formData);
-
-                fetch('/books/rate', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                'content')
-                        },
-                        body: JSON.stringify(formData)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            return response.json().then(data => {
-                                throw new Error(data.message || 'Error en la solicitud');
-                            });
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Operación exitosa:', data.message);
-                        // Cierra el modal después de enviar la calificación
-                        alert("Tu reseña se ha enviado correctamente");
-                        // Optionally, reset the form fields if needed
-                        document.getElementById("description").value = ''; // Clear comment field
-                        document.getElementById("calificacion").value = '';
-
-                    })
-                    .catch(error => {
-                        console.error('Error:', error.message);
-                        // Aquí podrías manejar errores y mostrar mensajes al usuario si la solicitud falla
-                    });
-            });
-        </script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.worker.min.js"></script>
-        @vite('resources/js/books/loadpdf.js')
+        @vite('resources/js/books/modal-pdf.js')
     @endsection

@@ -1,37 +1,28 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Update') }} Autore
-        </h2>
-    </x-slot>
+@extends('layouts.adminLY')
 
-    <div class="py-12">
-        <div class="max-w-full mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="w-full">
-                    <div class="sm:flex sm:items-center">
-                        <div class="sm:flex-auto">
-                            <h1 class="text-base font-semibold leading-6 text-gray-900">{{ __('Update') }} Autore</h1>
-                            <p class="mt-2 text-sm text-gray-700">Update existing {{ __('Autore') }}.</p>
-                        </div>
-                        <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                            <a type="button" href="{{ route('autores.index') }}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Back</a>
-                        </div>
-                    </div>
+@section('title', 'Editar Autor')
 
-                    <div class="flow-root">
-                        <div class="mt-8 overflow-x-auto">
-                            <div class="max-w-xl py-2 align-middle">
-                                <form method="POST" action="{{ route('autores.update', $autore->id) }}"  role="form" enctype="multipart/form-data">
-                                    {{ method_field('PATCH') }}
-                                    @csrf
-                                    @include('autore.form')
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+@section('content')
+    <div class="col-span-4">
+        <h1 class="text-2xl font-bold mb-4 dark:text-gray-200">Editar Autor: {{ $autore->nombre }} {{ $autore->apellido }}</h1>
+        
+        <form action="{{ route('autores.update', $autore->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            
+            @include('autore.form', ['autore' => $autore])
+
+            <!-- Botones -->
+            <div class="flex justify-end mt-6 gap-4">
+                <button type="submit"
+                    class="bg-green-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-700">
+                    Actualizar
+                </button>
+                <a href="{{ route('autores.index') }}"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-gray-400">
+                    Cancelar
+                </a>
             </div>
-        </div>
+        </form>
     </div>
-</x-app-layout>
+@endsection

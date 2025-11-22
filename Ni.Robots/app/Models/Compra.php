@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Compra extends Model
 {
+    use HasFactory;
     protected $table = 'compras';
 
     protected $fillable = [
@@ -20,7 +21,7 @@ class Compra extends Model
 
     public function compraProductos()
     {
-        return $this->hasMany(Compra_Producto::class, 'compra_id');
+        return $this->hasMany(Compra_producto::class, 'compra_id');
     }
     public function user()
     {

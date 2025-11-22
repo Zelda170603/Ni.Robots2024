@@ -3,7 +3,7 @@
 @section('content')
     <div class="rounded-lg overflow-hidden col-span-4">
         <div class="text-slate-900 dark:text-white p-4">
-            <h1 class="text-2xl font-bold">Gestionar hoarios de atencion</h1>
+            <h1 class="text-2xl font-bold">Gestionar horarios de atencion</h1>
         </div>
         <div class="p-4">
             @if (session('success'))

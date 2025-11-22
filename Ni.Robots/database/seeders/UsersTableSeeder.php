@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(10)->create();
+        //User::factory()->count(10)->create();
 
         // Crear un usuario con datos personalizados
         /*User::create([
@@ -27,6 +27,7 @@ class UsersTableSeeder extends Seeder
             'profile_picture' => 'null.jpg', 
         ]);
 */
+
         $user = User::create([
             'name' => 'Pavel Rodriguez',
             'email' => 'pavel@gmail.com',
@@ -44,4 +45,7 @@ class UsersTableSeeder extends Seeder
             'roleable_type' => User::class,
         ]);
     }
+        
 }
+
+

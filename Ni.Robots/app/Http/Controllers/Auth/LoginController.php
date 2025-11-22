@@ -3,63 +3,75 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use App\Models\User;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
 
     protected function redirectTo()
     {
         $user = Auth::user();
 
-        // Check if the user has a role
-        if ($user->role) {
-            $role = $user->role->role_type;
-    
-            switch ($role) {
+        if ($user && $user->role) {
+            switch ($user->role->role_type) {
                 case 'fabricante':
-                    return '/Administracion/fabricante/index
-                    ';
-    
+                    return '/Administracion/fabricante/index';
                 case 'administrador':
                     return '/Administracion';
-                
                 case 'doctor':
                     return '/Administracion/doctor/index';
-    
                 default:
-                    return '/'; // Redirección por defecto para roles desconocidos
+                    return '/';
             }
         }
 
-        // Default redirect
         return '/';
     }
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Se ejecuta tras autenticación exitosa.
+     * - Guarda el ID de sesión actual en users.current_session_id
+     * - Elimina la sesión anterior (si existía) para evitar duplicidades
      */
+    protected function authenticated(Request $request, $user)
+    {
+        $newSessionId = $request->session()->getId();
+
+        if (!empty($user->current_session_id) && $user->current_session_id !== $newSessionId) {
+            DB::table('sessions')->where('id', $user->current_session_id)->delete();
+        }
+
+        // Asignación directa para evitar warnings de Intelephense y problemas de fillable
+        $user->current_session_id = $newSessionId;
+        $user->save();
+    }
+
+    /**
+     * Logout: limpia la marca de sesión si corresponde.
+     */
+    public function logout(Request $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user && $user->current_session_id === $request->session()->getId()) {
+                $user->current_session_id = null;
+                $user->save();
+            }
+        }
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');

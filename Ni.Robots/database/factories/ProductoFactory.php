@@ -24,29 +24,33 @@ class ProductoFactory extends Factory
     public function definition()
     {
         $categoria = DB::table('categorias_afectaciones')
-            ->select('id', 'nombre')
-            ->inRandomOrder()
-            ->first();
+    ->select('id', 'nombre')
+    ->inRandomOrder()
+    ->first();
 
-        // Seleccionar un tipo de afectación basado en la categoría seleccionada
-        $tipoAfectacion = $categoria ? DB::table('tipos_afectaciones')
-            ->where('categoria_id', $categoria->id)
-            ->inRandomOrder()
-            ->first() : null;
+$tipoAfectacion = $categoria
+    ? DB::table('tipos_afectaciones')
+        ->where('categoria_id', $categoria->id)
+        ->inRandomOrder()
+        ->first()
+    : null;
 
-        return [
-            'nombre_prod' => $this->faker->word,
-            'unique_id' => Str::random(7),
-            'descripcion' => $this->faker->sentence,
-            'foto_prod' => $this->faker->imageUrl(640, 480, 'products', true, 'Faker'),
-            'precio' => $this->faker->randomFloat(2, 10, 1000),
-            'color' => $this->faker->safeColorName,
-            'tipo_afectacion' => $categoria->nombre,
-            'nivel_afectacion' => $tipoAfectacion->tipo,
-            'grupo_usuarios' => $this->faker->randomElement(['niños', 'adultos', 'ancianos']),
-            'existencias' => $this->faker->numberBetween(1, 100),
-            'tipo_producto' => $this->faker->randomElement(['protesis', 'ortesis', 'ortopedicos']),
-            'id_fabricante' => Fabricante::inRandomOrder()->first()->id,
-        ];
+$fabricante = Fabricante::inRandomOrder()->first();
+
+return [
+    'nombre_prod' => $this->faker->word,
+    'unique_id' => Str::random(7),
+    'descripcion' => $this->faker->sentence,
+    'foto_prod' => $this->faker->imageUrl(640, 480, 'products', true, 'Faker'),
+    'precio' => $this->faker->randomFloat(2, 10, 1000),
+    'color' => $this->faker->safeColorName,
+    'tipo_afectacion' => $categoria->nombre ?? 'Sin categoría',
+    'nivel_afectacion' => $tipoAfectacion->tipo ?? 'Sin nivel',
+    'grupo_usuarios' => $this->faker->randomElement(['niños', 'adultos', 'ancianos']),
+    'existencias' => $this->faker->numberBetween(1, 100),
+    'tipo_producto' => $this->faker->randomElement(['protesis', 'ortesis', 'ortopedicos']),
+    'id_fabricante' => $fabricante->id ?? 12, // 1 como fallback si no hay fabricante
+];
+
     }
 }

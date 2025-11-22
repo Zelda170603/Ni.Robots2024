@@ -33,4 +33,10 @@ class Doctor extends Model
     {
         return $this->belongsTo(Specialty::class);
     }
+
+    // Add this relationship
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id');
+    }
 }

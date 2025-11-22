@@ -62,7 +62,7 @@ class ProductoController extends Controller
         $fabricantes = Fabricante::all();
         session()->put('productos', $productos);
 
-        return view('Productos.index-user', compact('productos', 'fabricantes'));
+        return view('productos.index-user', compact('productos', 'fabricantes'));
     }
 
     public function index_fab(){
@@ -82,7 +82,7 @@ class ProductoController extends Controller
 
         $fabricantes = Fabricante::all();
 
-        return view('administracion.index', compact('productos', 'fabricantes'));
+        return view('Administracion.index', compact('productos', 'fabricantes'));
     }
 
     /**

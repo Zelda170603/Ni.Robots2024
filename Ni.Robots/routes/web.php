@@ -24,6 +24,10 @@ use App\Http\Controllers\AutoreController;
 use App\Http\Controllers\EditorialeController;
 use App\Http\Controllers\AppointmentController; //citas
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpedienteController;
+use App\Http\Controllers\Api\FabricanteDashboardController;
+use App\Http\Controllers\Api\DoctorDashboardController;
 
 Route::post('/chatbot', [ChatbotController::class, "handleChatRequest"]);
 
@@ -33,8 +37,15 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/atencion_medica', [HomeController::class, 'atencion_medica'])->name('atencion_medica');
 route::get('/Administracion/doctor/index', [AdministracionController::class, "doctor"])->middleware('doctor')->name("doctor.index");
 route::get('/Administracion/fabricante/index', [AdministracionController::class, "fabricante"])->middleware('fabricante');
-Route::get('/Administracion', [ProductoController::class, "index_admin"])->middleware('admin');
 
+
+// Rutas del Dashboard 
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/Administracion', 'index')->name('dashboard');
+    Route::get('/Administracion/export-doctors', 'exportDoctors')->name('dashboard.export.doctors');
+    Route::get('/Administracion/export-sales-manufacturer', 'exportSalesByManufacturer')->name('dashboard.export.sales.manufacturer');
+    Route::get('/Administracion/usuarios-por-ciudad',  'mapaUsuarios');
+});
 // Rutas de notificaciones
 Route::middleware('auth')->controller(NotificationController::class)->group(function () {
     Route::get('/send-notification', 'create')->name('notifications.create');
@@ -45,6 +56,10 @@ Route::middleware('auth')->controller(NotificationController::class)->group(func
     Route::post('/notifications/create', 'store')->name('send-notification.store');
 });
 
+
+Route::get('books', [BookController::class, 'index_admin'])->name('books.index_admin');
+    Route::get('books/export-excel', [BookController::class, 'exportExcel'])->name('books.exportExcel');
+    Route::get('books/export-pdf', [BookController::class, 'exportPDF'])->name('books.exportPDF');
 
 // Rutas de productos
 Route::controller(ProductoController::class)->group(function () {
@@ -119,7 +134,14 @@ Route::middleware('auth')->controller(MensajesController::class)->group(function
     Route::post('mensajes/get_users', 'get_users')->name('mensajes.get_users');
     Route::get('mensajes/{name}/{id}', 'chat_with');
     Route::post('mensajes/send-message', 'store')->name('mensajes.send-message');
-});
+  // Videollamada (AGORA + Polling)
+    Route::post('mensajes/start-video-call', 'startVideoCall')->name('mensajes.start-video-call');
+    Route::post('mensajes/accept-video-call', 'acceptVideoCall')->name('mensajes.accept-video-call');
+    Route::post('mensajes/end-video-call', 'endVideoCall')->name('mensajes.end-video-call');
+    Route::post('mensajes/check-video-call-status', 'checkVideoCallStatus')->name('mensajes.check-video-call-status');
+    Route::post('mensajes/cleanup-expired-calls', 'cleanupExpiredCalls')->name('mensajes.cleanup-expired-calls');
+}
+);
 
 
 // Rutas de centro de atención
@@ -243,3 +265,69 @@ Route::middleware('auth')->group(function () {
         Route::get('/horario/horas', 'hours');
     });
 });
+
+
+Route::controller(UserController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        // Rutas principales de usuarios
+        Route::get('Administracion/usuarios', 'index_admin')->name('usuarios.index');
+        Route::get('Administracion/usuarios/create', 'create')->name('usuarios.create');
+        Route::post('Administracion/usuarios', 'store')->name('usuarios.store');
+        Route::get('Administracion/usuarios/{user}/edit', 'edit')->name('usuarios.edit');
+        Route::put('Administracion/usuarios/{user}', 'update')->name('usuarios.update');
+        Route::delete('Administracion/usuarios/{user}', 'destroy')->name('usuarios.destroy');
+        
+        // Rutas de exportación
+        Route::get('Administracion/usuarios/export-excel', 'exportExcel')->name('usuarios.exportExcel');
+        Route::get('Administracion/usuarios/export-pdf', 'exportPDF')->name('usuarios.exportPDF');
+    });
+});
+
+// Rutas para exportación del dashboard
+Route::get('/dashboard/export', [DashboardController::class, 'exportView'])->name('dashboard.export.view');
+// Rutas para exportación directa del dashboard
+Route::get('/dashboard/export/excel', [DashboardController::class, 'exportExcel'])->name('dashboard.export.excel');
+Route::get('/dashboard/export/pdf', [DashboardController::class, 'exportPDF'])->name('dashboard.export.pdf');
+
+Route::middleware('web')->get('/session/check', function (\Illuminate\Http\Request $request) {
+    if (!auth()->check()) {
+        return response()->json(['ok'=>false, 'reason'=>'guest'], 401);
+    }
+    $ok = auth()->user()->current_session_id === $request->session()->getId();
+    return $ok
+        ? response()->json(['ok'=>true])
+        : response()->json(['ok'=>false, 'reason'=>'stale'], 409);
+})->name('session.check');
+
+
+//Ruta para mis pacientes
+Route::middleware(['auth', 'doctor'])->get('/pacientes', [UserController::class, 'misPacientes'])->name('doctor.pacientes');
+
+//Rutas para expedientes médicos
+Route::middleware(['auth', 'doctor'])->group(function () {
+    Route::get('/expedientes/{pacienteId}', [ExpedienteController::class, 'show'])->name('expedientes.show');
+    Route::post('/expedientes', [ExpedienteController::class, 'store'])->name('expedientes.store');
+    Route::get('/expedientes/{expedienteId}/details', [ExpedienteController::class, 'getExpediente'])->name('expedientes.details');
+    
+    // Nuevas rutas para exportar
+    Route::get('/expedientes/export/excel/{pacienteId?}', [ExpedienteController::class, 'exportExcel'])->name('expedientes.export.excel');
+    Route::get('/expedientes/export/pdf/{pacienteId?}', [ExpedienteController::class, 'exportPDF'])->name('expedientes.export.pdf');
+    Route::get('/expedientes/reportes/{pacienteId?}', [ExpedienteController::class, 'reportes'])->name('expedientes.reportes');
+});
+
+
+//Rutas de chepe, dashboa
+Route::prefix('api/fabricante')->middleware('fabricante')->group(function () {
+    Route::get('/ventas-semana', [FabricanteDashboardController::class, 'ventasUltimaSemana']);
+    Route::get('/ventas-por-categoria', [FabricanteDashboardController::class, 'ventasPorCategoria']);
+    Route::get('/productos-mas-vendidos', [FabricanteDashboardController::class, 'productosMasVendidos']);
+    Route::get('/compras-por-estado', [FabricanteDashboardController::class, 'comprasPorEstado']);
+});
+
+Route::middleware('doctor')->get('/api/doctor/pacientes-por-afectacion', [DoctorDashboardController::class, 'pacientesPorAfectacion']);
+Route::middleware('doctor')->get('/api/doctor/citas-semana', [DoctorDashboardController::class, 'citasUltimaSemana']);
+Route::middleware('doctor')->get('/api/doctor/niveles-afectacion', [DoctorDashboardController::class, 'pacientesPorNivelAfectacion']);
+
+
+//rutas api
+

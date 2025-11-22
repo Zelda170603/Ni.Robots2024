@@ -1,36 +1,32 @@
-# Imagen base PHP-FPM con extensiones necesarias
-FROM php:8.2-fpm-alpine
+# PHP 8.3 (requerido por tus deps)
+FROM php:8.3-fpm-alpine
 
-# Instalar extensiones de PHP necesarias para Laravel
+# Paquetes del sistema
 RUN apk add --no-cache \
-        bash \
-        curl \
-        libpng-dev \
-        libjpeg-turbo-dev \
-        libwebp-dev \
-        libxpm-dev \
-        oniguruma-dev \
-        libxml2-dev \
-        zip \
-        unzip \
-        git \
-        mysql-client \
-        npm \
-        nodejs \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd xml opcache
+    bash curl git zip unzip \
+    icu-dev oniguruma-dev libzip-dev \
+    libpng-dev libjpeg-turbo-dev libwebp-dev libxpm-dev \
+    libxml2-dev \
+    mariadb-client \
+    nodejs npm
 
-# Configurar directorio de trabajo
+# Extensiones PHP (gd con jpeg/webp/xpm; +intl, pdo_mysql, etc.)
+RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-xpm \
+ && docker-php-ext-install -j$(nproc) pdo_mysql mbstring exif pcntl bcmath gd xml intl opcache
+
+# Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Directorio de trabajo
 WORKDIR /var/www/Ni.Robots
 
-# Copiar proyecto al contenedor
+# Copiar proyecto
 COPY Ni.Robots/ /var/www/Ni.Robots/
 
-# Copiar entrypoint
+# Entrypoint
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh \
+ && sed -i 's/\r$//' /usr/local/bin/entrypoint.sh
 
-# Usar entrypoint
 ENTRYPOINT ["entrypoint.sh"]
-
-# Comando por defecto
 CMD ["php-fpm"]

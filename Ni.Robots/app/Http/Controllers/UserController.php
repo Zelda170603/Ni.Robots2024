@@ -9,17 +9,56 @@ use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use App\Exports\UsersExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Appointment;
+use App\Models\Paciente;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index_admin()
+    public function index_admin(Request $request)
     {
-        $users = User::all();
-        return view('usuarios.index', compact('users'));
+        $query = User::with(['role']);
+
+        // Aplicar filtros
+        if ($request->filled('role_type')) {
+            $query->whereHas('role', function ($q) use ($request) {
+                $q->where('role_type', $request->role_type);
+            });
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        if ($request->filled('departamento')) {
+            $query->where('departamento', 'like', '%' . $request->departamento . '%');
+        }
+
+        if ($request->filled('municipio')) {
+            $query->where('municipio', 'like', '%' . $request->municipio . '%');
+        }
+
+        if ($request->filled('fecha_creacion_min') && $request->filled('fecha_creacion_max')) {
+            $query->whereBetween('created_at', [$request->fecha_creacion_min, $request->fecha_creacion_max]);
+        } elseif ($request->filled('fecha_creacion_min')) {
+            $query->where('created_at', '>=', $request->fecha_creacion_min);
+        } elseif ($request->filled('fecha_creacion_max')) {
+            $query->where('created_at', '<=', $request->fecha_creacion_max);
+        }
+
+        $users = $query->paginate(10);
+
+        // Obtener departamentos y municipios únicos para los filtros
+        $departamentos = User::distinct()->whereNotNull('departamento')->pluck('departamento');
+        $municipios = User::distinct()->whereNotNull('municipio')->pluck('municipio');
+        $roles = Role::distinct()->pluck('role_type');
+
+        return view('usuarios.index', compact('users', 'departamentos', 'municipios', 'roles'));
     }
 
     public function index()
@@ -28,14 +67,38 @@ class UserController extends Controller
         // Verifica si el usuario tiene el rol de 'paciente'
         if ($user->role && $user->role->role_type === 'paciente') {
             // Trae los datos del paciente relacionados
-            $user = User::with('role.roleable') // Carga la relación morphTo con el modelo Paciente
+            $user = User::with('role.roleable')
                 ->where('id', $user->id)
                 ->first();
         }
         return view('usuarios.profile', compact('user'));
     }
 
+    /**
+     * Exportar usuarios a Excel
+     */
+    public function exportExcel(Request $request)
+    {
+        $filters = $request->all();
+        return Excel::download(new UsersExport($filters), 'usuarios.xlsx');
+    }
 
+    /**
+     * Exportar usuarios a PDF
+     */
+    public function exportPDF(Request $request)
+    {
+        $filters = $request->all();
+
+        // Reutilizamos la lógica de filtros
+        $export = new \App\Exports\UsersPdfExport($filters);
+        $view = $export->view();
+
+        $pdf = Pdf::loadView($view->name(), $view->getData())
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('usuarios.pdf');
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -45,6 +108,7 @@ class UserController extends Controller
         $roles = ['administrador', 'normal'];
         return view('usuarios.create', compact('roles'));
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -56,8 +120,8 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'departamento' => 'required|exists:departamentos,id',
-            'municipio' => 'required|exists:municipios,id',
+            'departamento' => 'required|string|max:255',
+            'municipio' => 'required|string|max:255',
             'domicilio' => 'required|string|max:255',
         ]);
 
@@ -73,8 +137,8 @@ class UserController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'profile_picture' => $profilePicturePath,
-            'departamento_id' => $validated['departamento'],
-            'municipio_id' => $validated['municipio'],
+            'departamento' => $validated['departamento'],
+            'municipio' => $validated['municipio'],
             'domicilio' => $validated['domicilio'],
             'estado' => true,
         ]);
@@ -88,7 +152,7 @@ class UserController extends Controller
         ]);
 
         // Redirect to a success page or dashboard
-        return redirect()->route('usuarios.index')->with('success', 'User registered successfully with the administrador role.');
+        return redirect()->route('usuarios.index')->with('success', 'Usuario registrado exitosamente con el rol de administrador.');
     }
 
     /**
@@ -99,7 +163,6 @@ class UserController extends Controller
         //
     }
 
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -109,14 +172,13 @@ class UserController extends Controller
         // Verifica si el usuario tiene el rol de 'paciente'
         if ($user->role && $user->role->role_type === 'paciente') {
             // Trae los datos del paciente relacionados
-            $user = User::with('role.roleable') // Carga la relación morphTo con el modelo Paciente
+            $user = User::with('role.roleable')
                 ->where('id', $user->id)
                 ->first();
         }
         // Retornar la vista con el formulario de edición
         return view('usuarios.settings', compact('user'));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -186,14 +248,35 @@ class UserController extends Controller
         // Redirigir con un mensaje de éxito
         return redirect()->route('edit_profile')->with('success', 'Perfil actualizado exitosamente.');
     }
-
-
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(User $user)
     {
         //
+    }
+
+    //esto es para miscitas
+    public function misPacientes()
+    {
+        $doctorUser = Auth::user();
+
+        // Obtener el doctor_id real (id de la tabla doctor)
+        $doctorRole = Role::where('user_id', $doctorUser->id)
+            ->where('role_type', 'doctor')
+            ->first();
+
+        if (!$doctorRole) { 
+            $pacientes = collect();
+        } else {
+            $doctorId = $doctorRole->roleable_id;
+            // Obtener pacientes directamente como objetos Paciente
+            $pacientes = Appointment::where('doctor_id', $doctorId)
+                ->with(['patient.role.user']) // Cargar paciente con su usuario
+                ->get()->pluck('patient') // Obtener los modelos Paciente
+                ->filter()->unique('id'); // Eliminar duplicados
+        }
+
+        return view('Administracion.pacientes', compact('pacientes'));
     }
 }

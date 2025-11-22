@@ -19,7 +19,7 @@
                         clip-rule="evenodd"></path>
                 </svg>
                 <h2 class="mb-3 text-lg font-semibold dark:text-gray-100 text-gray-900">
-                    28 Noviembre 2024</h2>
+                    14 Octubre 2025</h2>
                 <p class="mb-4 font-normal">Únete a nuestra comunidad para descubrir lo último en tecnología médica
                     y cómo nuestros productos pueden mejorar tu movilidad y bienestar.</p>
                 <a href="#"
@@ -44,10 +44,9 @@
             </div>
         </div>
     </div>
+
     <div class="max-w-7xl py-10 px-4 lg:py-14 mx-auto relative">
-        <!-- Grid -->
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Card -->
             <a class="group flex flex-col focus:outline-none" href="{{ route('productos.index') }}">
                 <div class="relative pt-[50%] sm:pt-[70%] rounded-xl overflow-hidden">
                     <img class="size-full absolute top-0 start-0 object-cover group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out rounded-xl"
@@ -79,9 +78,6 @@
                 </div>
             </a>
 
-            <!-- End Card -->
-
-            <!-- Card -->
             <a class="group flex flex-col focus:outline-none" href="{{ route('books.index') }}">
                 <div class="relative pt-[50%] sm:pt-[70%] rounded-xl overflow-hidden">
                     <img class="size-full absolute top-0 start-0 object-cover group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out rounded-xl"
@@ -108,9 +104,7 @@
                     </p>
                 </div>
             </a>
-            <!-- End Card -->
 
-            <!-- Card -->
             <a class="group relative flex flex-col w-full min-h-60 bg-cover bg-center rounded-xl hover:shadow-lg focus:outline-none focus:shadow-lg transition"
                 href="{{ route('atencion_medica') }}"
                 style="background-image: url('{{ asset('images/index/card3.jpg') }}');">
@@ -131,26 +125,18 @@
                     </div>
                 </div>
             </a>
-
-
-            <!-- End Card -->
         </div>
-        <div class="absolute left-1/2 top-0 -z-10 -translate-x-1/2 blur-3xl xl:-top-6" aria-hidden="true">
-            <div class="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#80a2ff] to-[#9089fc] opacity-30"
+
+        <div class="absolute left-1/2 top-0 -z-10 -translate-x-1/2 blur-3xl xl:-top-6 w-full max-w-[72.1875rem] overflow-hidden"
+            aria-hidden="true">
+            <div class="aspect-[1155/678] w-full bg-gradient-to-tr from-[#80a2ff] to-[#9089fc] opacity-30"
                 style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
             </div>
         </div>
-
-        <!-- End Grid -->
     </div>
 
-    <div class="absolute left-1/2 top-0 -z-10 -translate-x-1/2 blur-3xl xl:-top-6" aria-hidden="true">
-        <div class="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#80a2ff] to-[#9089fc] opacity-30"
-            style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
-        </div>
-    </div> 
     <div class="overflow-hidden py-8">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div
                 class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
                 <div class="lg:pr-8 lg:pt-4">
@@ -177,9 +163,7 @@
                                     Envío de productos especializado.
                                 </dt>
                                 <dd class="inline text-gray-900 dark:text-gray-300">Recibe tus dispositivos médicos o de
-                                    asistencia en tu
-                                    domicilio o en tu centro de atención preferido, con la seguridad de que llegarán en las
-                                    mejores condiciones.</dd>
+                                    asistencia en tu domicilio o en tu centro de atención preferido.</dd>
                             </div>
                             <div class="relative pl-9">
                                 <dt class="inline font-semibold text-gray-900 dark:text-gray-100">
@@ -192,8 +176,7 @@
                                     Productos certificados.
                                 </dt>
                                 <dd class="inline text-gray-900 dark:text-gray-300">Nuestros productos cuentan con
-                                    certificaciones
-                                    internacionales que aseguran su calidad y seguridad en el uso diario.</dd>
+                                    certificaciones internacionales.</dd>
                             </div>
                             <div class="relative pl-9">
                                 <dt class="inline font-semibold text-gray-900 dark:text-gray-100">
@@ -207,123 +190,149 @@
                                     </svg>
                                     Asesoría especializada.
                                 </dt>
-                                <dd class="inline text-gray-900 dark:text-gray-300">Nuestro equipo de expertos está
-                                    disponible para
-                                    ayudarte a seleccionar el equipo adecuado para tus necesidades y responder cualquier
-                                    consulta técnica.</dd>
+                                <dd class="inline text-gray-900 dark:text-gray-300">Nuestro equipo te ayuda a elegir el
+                                    equipo adecuado.</dd>
                             </div>
                         </dl>
                     </div>
                 </div>
                 <img src="{{ asset('images/index/image5.avif') }}" alt="image"
-                    class="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0">
+                    class="w-full max-w-full rounded-xl shadow-xl ring-1 ring-gray-400/10 md:w-[48rem] lg:w-[57rem] mx-auto">
             </div>
         </div>
     </div>
-    <!-- End Features -->
-    <!-- Features -->
-    <div class="max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        <!-- Grid -->
-        <div class="md:grid md:grid-cols-2 md:items-center md:gap-12 xl:gap-32">
-            <div>
-                <img class="rounded-xl"
-                    src="https://images.unsplash.com/photo-1648737963503-1a26da876aca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=900&h=900&q=80"
-                    alt="Features Image">
-            </div>
-            <!-- End Col -->
 
-            <div class="mt-5 sm:mt-10 lg:mt-0">
-                <div class="space-y-6 sm:space-y-8">
-                    <!-- Título -->
-                    <div class="space-y-2 md:space-y-4">
-                        <h2 class="font-bold text-3xl lg:text-4xl text-gray-800 dark:text-neutral-200">
-                            Únete a nuestra red de médicos
-                        </h2>
-                        <p class="text-gray-500 dark:text-neutral-500">
-                            Regístrate en nuestra plataforma y forma parte de una comunidad que conecta a pacientes con
-                            especialistas en diversas áreas médicas.
-                        </p>
-                    </div>
-                    <!-- Fin del Título -->
-
-                    <!-- Lista de beneficios -->
-                    <ul class="space-y-2 sm:space-y-4">
-                        <li class="flex gap-x-3">
-                            <span
-                                class="mt-0.5 size-5 flex justify-center items-center rounded-full bg-blue-50 text-blue-600 dark:bg-blue-800/30 dark:text-blue-500">
-                                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                            </span>
-                            <div class="grow">
-                                <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
-                                    <span class="font-bold">Rápido y sencillo</span> proceso de registro
-                                </span>
-                            </div>
-                        </li>
-
-                        <li class="flex gap-x-3">
-                            <span
-                                class="mt-0.5 size-5 flex justify-center items-center rounded-full bg-blue-50 text-blue-600 dark:bg-blue-800/30 dark:text-blue-500">
-                                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                            </span>
-                            <div class="grow">
-                                <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
-                                    Acceso a <span class="font-bold">herramientas poderosas</span> para la gestión de
-                                    pacientes
-                                </span>
-                            </div>
-                        </li>
-
-                        <li class="flex gap-x-3">
-                            <span
-                                class="mt-0.5 size-5 flex justify-center items-center rounded-full bg-blue-50 text-blue-600 dark:bg-blue-800/30 dark:text-blue-500">
-                                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                            </span>
-                            <div class="grow">
-                                <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
-                                    Diseñado para mejorar la <span class="font-bold">experiencia del usuario</span>
-                                </span>
-                            </div>
-                        </li>
-                    </ul>
-                    <!-- Fin de la Lista de beneficios -->
-
-                    <!-- Botón de redirección -->
-                    <a class="group inline-flex items-center gap-x-2 py-2 px-3 bg-blue-800 font-medium text-sm text-gray-200 rounded-full focus:outline-none"
-                        href="{{ route('register_doctor') }}">
-                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                            </path>
-                            <path
-                                class="opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-hover:delay-100 transition"
-                                d="M14.05 2a9 9 0 0 1 8 7.94"></path>
-                            <path class="opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition"
-                                d="M14.05 6A5 5 0 0 1 18 10"></path>
-                        </svg>
-                        Registrarse como Médico
-                    </a>
+    @guest
+        <div class="max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+            <div class="md:grid md:grid-cols-2 md:items-center md:gap-12 xl:gap-32">
+                <div>
+                    <img class="rounded-xl w-full"
+                        src="https://images.unsplash.com/photo-1648737963503-1a26da876aca?auto=format&fit=crop&w=900&h=900&q=80"
+                        alt="Features Image">
                 </div>
-
+                <div class="mt-5 sm:mt-10 lg:mt-0">
+                    <div class="space-y-6 sm:space-y-8">
+                        <div class="space-y-2 md:space-y-4">
+                            <h2 class="font-bold text-3xl lg:text-4xl text-gray-800 dark:text-neutral-200">
+                                Únete a nuestra red de médicos
+                            </h2>
+                            <p class="text-gray-500 dark:text-neutral-500">
+                                Regístrate y conecta con pacientes que necesitan especialistas.
+                            </p>
+                        </div>
+                        <ul class="space-y-2 sm:space-y-4">
+                            <li class="flex gap-x-3">
+                                <span
+                                    class="mt-0.5 size-5 flex justify-center items-center rounded-full bg-blue-50 text-blue-600 dark:bg-blue-800/30 dark:text-blue-500">
+                                    <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                </span>
+                                <div class="grow">
+                                    <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
+                                        Proceso de registro rápido
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="flex gap-x-3">
+                                <span
+                                    class="mt-0.5 size-5 flex justify-center items-center rounded-full bg-blue-50 text-blue-600 dark:bg-blue-800/30 dark:text-blue-500">
+                                    <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                </span>
+                                <div class="grow">
+                                    <span class="text-sm sm:text-base text-gray-500 dark:text-neutral-500">
+                                        Herramientas para gestión de pacientes
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                        <a class="group inline-flex items-center gap-x-2 py-2 px-3 bg-blue-800 font-medium text-sm text-gray-200 rounded-full focus:outline-none"
+                            href="{{ route('register_doctor') }}">
+                            Registrarse como Médico
+                        </a>
+                    </div>
+                </div>
             </div>
-            <!-- End Col -->
         </div>
-        <!-- End Grid -->
-    </div>
-    <!-- End Features -->
+    @endguest
+
+    @auth
+        <div id="productos-interes" class="py-4 pb-8">
+            <h1 class="text-3xl font-bold text-gray-900 sm:text-2xl dark:text-white mb-6">
+                Productos que te puedan interesar
+            </h1>
+            <swiper-container class="mySwiper pb-6" pagination-clickable="true"
+                breakpoints='{
+                    "640": { "slidesPerView": 1, "spaceBetween": 10 },
+                    "768": { "slidesPerView": 2, "spaceBetween": 20 },
+                    "1024": { "slidesPerView": 3, "spaceBetween": 30 }
+                }'>
+                {!! $productCardView !!}
+            </swiper-container>
+        </div>
+
+        <div class="py-4 pb-8">
+            <h1 class="text-3xl font-bold text-gray-900 sm:text-2xl dark:text-white mb-6">
+                Libros mejor calificados
+            </h1>
+            <swiper-container class="mySwiper" pagination-clickable="true"
+                breakpoints='{
+                    "640": { "slidesPerView": 1, "spaceBetween": 10 },
+                    "768": { "slidesPerView": 2, "spaceBetween": 20 },
+                    "1024": { "slidesPerView": 3, "spaceBetween": 30 }
+                }'>
+                {!! $bookCardMejorCalificados !!}
+            </swiper-container>
+        </div>
+    @endauth
 
     @include('Index.chatbot')
 @endsection
+
+<script>
+(function () {
+    // imagen de prótesis que PASASTE
+    const FALLBACK = "https://www.ortossur.com/wp-content/uploads/2018/05/der.png";
+
+    function applyFallbackToSection() {
+        const section = document.getElementById('productos-interes');
+        if (!section) return;
+
+        const imgs = section.querySelectorAll('img');
+
+        imgs.forEach(function (img) {
+            // si viene sin src -> prótesis
+            if (!img.getAttribute('src') || img.getAttribute('src').trim() === '') {
+                img.setAttribute('src', FALLBACK);
+            }
+
+            // si falla -> prótesis
+            img.onerror = function () {
+                if (this.src !== FALLBACK) {
+                    this.src = FALLBACK;
+                }
+            };
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        applyFallbackToSection();
+
+        // por si el swiper inyecta slides después
+        let tries = 0;
+        const interval = setInterval(function () {
+            applyFallbackToSection();
+            tries++;
+            if (tries > 15) {
+                clearInterval(interval);
+            }
+        }, 800);
+    });
+})();
+</script>

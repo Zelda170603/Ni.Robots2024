@@ -1,76 +1,112 @@
+const contactlist = document.getElementById('contact-list');
+const searchBar = document.getElementById('search-bar');
+const searchBarUsers = document.getElementById('search-bar-users');
+const userList = document.getElementById('user-list');
 
-
-const contactlist = document.getElementById('contact-list'),
-        searchBar = document.getElementById('search-bar'),
-        searchBar_Users = document.getElementById('search-bar-users'),
-        Userlist = document.getElementById('user-list');
-
-document.addEventListener('DOMContentLoaded', function(){
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/mensajes/get-contactlist", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    xhr.onload = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                let data = JSON.parse(xhr.response);
-                contactlist.innerHTML = data; // Actualiza el contenido del contenedor con el HTML recibido
-            } else {
-                console.error('Request failed with status:', xhr.status);
+document.addEventListener('DOMContentLoaded', function() {
+    // Función para cargar la lista de contactos
+    function loadContactList() {
+        fetch('/mensajes/get-contactlist', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
-        }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                contactlist.innerHTML = data.html;
+                console.log('Contactos cargados:', data.count);
+            } else {
+                contactlist.innerHTML = data.html;
+                console.error('Error del servidor:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error loading contact list:', error);
+            contactlist.innerHTML = '<p class="text-red-500">Error al cargar contactos</p>';
+        });
     }
-    xhr.onerror = function () {
-        console.error('Request failed');
-    };
-    xhr.send();
+
+    // Función para buscar contactos por nombre
+    function searchContacts(searchTerm) {
+        fetch('/mensajes/searchByName', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ searchTerm: searchTerm })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.html) {
+                contactlist.innerHTML = data.html;
+            } else if (data.html) {
+                contactlist.innerHTML = data.html;
+            }
+        })
+        .catch(error => {
+            console.error('Error searching contacts:', error);
+        });
+    }
+
+    // Función para buscar usuarios
+    function searchUsers(searchTerm) {
+        fetch('/mensajes/get_users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ searchTerm: searchTerm })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.html) {
+                userList.innerHTML = data.html;
+            }
+        })
+        .catch(error => {
+            console.error('Error searching users:', error);
+        });
+    }
+
+    // Cargar lista inicial de contactos
+    loadContactList();
+
+    // Recargar contactos cada 30 segundos
+    setInterval(loadContactList, 30000);
+
+    // Event listener para búsqueda de contactos
+    if (searchBar) {
+        searchBar.addEventListener('input', function() {
+            const searchTerm = this.value.trim();
+            
+            if (searchTerm.length >= 2) {
+                searchContacts(searchTerm);
+            } else if (searchTerm.length === 0) {
+                loadContactList();
+            }
+        });
+    }
+
+    // Event listener para búsqueda de usuarios
+    if (searchBarUsers) {
+        searchBarUsers.addEventListener('input', function() {
+            const searchTerm = this.value.trim();
+            
+            if (searchTerm.length >= 2) {
+                searchUsers(searchTerm);
+            } else if (searchTerm.length === 0) {
+                userList.innerHTML = '';
+            }
+        });
+    }
 });
-
-searchBar.onkeyup = () => {
-    let searchTerm = searchBar.value.trim(); // Obtén el valor del campo de búsqueda y elimina espacios en blanco al inicio y al final
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/mensajes/searchByName", true); // Asegúrate de usar la ruta correcta
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    xhr.onload = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                let data = JSON.parse(xhr.responseText);
-                contactlist.innerHTML = data.html; // Actualiza el contenido del contenedor con el HTML recibido
-            } else {
-                console.error('Request failed with status:', xhr.status);
-            }
-        }
-    };
-
-    xhr.onerror = function () {
-        console.error('Request failed');
-    };
-
-    xhr.send(JSON.stringify({ searchTerm: searchTerm }));
-};
-
-searchBar_Users.onkeyup = () => {
-    let searchTerm = searchBar_Users.value.trim(); // Obtén el valor del campo de búsqueda y elimina espacios en blanco al inicio y al final
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/mensajes/get_users", true); // Asegúrate de usar la ruta correcta
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    xhr.onload = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                let data = JSON.parse(xhr.responseText);
-                Userlist.innerHTML = data.html; // Actualiza el contenido del contenedor con el HTML recibido
-            } else {
-                console.error('Request failed with status:', xhr.status);
-            }
-        }
-    };
-
-    xhr.onerror = function () {
-        console.error('Request failed');
-    };
-
-    xhr.send(JSON.stringify({ searchTerm: searchTerm }));
-};
-

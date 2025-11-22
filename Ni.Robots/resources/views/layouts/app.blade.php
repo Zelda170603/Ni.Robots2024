@@ -20,5 +20,7 @@
     <main class="container relative mx-auto p-4 max min-h-full mt-18">
         @yield('content')
     </main>
+    
+    @include('Index.footer')
     @vite('resources/js/dark-mode.js')
 </body>

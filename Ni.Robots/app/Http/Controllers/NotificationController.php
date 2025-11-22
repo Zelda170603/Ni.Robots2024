@@ -51,14 +51,14 @@ class NotificationController extends Controller
         $html = '';
         // Mostrar notificaciones no leídas
         if (!$unreadNotifications->isEmpty()) {
-            $html .= '<h2 class="text-lg p-1 font-semibold text-gray-800 dark:text-gray-300">Notificaciones no leídas</h2>';
+            $html .= '<h3 class="text-lg p-1 font-semibold text-gray-800 dark:text-gray-300">Notificaciones no leídas</h2>';
             foreach ($unreadNotifications as $notification) {
                 $html .= $this->formatNotification($notification);
             }
         }
         // Mostrar notificaciones leídas
         if (!$readNotifications->isEmpty()) {
-            $html .= '<h2 class="p-1 text-lg font-semibold text-gray-800 dark:text-gray-300">Notificaciones leídas</h2>';
+            $html .= '<h3 class="p-1 text-lg font-semibold text-gray-800 dark:text-gray-300">Notificaciones leídas</h2>';
             foreach ($readNotifications as $notification) {
                 $html .= $this->formatNotification($notification);
             }
@@ -100,7 +100,7 @@ class NotificationController extends Controller
         $avatarUrl = Storage::url('images/profile_pictures/' . $senderAvatar);
 
         return '
-        <div href="" class="flex px-4 py-3  ' . $readClass . '" data-id="' . $notification->id . '">
+        <div href="" class="flex w-full p-2  ' . $readClass . '" data-id="' . $notification->id . '">
             <div class="flex-shrink-0 relative">
                 <img class="rounded-full w-11 h-11" src="' . $avatarUrl . '">
                 <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
@@ -128,7 +128,7 @@ class NotificationController extends Controller
         $avatarUrl = Storage::url('images/profile_pictures/' . $senderAvatar);
 
         return '
-        <div href="#" class="flex px-4 py-3  ' . $readClass . '" data-id="' . $notification->id . '">
+        <div href="#" class="flex w-full p-2 ' . $readClass . '" data-id="' . $notification->id . '">
             <div class="flex-shrink-0 relative">
                 <img class="rounded-full w-11 h-11" src="' . $avatarUrl . '">
                 <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
@@ -152,7 +152,7 @@ class NotificationController extends Controller
     private function formatGlobalNotification($notification, $readClass)
     {
         return '
-        <div href="#" class="flex px-4 py-3 ' . $readClass . '" data-id="' . $notification->id . '">
+        <div href="#" class="flex w-full p-2 ' . $readClass . '" data-id="' . $notification->id . '">
             <div class="flex-shrink-0 relative">
                 <img class="rounded-full w-11 h-11" src="">
                 <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
@@ -175,7 +175,7 @@ class NotificationController extends Controller
     private function formatUserNotification($notification, $readClass)
     {
         return '
-        <div href="#" class="flex px-4 py-3 ' . $readClass . '" data-id="' . $notification->id . '">
+        <div href="#" class="flex w-full p-2 ' . $readClass . '" data-id="' . $notification->id . '">
             <div class="flex-shrink-0 relative">
                 <img class="rounded-full w-11 h-11" src="">
                 <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
@@ -202,7 +202,7 @@ class NotificationController extends Controller
         $cantidad = $notification->data['details']['cantidad'];
         $total = $notification->data['details']['total'];
         return '
-    <div href="#" class="flex px-4 py-3 ' . $readClass . '" data-id="' . $notification->id . '">
+    <div href="#" class="flex w-full p-2 ' . $readClass . '" data-id="' . $notification->id . '">
         <div class="flex-shrink-0 relative">
             <img class="rounded-full w-11 h-11" src="">
             <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">

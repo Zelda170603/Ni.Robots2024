@@ -7,13 +7,22 @@
         <div class="sm:mx-auto sm:w-full sm:max-w-lg">
             <div class=" px-6 py-8 rounded-lg sm:px-12">
                 <div class="sm:mx-auto sm:w-full sm:max-w-md">
+
                     <h2
                         class="mt-6 text-start text-3xl font-extrabold leading-9 tracking-tight text-opacity-100 background-text dark-background-text bg-clip-text text-transparent">
                         Bienvenido, inicia sesion con tu cuenta</h2>
                 </div>
+
+
                 <form class="space-y-6 pt-4" action="{{route("login")}}" method="POST">
                     @csrf
                     <div>
+                        @if (session('status'))
+  <div class="mb-4 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-100 dark:border-yellow-700">
+    {{ session('status') }}
+  </div>
+@endif
+
                         <label for="email" class="block text-sm font-bold leading-6 text-blue-800 dark:text-blue-300">Email
                             address</label>
                         <div class="mt-2">

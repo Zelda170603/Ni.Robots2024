@@ -1,6 +1,6 @@
 <a href="{{ route('CentroAtencion.show', $centro->id) }}" class="flex rounded w-full p-1 items-center hover:bg-gray-200 dark:hover:bg-gray-600">
     <div class="w-20 h-20 flex-shrink-0 relative">
-        <img src="{{ asset('storage/images/centros_atencion/' . $centro->foto_centro) }}" 
+       <img src="{{ asset('images/centros_atencion/' . $centro->foto_centro) }}" 
              class="absolute inset-0 w-full h-full object-cover rounded self-start justify-self" 
              alt="Foto Principal">
     </div>

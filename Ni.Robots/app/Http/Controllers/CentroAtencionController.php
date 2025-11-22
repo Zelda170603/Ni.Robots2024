@@ -17,7 +17,7 @@ class CentroAtencionController extends Controller
     public function index()
     {
         $centros = Centro_Atencion::all();
-        return view('centro_atencion.index', compact('centros'));
+        return view('Centro_Atencion.index', compact('centros'));
     }
 
     /**

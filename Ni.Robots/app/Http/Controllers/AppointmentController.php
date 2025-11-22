@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\Reserva_cita;
+use Illuminate\Support\Facades\Log; 
+
 
 class AppointmentController extends Controller
 {
@@ -119,136 +121,160 @@ class AppointmentController extends Controller
         return view('appointments.create', compact('specialties', 'intervals'));
     }
 
-    public function create_with_medico($doctorId, HorarioServiceInterface $horarioServiceInterface)
-    {
-        // Obtener el doctor en específico basado en el ID pasado como parámetro
-        $medico = User::whereHas('role', function ($query) use ($doctorId) {
-            $query->where('role_type', 'doctor')->where('roleable_id', $doctorId);
-        })->with('doctor.specialty')->first(); // Usar first() para obtener un único registro
-        // Verificar si el doctor fue encontrado
-        if (!$medico) {
-            abort(404, 'Doctor no encontrado.');
-        }
-        // Cargar la especialidad relacionada con el doctor
-        $specialty = $medico->doctor->especialidad; // Acceder a la especialidad del modelo Doctor
+    public function create_with_medico($medicoId, HorarioServiceInterface $horarioServiceInterface)
+{
+    // El parámetro $medicoId es el user_id del doctor
+    // Buscar el doctor por su user_id
+    $medico = User::whereHas('role', function ($query) use ($medicoId) {
+            $query->where('role_type', 'doctor')
+                  ->where('user_id', $medicoId); // Buscar por user_id
+        })->with(['role', 'doctor'])->first();
 
-        // Obtener la fecha y validar si se seleccionó una fecha específica para obtener los intervalos disponibles
-        $date = old('scheduled_date');
-        if ($date) {
-            // Obtener los intervalos disponibles en la fecha y el doctor específico
-            $intervals = $horarioServiceInterface->getAvaiableIntervals($date, $doctorId);
-        } else {
-            $intervals = null;
-        }
-
-        // Retornar la vista con los datos del doctor y los intervalos
-        return view('appointments.create_with_doctor', compact('medico', 'specialty', 'intervals'));
+    // Verificar si el doctor fue encontrado
+    if (!$medico) {
+        abort(404, 'Doctor no encontrado.');
     }
+
+    // Obtener el doctor_id real (id de la tabla doctor) para los intervalos
+    $realDoctorId = $medico->role->roleable_id;
+    
+    // Cargar la especialidad relacionada con el doctor
+    $specialty = $medico->doctor->especialidad ?? 'General';
+
+    // Obtener la fecha y validar si se seleccionó una fecha específica para obtener los intervalos disponibles
+    $date = old('scheduled_date');
+    
+    if ($date && $realDoctorId) {
+        // Obtener los intervalos disponibles en la fecha y el doctor específico
+        // Pasar el realDoctorId (id de tabla doctor) no el user_id
+        $intervals = $horarioServiceInterface->getAvaiableIntervals($date, $realDoctorId);
+    } else {
+        $intervals = null;
+    }
+
+    // Retornar la vista con los datos del doctor y los intervalos
+    return view('appointments.create_with_doctor', compact('medico', 'specialty', 'intervals'));
+}
 
 
 
     public function store(Request $request, HorarioServiceInterface $horarioServiceInterface)
-    {
-        // Reglas de validación
-        $rules = [
-            'scheduled_time' => 'required',
-            'type' => 'required',
-            'description' => 'required',
-            'doctor_id' =>  'exists:users,id',
-            'specialty' => 'required'
-        ];
+{
+    // Reglas de validación
+    $rules = [
+        'scheduled_time' => 'required',
+        'type' => 'required',
+        'description' => 'required',
+        'doctor_id' => 'required|exists:users,id', // Asegurar que viene el doctor_id
+        'specialty' => 'required'
+    ];
 
-        // Mensajes de error
-        $messages = [
-            'scheduled_time.required' => 'Debe seleccionar una hora valida para su cita.',
-            'type.required' => 'Debe seleccionar el tipo de consulta',
-            'description.required' => 'Debe poner sus sintomas.'
-        ];
+    // Mensajes de error
+    $messages = [
+        'scheduled_time.required' => 'Debe seleccionar una hora valida para su cita.',
+        'type.required' => 'Debe seleccionar el tipo de consulta',
+        'description.required' => 'Debe poner sus sintomas.',
+        'doctor_id.required' => 'Debe seleccionar un doctor.',
+        'doctor_id.exists' => 'El doctor seleccionado no existe.'
+    ];
 
-        // Validación
-        $validator = Validator::make($request->all(), $rules, $messages);
+    // Validación
+    $validator = Validator::make($request->all(), $rules, $messages);
 
-        // Validación adicional después de crear el validador
-        $validator->after(function ($validator) use ($request, $horarioServiceInterface) {
-            $date = $request->input('scheduled_date');
-            $doctorId = $request->input('doctor_id');
-            $scheduled_time = $request->input('scheduled_time');
+    // Validación adicional después de crear el validador
+    $validator->after(function ($validator) use ($request, $horarioServiceInterface) {
+        $date = $request->input('scheduled_date');
+        $doctorUserId = $request->input('doctor_id'); // Este es el user_id del doctor
+        $scheduled_time = $request->input('scheduled_time');
 
-            if ($date && $doctorId && $scheduled_time) {
+        if ($date && $doctorUserId && $scheduled_time) {
+            // Obtener el doctor_id real (id de la tabla doctor)
+            $doctorRole = Role::where('user_id', $doctorUserId)
+                            ->where('role_type', 'doctor')
+                            ->first();
+            
+            if ($doctorRole) {
+                $realDoctorId = $doctorRole->roleable_id;
                 $start = new Carbon($scheduled_time);
-            } else {
-                return;
-            }
-
-            if (!$horarioServiceInterface->isAvaibleInterval($date, $doctorId, $start)) {
-                $validator->errors()->add(
-                    'available_time',
-                    'La hora seleccionada ya se encuentra seleccionada por otro paciente.'
-                );
-            }
-        });
-
-        // Si hay errores de validación, regresar con los errores y la entrada anterior
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        // Obtener solo los datos necesarios del request
-        $data = $request->only([
-            'scheduled_date',
-            'scheduled_time',
-            'type',
-            'description',
-            'doctor_id',
-            'specialty'
-        ]);
-
-        $user = auth()->user();
-        // Obtener el ID del paciente asociado al rol
-        $patientRole = Role::where("user_id", $user->id)->first();
-
-        // Asignar el ID del paciente según el rol
-        if ($user->role->role_type === 'admin') {
-            $request->validate([
-                'patient_id' => 'required|exists:pacientes,id',
-            ]);
-            $data['patient_id'] = $patientRole->roleable_id;
-        } else {
-            $data['patient_id'] = $patientRole->roleable_id;
-        }
-
-        // Convertir el tiempo a formato 24 horas
-        $carbonTime = Carbon::createFromFormat('g:i A', $data['scheduled_time']);
-        $data['scheduled_time'] = $carbonTime->format('H:i:s');
-
-        // Crear la cita
-        Appointment::create($data);
-
-        $notification = 'La cita se ha realizado correctamente.';
-
-        // Obtener el usuario receptor (doctor)
-        $receiver = Role::where('roleable_id', $request->input('doctor_id'))
-            ->where('role_type', 'doctor')->first('user_id');
-
-        if ($receiver) {
-            // Encontrar el usuario receptor por ID
-            $user = User::find($receiver->user_id);
-
-            // Obtener el remitente (paciente o admin)
-            $sender = [
-                'name' => Auth::user()->name,
-                'avatar' => Auth::user()->profile_picture,
-            ];
-
-            // Enviar la notificación si el usuario receptor existe
-            if ($user) {
-                $user->notify(new Reserva_cita("reserva_cita", $sender));
+                
+                if (!$horarioServiceInterface->isAvaibleInterval($date, $realDoctorId, $start)) {
+                    $validator->errors()->add(
+                        'available_time',
+                        'La hora seleccionada ya se encuentra seleccionada por otro paciente.'
+                    );
+                }
             }
         }
+    });
 
-        // Redireccionar con notificación
-        return redirect('/miscitas')->with(compact('notification'));
+    // Si hay errores de validación, regresar con los errores y la entrada anterior
+    if ($validator->fails()) {
+        return back()->withErrors($validator)->withInput();
     }
+
+    // Obtener solo los datos necesarios del request
+    $data = $request->only([
+        'scheduled_date',
+        'scheduled_time',
+        'type',
+        'description',
+        'doctor_id', // Este es el user_id del doctor del formulario
+        'specialty'
+    ]);
+
+    $user = Auth::user();
+    $patientRole = Role::where("user_id", $user->id)->first();
+
+    // Asignar el ID del paciente según el rol
+    if ($user->role->role_type === 'admin') {
+        $request->validate([
+            'patient_id' => 'required|exists:pacientes,id',
+        ]);
+        $data['patient_id'] = $patientRole->roleable_id;
+    } else {
+        $data['patient_id'] = $patientRole->roleable_id;
+    }
+
+    // CORRECCIÓN: Convertir el user_id del doctor al doctor_id real
+    $doctorRole = Role::where('user_id', $data['doctor_id'])
+                      ->where('role_type', 'doctor')
+                      ->first();
+    
+    if (!$doctorRole) {
+        return back()->withErrors(['doctor_id' => 'Doctor no encontrado.'])->withInput();
+    }
+    
+    // Aquí asignamos el doctor_id correcto para la tabla appointments
+    $data['doctor_id'] = $doctorRole->roleable_id;
+
+    // Convertir el tiempo a formato 24 horas
+    $carbonTime = Carbon::createFromFormat('g:i A', $data['scheduled_time']);
+    $data['scheduled_time'] = $carbonTime->format('H:i:s');
+
+    // Crear la cita
+    $appointment = Appointment::create($data);
+
+    $notification = 'La cita se ha realizado correctamente.';
+
+    // Obtener el usuario receptor (doctor) - Usar el user_id original del formulario
+    $receiver = User::find($request->input('doctor_id')); // El user_id original del doctor
+
+    if ($receiver) {
+        // Obtener el remitente (paciente o admin)
+        $sender = [
+            'name' => Auth::user()->name,
+            'avatar' => Auth::user()->profile_picture,
+        ];
+
+        // Enviar la notificación si el usuario receptor existe
+        if ($receiver) {
+            $receiver->notify(new Reserva_cita("reserva_cita", $sender));
+        }
+    }
+
+    // Redireccionar con notificación
+    return redirect('/miscitas')->with(compact('notification'));
+}
 
 
     public function cancel(Appointment $appointment, Request $request)
@@ -257,7 +283,8 @@ class AppointmentController extends Controller
         if ($request->has('justification')) {
             $cancellation = new CancelledAppointment();
             $cancellation->justification = $request->input('justification');
-            $cancellation->cancelled_by_id = auth()->id();
+            $cancellation->cancelled_by_id = Auth::id();
+            //$cancellation->cancelled_by_id = auth()->id();
 
             $appointment->cancellation()->save($cancellation);
         }
@@ -278,7 +305,8 @@ class AppointmentController extends Controller
     public function formCancel(Appointment $appointment)
     {
         if ($appointment->status == 'Confirmada') {
-            $role = auth()->user()->role;
+            $role = Auth::user()->role;
+            //$role = auth()->user()->role;
             return view('appointments.cancel', compact('appointment', 'role'));
         }
         return redirect('/miscitas');

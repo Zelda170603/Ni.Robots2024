@@ -55,6 +55,21 @@
         @yield('content')
     </main>
     @vite('resources/js/dark-mode.js')
+    <script>
+(function(){
+  const ping = async () => {
+    try {
+      const res = await fetch('{{ route('session.check') }}', { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+      if (res.status === 409) {
+        alert('Tu sesión expiró porque iniciaste sesión en otro dispositivo o navegador.');
+        location.reload();
+      }
+    } catch (e) {}
+  };
+  setInterval(ping, 10000);
+})();
+</script>
+
 </body>
 
 </html>

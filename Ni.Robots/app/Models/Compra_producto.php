@@ -28,3 +28,5 @@ class Compra_producto extends Model
         return $this->belongsTo(Compra::class, 'compra_id');
     }
 }
+
+

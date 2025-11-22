@@ -4,7 +4,7 @@
     <swiper-slide>
         <div class="w-full relative max-w-sm h-[560px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <!-- Imagen de fondo -->
-            <img class="object-cover brightness-50 rounded-lg w-full h-full absolute top-0 left-0 z-0" src="{{ $book->portada }}" alt="product image" />
+            <img class="object-cover brightness-50 rounded-lg w-full h-full absolute top-0 left-0 z-0" src={{ $book->portada ? asset($book->portada) : 'https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg' }} alt="product image" />
             
             <!-- Contenido -->
             <div class="absolute bottom-0 left-0 right-0 px-5 pb-5 z-10"> <!-- Ajusta el fondo para mayor legibilidad -->

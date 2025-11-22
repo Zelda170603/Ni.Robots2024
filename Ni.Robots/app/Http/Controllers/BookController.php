@@ -13,6 +13,9 @@ use App\Http\Requests\BookRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BooksExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookController extends Controller
 {
@@ -21,10 +24,67 @@ class BookController extends Controller
      */
 
 
-    public function index_admin(Request $request)
+     public function index_admin(Request $request)
     {
-        $books = Book::with(['autor', 'editorial'])->paginate(10);
-        return view('book.index-admin', compact('books'));
+        $query = Book::query();
+
+        // Filtros
+        if ($request->filled('autor_id')) {
+            $query->where('autor_id', $request->autor_id);
+        }
+
+        if ($request->filled('editorial_id')) {
+            $query->where('editorial_id', $request->editorial_id);
+        }
+
+        if ($request->filled('categoria')) {
+            $query->where('categoria', $request->categoria);
+        }
+
+        if ($request->filled('grupo_usuarios')) {
+            $query->where('grupo_usuarios', $request->grupo_usuarios);
+        }
+
+        if ($request->filled('fecha_publicacion_min') && $request->filled('fecha_publicacion_max')) {
+            $query->whereBetween('fecha_publicacion', [$request->fecha_publicacion_min, $request->fecha_publicacion_max]);
+        } elseif ($request->filled('fecha_publicacion_min')) {
+            $query->where('fecha_publicacion', '>=', $request->fecha_publicacion_min);
+        } elseif ($request->filled('fecha_publicacion_max')) {
+            $query->where('fecha_publicacion', '<=', $request->fecha_publicacion_max);
+        }
+
+        if ($request->filled('paginas_min') && $request->filled('paginas_max')) {
+            $query->whereBetween('paginas', [$request->paginas_min, $request->paginas_max]);
+        } elseif ($request->filled('paginas_min')) {
+            $query->where('paginas', '>=', $request->paginas_min);
+        } elseif ($request->filled('paginas_max')) {
+            $query->where('paginas', '<=', $request->paginas_max);
+        }
+
+        $books = $query->with(['autor', 'editorial'])
+            ->paginate(12)
+            ->appends($request->except('page'));
+
+        $autores = Autore::pluck('nombre', 'id');
+        $editoriales = Editoriale::pluck('nombre', 'id');
+
+        return view('book.index-admin', compact('books', 'autores', 'editoriales', 'request'));
+    }
+
+    // Export Excel con filtros
+    public function exportExcel(Request $request)
+    {
+        $filters = $request->all();
+        return Excel::download(new BooksExport($filters), 'books.xlsx');
+    }
+
+    // Export PDF con filtros
+    public function exportPDF(Request $request)
+    {
+        $filters = $request->all();
+        $books = (new BooksExport($filters))->collection();
+        $pdf = Pdf::loadView('book.pdf', compact('books'));
+        return $pdf->download('books.pdf');
     }
 
 
